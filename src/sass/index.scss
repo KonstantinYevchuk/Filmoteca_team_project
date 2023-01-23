@@ -1,3 +1,9 @@
 @import '../sass/utils/common';
-@import '../sass/base/basestyles';
+@import '../sass/utils/variables';
 @import '../sass/utils/vissualy-hidden';
+@import '../sass/base/basestyles';
+
+@import '../sass/layout/header';
+@import '../sass/layout/header-library';
+@import '../sass/layout/gallery';
+@import '../sass/layout/footer';
