@@ -14,11 +14,14 @@ async function getPopularMoviesFetch(page) {
     const response = await fetch(
       `${API_URL}/trending/movie/day?api_key=${API_KEY}&page=${page || 1}`
     );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
     const popularMovies = await response.json();
     console.log(popularMovies);
     return popularMovies;
   } catch (error) {
-    throw new Error(error);
+    console.log(error);
   }
 }
 
@@ -32,11 +35,14 @@ async function getSearchMoviesFetch(query, page) {
         page || 1
       }`
     );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
     const searchMovies = await response.json();
     console.log(searchMovies);
     return searchMovies;
   } catch (error) {
-    throw new Error(error);
+    console.log(error);
   }
 }
 
