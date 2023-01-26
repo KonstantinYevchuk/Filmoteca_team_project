@@ -1,0 +1,70 @@
+<!-- Удалить кнопку, она временная, для открытия модалки -->
+<button type="button" data-modal-open>Open Modal</button>
+
+<div class="backdrop is-hidden" data-modal>
+  <div class="modal">
+    <button class="modal__btn-close" data-modal-close>
+      <svg width="30px" height="30px" aria-label="Close modal window">
+        <use href="./images/symbol-defs.svg#icon-close"></use>
+      </svg>
+    </button>
+    <div class="modal__item">
+      <img
+        class="modal__img"
+        src="./images/tmpImgModal-del-after.jpg"
+        alt="Movie"
+        width="100%"
+        loading="lazy"
+      />
+      <div class="modal__description">
+        <table class="modal__table">
+          <thead>
+            <tr>
+              <th class="table__title" colspan="2">A FISTFUL OF LEAD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table__row">
+              <td class="table__name">Vote / Votes</td>
+              <td class="table__value">
+                <span class="table__value--orange">7.3</span> /
+                <span class="table__value--grey">1260</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="table__name">Popularity</td>
+              <td class="table__value">100.2</td>
+            </tr>
+            <tr>
+              <td class="table__name">Original Title</td>
+              <td class="table__value">A FISTFUL OF LEAD</td>
+            </tr>
+            <tr>
+              <td class="table__name">Genre</td>
+              <td class="table__value">Western</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="modal__about">About</p>
+        <p class="modal__text">
+          Four of the West’s most infamous outlaws assemble to steal a huge
+          stash of gold from the most corrupt settlement of the gold rush towns.
+          But not all goes to plan one is killed and the other three escapes
+          with bags of gold hide out in the abandoned gold mine where they
+          happen across another gang of three – who themselves were planning to
+          hit the very same bank! As tensions rise, things go from bad to worse
+          as they realise the bags of gold are filled with lead... they’ve been
+          double crossed – but by who and how?
+        </p>
+        <div class="modal__buttons">
+          <button class="modal__btn modal__btn--watched" type="button">
+            add to Watched
+          </button>
+          <button class="modal__btn modal__btn--queue" type="button">
+            add to queue
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
