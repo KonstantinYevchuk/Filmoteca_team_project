@@ -1,3 +1,4 @@
+
 // Тестовый JS для открытия modal window
 
 export function modalOpen() {
@@ -53,3 +54,4 @@ export function cutLongText() {
     }
   }
 }
+
