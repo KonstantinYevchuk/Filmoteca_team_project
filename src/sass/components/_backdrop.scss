@@ -49,7 +49,14 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
-   
+    
+  }
+  .modal-window_icon {
+    stroke: #000000;
+    &:hover {
+      stroke: tomato;
+    
+    }
   }
   @media screen and (min-width: 768px) {
     .modal-window {
