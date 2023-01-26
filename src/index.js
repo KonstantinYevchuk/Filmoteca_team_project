@@ -1,4 +1,4 @@
 import './js/firebase';
-import modalOpen from './js/modal-markup';
+import modalOpen from './js/modal';
 
 modalOpen();
