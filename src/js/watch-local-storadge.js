@@ -18,19 +18,27 @@ function onGetQueue() {
 }
 
 function createLibraryMarkup(key) {
-  const data = localStorage.getItem(key);
-  const parsed = JSON.parse(data);
-  if (!parsed) {
-    createPopularMoviesMarkup();
-  } else {
-    createCollectionMoviesMarkup(key);
+  try {
+    const data = localStorage.getItem(key);
+    const parsed = JSON.parse(data);
+    if (!parsed) {
+      createPopularMoviesMarkup();
+    } else {
+      createCollectionMoviesMarkup(key);
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
 function getCollectionMoviesLocal(key) {
-  const localJson = localStorage.getItem(key);
-  const data = JSON.parse(localJson);
-  return data;
+  try {
+    const localJson = localStorage.getItem(key);
+    const data = JSON.parse(localJson);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 function createCollectionMoviesMarkup(key) {
   const data = getCollectionMoviesLocal(key);
