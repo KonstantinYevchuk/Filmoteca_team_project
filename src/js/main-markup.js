@@ -1,10 +1,11 @@
 import {getPopularMoviesFetch} from './fetch-films';
+import pagination from './pagination'
 
 const galleryEl = document.querySelector('.gallery');
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
-
+export const totalPage = 500
 function createCardMarkup({
     poster_path,
     title,
@@ -30,6 +31,9 @@ function createPopularMoviesMarkup() {
         console.log(movies)
         const markup = movies.map(movie => createCardMarkup(movie)).join('');
         galleryEl.innerHTML = markup;
+        pagination(data.page, totalPage)
+        console.log(data.page)
+        smoothScrolling()
     })
     .catch(err => console.log(err));
 }
@@ -54,6 +58,16 @@ async function getMoviesGenres (){
         console.log(err);
     }
 }
+
+function smoothScrolling() {
+    const { height: cardHeight } = galleryEl
+      .firstElementChild.getBoundingClientRect();
+  
+    window.scrollBy({
+      top: cardHeight * -200,
+      behavior: 'smooth',
+    });
+  }
 
 getMoviesGenres ();
 
