@@ -24,6 +24,7 @@
     }
 }
 .footer_item {
+    
     display: flex;
     align-items: center;
     color: #545454;
@@ -49,7 +50,35 @@
     margin-right: 10px;
     margin-left: 10px;
     align-self: center;
+    animation: heartbeat 1s infinite;
    
+}
+
+@keyframes heartbeat {
+  0%
+  {
+    transform: scale(.75);
+  }
+  20%
+  {
+    transform: scale(1.2);
+  }
+  40%
+  {
+    transform: scale(.75);
+  }
+  60%
+  {
+    transform: scale(1.2);
+  }
+  80%
+  {
+    transform: scale(.75);
+  }
+  100%
+  {
+    transform: scale( .75 );
+  }
 }
 
 .footer_btn {
