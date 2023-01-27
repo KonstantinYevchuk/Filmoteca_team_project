@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { getFirestore } from 'firebase/firestore';
+import { Notify } from 'notiflix';
+import { getFirestore, setDoc, doc } from 'firebase/firestore';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -20,8 +20,8 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
+const db = getFirestore();
 
-const authDb = getFirestore();
 const auth = getAuth();
 let name;
 let currentUser;
@@ -36,6 +36,9 @@ signupForm.addEventListener('submit', e => {
   name = signupForm.user_name.value;
   const email = signupForm.mail.value;
   const password = signupForm.password.value;
+  const ObjectData = {
+    name: `${name}`,
+  };
 
   createUserWithEmailAndPassword(auth, email, password)
     .then(cred => {
@@ -49,6 +52,13 @@ signupForm.addEventListener('submit', e => {
     });
 
   // СТВОРИТИ в БД по НЕЙМ БАЗУ ДАННИх, яка буде слідкувати за списками
+  const newUserRef = doc(db, email, 'username');
+  setDoc(newUserRef, ObjectData, { merge: true }).catch(err =>
+    Notify.failure(err.message)
+  );
+  // addDoc(colRef, {
+  //   Or u can create Ur specific object
+  // })
 });
 
 loginForm.addEventListener('submit', e => {
@@ -69,7 +79,7 @@ loginForm.addEventListener('submit', e => {
 logout.addEventListener('click', e => {
   signOut(auth)
     .then(() => {
-      Notify.success(`The user ${name} signed out`);
+      Notify.info(`The user ${name} signed out`);
     })
     .catch(err => {
       Notify.failure(err.message);

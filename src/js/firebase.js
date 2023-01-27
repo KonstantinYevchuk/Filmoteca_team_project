@@ -10,8 +10,11 @@ import {
   getDoc,
   addDoc,
   deleteDoc,
+  arrayUnion,
+  updateDoc,
+  arrayRemove,
 } from 'firebase/firestore';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from 'notiflix';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -161,18 +164,29 @@ export async function getQueueItemAll(name) {
 // delWatchedBtn.addEventListener('click', OnDelWatched(e));
 // addQueueBtn.addEventListener('click', OnAddQueue(e));
 // delQueueBtn.addEventListener('click', OnDelQueue(e));
+let name = 'vasya';
+
+const ObjectData = {
+  watched: [
+    {
+      adult: false,
+      backdrop_path: '/yYrvN5WFeGYjJnRzhY0QXuo4Isw.jpg',
+      id: 505642,
+    },
+    {
+      original_title: 'Devotion',
+      overview:
+        "The harrowing true story of two elite US Navy fighter pilots during the Korean War. Their heroic sacrifices would ultimately make them the Navy's most celebrated wingmen.",
+    },
+  ],
+};
 
 function OnAddWatched() {
-  e.preventDefault();
-  const newWatched = 'vasya/list';
-  const userName = currentUser;
-  const colRef = collection(db, /vasya/list/watched/watched);
-  addDoc(colRef, {
-    "vasya": "specific",
-    "oleg": "nerkofic",
-    "skilku": 234234
-  })
+  const newWatchedRef = doc(db, name, 'watched');
+  const colRef = collection(db, 'vasya');
+  setDoc(newWatchedRef, ObjectData, { merge: true })
     .then(() => {
+      console.log(colRef.id);
       Notify.success('Video added to your "watched" list');
     })
     .catch(err => Notify.failure(err.message));
@@ -182,8 +196,6 @@ function OnAddWatched() {
 }
 
 OnAddWatched();
-
-let name = 'vasya';
 
 function OnDelWatched(e) {
   e.preventDefault();
