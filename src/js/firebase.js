@@ -9,6 +9,7 @@ import {
   setDoc,
   getDoc,
   addDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
@@ -161,11 +162,16 @@ export async function getQueueItemAll(name) {
 // addQueueBtn.addEventListener('click', OnAddQueue(e));
 // delQueueBtn.addEventListener('click', OnDelQueue(e));
 
-function OnAddWatched(e) {
+function OnAddWatched() {
   e.preventDefault();
+  const newWatched = 'vasya/list';
   const userName = currentUser;
-  const colRef = collection(db, userName);
-  addDoc(colRef, currentObject)
+  const colRef = collection(db, /vasya/list/watched/watched);
+  addDoc(colRef, {
+    "vasya": "specific",
+    "oleg": "nerkofic",
+    "skilku": 234234
+  })
     .then(() => {
       Notify.success('Video added to your "watched" list');
     })
@@ -175,8 +181,18 @@ function OnAddWatched(e) {
   // })
 }
 
+OnAddWatched();
+
+let name = 'vasya';
+
 function OnDelWatched(e) {
   e.preventDefault();
+
+  const docRef = doc(db, name, id);
+
+  deleteDoc(docRef).then(() => {
+    Notify.info(`Video remove from "Watched" list`);
+  });
 }
 
 function OnAddQueue(e) {
