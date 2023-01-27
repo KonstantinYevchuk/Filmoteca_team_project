@@ -98,8 +98,12 @@
 
 .nav_list {
     display: flex;
-    column-gap: 40px;
+    column-gap: 10px;
     align-items: center;
+
+    @media screen and (min-width: 768px) {
+        column-gap: 40px;
+    }
 }
 
 .nav_link {
@@ -114,7 +118,7 @@
 
     &:hover,
     &:focus {
-        color: #ff001b;
+        color: #FF6B01;
         transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -133,6 +137,47 @@
         margin-top: 3px;
         background-color: #ff001b;
         position: absolute;
+    }
+}
+
+.registration_btn {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+
+    &:hover,
+    &:focus {
+        stroke: #FF6B01;
+        transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        .btn_text{color: #FF6B01;
+        transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    }
+}
+
+.registration_icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.btn_text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+
+    
+
+    color: #ffffff;
+
+    @media screen and (max-width: 767px) {
+        display: none;
     }
 }
 
@@ -193,7 +238,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 1.14;
-    color: #FF001B;
+    color: #ff001b;
 }
 
 .search-btn {
