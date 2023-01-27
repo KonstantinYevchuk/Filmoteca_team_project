@@ -1,4 +1,5 @@
 import './js/firebase';
+import './js/input';
 import { modalOpen, cutLongText } from './js/modal-markup';
 
 modalOpen();
