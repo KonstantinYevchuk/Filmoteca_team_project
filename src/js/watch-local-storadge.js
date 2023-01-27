@@ -1,5 +1,5 @@
-// import { createPopularMoviesMarkup } from './main-markup';
-// import { createCardMarkup } from './markup-watch-q';
+import { createPopularMoviesMarkup } from './main-markup';
+import { createCardMarkup } from './main-markup';
 
 const galleryEl = document.querySelector('.js-gallery');
 
@@ -22,7 +22,7 @@ function createLibraryMarkup(key) {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
     if (!parsed) {
-      // createPopularMoviesMarkup();
+      createPopularMoviesMarkup();
     } else {
       createCollectionMoviesMarkup(key);
     }
@@ -43,6 +43,6 @@ function getCollectionMoviesLocal(key) {
 function createCollectionMoviesMarkup(key) {
   const data = getCollectionMoviesLocal(key);
   const movies = data.results;
-  // const markup = movies.map(movie => createCardMarkup(movie));
+  const markup = movies.map(movie => createCardMarkup(movie));
   galleryEl.innerHTML = markup;
 }
