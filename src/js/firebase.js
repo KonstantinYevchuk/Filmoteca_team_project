@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
+import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import {
   getFirestore,
   collection,
@@ -7,7 +8,9 @@ import {
   doc,
   setDoc,
   getDoc,
+  addDoc,
 } from 'firebase/firestore';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -28,19 +31,16 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
 
-// collection ref
+// Потрібні змінні, в яких будух читання або витягнення відповідної інформації
 
-const colsUserQueue = collection(
-  db,
-  '/users/8ilq1ie9JzHhyWmLzuNF/aaaa@gmail.com'
-);
-// get collection data
+let id = 545611;
 
-let users = [];
-let data;
-async function getItems(name) {
+export async function getQueueItem(name) {
   const colsUserRef = collection(db, `${name}`);
-  const supaData = await getDocs(colsUserRef)
+  let users = [];
+  let data;
+
+  await getDocs(colsUserRef)
     .then(snapshot => {
       snapshot.docs.forEach(user => {
         users.push({ ...user.data() });
@@ -50,9 +50,18 @@ async function getItems(name) {
       data = users[0];
       let { queue, watched } = data;
       console.log(queue);
-      console.log(watched);
-      queue.map(que => console.log(que));
-      // Пиши код нижче, залежно, що тобі потрібно. Або черга(queue), або переглянуті(watched)
+
+      for (let i = 0; i < queue.length; i += 1) {
+        // console.log(queue[i]);
+        const objParse = JSON.parse(queue[i]);
+        const needType = objParse.id;
+        if (needType == id) {
+          // ТОДІ МАЛЮЄМО КАРТОЧКУ ТУТ
+          // console.log('Yes');
+        }
+        // Тоді нічого не малюємо
+        // console.log('no');
+      }
     })
     .catch(err => {
       console.log(err.message);
@@ -60,6 +69,120 @@ async function getItems(name) {
 }
 
 // Можна прибрати конст, залишити функцію, звертатись за імЯм яке потім буде обробляти інформацію
-const dataUser = getItems('vasya');
 // ЯКЩО ПОВЕРТАЄ ПРОМІС, МОЖЕ ЗВЕРНУТИСЬ ДО НЬОГО, ЯК ДО ПРОМІСА
-console.log(dataUser);
+
+export async function getWatchedItem(name) {
+  const colsUserRef = collection(db, `${name}`);
+  let users = [];
+  let data2;
+  // type ID should be "NUMBER"
+
+  await getDocs(colsUserRef)
+    .then(snapshot => {
+      snapshot.docs.forEach(user => {
+        users.push({ ...user.data() });
+      });
+      console.log(users);
+      console.log(users[0]);
+      data2 = users[0];
+      let { queue, watched } = data2;
+      console.log(watched);
+
+      for (let i = 0; i < watched.length; i += 1) {
+        // console.log(watched[i]);
+        const objParse2 = JSON.parse(watched[i]);
+        const needType2 = objParse2.id;
+        if (needType2 == id) {
+          // ТОДІ МАЛЮЄМО КАРТОЧКУ ТУТ
+          // console.log('Yes');
+        }
+        // Тоді нічого не малюємо
+        // console.log('no');
+      }
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+}
+
+export async function getWatchedItemAll(name) {
+  const colsUserRef = collection(db, `${name}`);
+  let users = [];
+  let data2;
+  // type ID should be "NUMBER"
+
+  await getDocs(colsUserRef)
+    .then(snapshot => {
+      snapshot.docs.forEach(user => {
+        users.push({ ...user.data() });
+      });
+      console.log(users);
+      console.log(users[0]);
+      data2 = users[0];
+      let { queue, watched } = data2;
+      console.log(watched);
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+}
+
+export async function getQueueItemAll(name) {
+  const colsUserRef = collection(db, `${name}`);
+  let users = [];
+  let data2;
+  // type ID should be "NUMBER"
+
+  await getDocs(colsUserRef)
+    .then(snapshot => {
+      snapshot.docs.forEach(user => {
+        users.push({ ...user.data() });
+      });
+      console.log(users);
+      console.log(users[0]);
+      data2 = users[0];
+      let { queue, watched } = data2;
+      console.log(queue);
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+}
+
+// Create Data
+
+// const addWatchedBtn = document.querySelector('.add-watched');
+// const delWatchedBtn = document.querySelector('.del-watched');
+// const addQueueBtn = document.querySelector('.add-queue');
+// const delQueueBtn = document.querySelector('.del-queue');
+
+// addWatchedBtn.addEventListener('click', OnAddWatched(e));
+// delWatchedBtn.addEventListener('click', OnDelWatched(e));
+// addQueueBtn.addEventListener('click', OnAddQueue(e));
+// delQueueBtn.addEventListener('click', OnDelQueue(e));
+
+function OnAddWatched(e) {
+  e.preventDefault();
+  const userName = currentUser;
+  const colRef = collection(db, userName);
+  addDoc(colRef, currentObject)
+    .then(() => {
+      Notify.success('Video added to your "watched" list');
+    })
+    .catch(err => Notify.failure(err.message));
+  // addDoc(colRef, {
+  //   Or u can create Ur specific object
+  // })
+}
+
+function OnDelWatched(e) {
+  e.preventDefault();
+}
+
+function OnAddQueue(e) {
+  e.preventDefault();
+}
+
+function OnDelQueue(e) {
+  e.preventDefault();
+}
