@@ -1,12 +1,15 @@
 import { getPopularMoviesFetch } from './fetch-films';
-import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
-import { totalPage } from './main-markup';
+import {
+  createPopularMoviesMarkup,
+  createCardMarkup,
+  createPopularMoviesMarkup,
+} from './main-markup';
 import Notiflix from 'notiflix';
 
 const paginationBox = document.querySelector('.pagination');
 let globalCurrentPage = 0;
 
-export default function pagination(currentPage, allPages = totalPage) {
+export default function pagination(currentPage, allPages) {
   let markup = '';
   let beforeTwoPage = currentPage - 2;
   let beforePage = currentPage - 1;
@@ -64,7 +67,7 @@ function handlrePagination(evt) {
     getPopularMoviesFetch((globalCurrentPage -= 1))
       .then(data => {
         createCardMarkup(data.results);
-        pagination(data.page, totalPage);
+        pagination(data.page, data.total_pages);
       })
       .catch(error => {
         Notiflix.Notify.failure('Data error1');
@@ -75,7 +78,7 @@ function handlrePagination(evt) {
     getPopularMoviesFetch((globalCurrentPage += 1))
       .then(data => {
         createCardMarkup(data.results);
-        pagination(data.page, totalPage);
+        pagination(data.page, data.total_pages);
       })
       .catch(error => {
         Notiflix.Notify.failure(console.log(error));
@@ -86,7 +89,7 @@ function handlrePagination(evt) {
   getPopularMoviesFetch(page)
     .then(data => {
       createCardMarkup(data.results);
-      pagination(data.page, totalPage);
+      pagination(data.page, data.total_pages);
     })
     .catch(error => {
       Notiflix.Notify.failure(console.log(error));

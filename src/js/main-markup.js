@@ -5,38 +5,56 @@ const galleryEl = document.querySelector('.gallery');
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
-export const totalPage = 500;
+let genresMovie = '';
 
 function createCardMarkup(res) {
-  // console.log(res);
-  // let genreList = [];
-  // res.genre_ids.map(key => {
-  //   genreList.push(localStorage.getItem(key));
-  // });
+  // getMovieGenres(genre_ids);
+
   const markup = res
-    .map(({ poster_path, title, genre_ids, release_date, vote_average }) => {
+    .map(({ poster_path, title, release_date, vote_average, id }) => {
       return `<li class="movie">
-        <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
-        <h2 class="movie__title">${title},${vote_average}</h2>
-        <p class="movie__subtitle">${
-          genre_ids.slice(0, 2).join(', ') + ', Other | '
-        }${release_date.slice(0, 4)}</p>
+        <picture data-movie-id=${id}>
+            <source src="./images/modal-Default-Img.jpg">
+            <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
+        </picture>
+        <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
+        <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${
+        ' | ' + release_date.slice(0, 4)
+      }</p>
+        <p class="movie__rate" data-movie-id=${id}>${vote_average}</p>
         </li>`;
     })
     .join('');
+
   galleryEl.innerHTML = markup;
   smoothScrolling();
 }
+function getMovieGenres(param) {
+  let genreList = [];
 
-function createPopularMoviesMarkup() {
-  getPopularMoviesFetch()
+  param.map(key => {
+    genreList.push(localStorage.getItem(key));
+  });
+
+  if (!genreList) {
+    genresMovie = 'Other';
+  } else if (genreList.length < 4) {
+    genresMovie = genreList.join(', ');
+  } else {
+    genresMovie = genreList.slice(0, 2).join(', ').concat(', Other');
+  }
+  return genresMovie;
+}
+
+async function createPopularMoviesMarkup() {
+  await getPopularMoviesFetch()
     .then(data => {
-      // const markup = createCardMarkup(data.results);
+      // const movies = data.results;
+      // console.log(movies);
+      // const markup = movies.map(movie => createCardMarkup(movie)).join('');
       // galleryEl.innerHTML = markup;
       createCardMarkup(data.results);
-      pagination(data.page, totalPage);
-
-      // smoothScrolling();
+      pagination(data.page, data.total_pages);
     })
     .catch(err => console.log(err));
 }
@@ -52,10 +70,9 @@ async function getMoviesGenres() {
       throw new Error(response.statusText);
     }
     const resp = await response.json();
-    console.log(resp.genres);
+    console.log(resp);
     await resp.genres.forEach(item => {
       localStorage.setItem(item.id, item.name);
-      // console.log(resp);
     });
     return resp;
   } catch (err) {
