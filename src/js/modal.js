@@ -51,17 +51,11 @@ export function modal() {
     if (e.target.classList.value === 'backdrop') closeModal();
   }
 
-  //
-
-  refs.body.addEventListener('click', somefunc);
-
-  function somefunc() {
+  setTimeout(() => {
     refs.card = document.querySelectorAll('.movie');
     console.log(refs.card);
     refs.card.forEach(e => e.addEventListener('click', openCard));
-
-    refs.body.removeEventListener('click', somefunc);
-  }
+  }, 500);
 
   function openCard(e) {
     for (const film of res) {
