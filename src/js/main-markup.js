@@ -11,14 +11,19 @@ function createCardMarkup({
     title,
     genre_ids,
     release_date,
+    vote_average,
   }) {
     
     getMovieGenres (genre_ids);
-
+    
     return `<li class="movie">
-        <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
+        <picture>
+            <source src="./images/modal-Default-Img.jpg">
+            <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
+        </picture>    
         <h2 class="movie__title">${title}</h2>
         <p class="movie__subtitle">${genresMovie}${' | '+ release_date.slice(0,4)}</p>
+        <p class="movie__rate">${vote_average}</p>
         </li>`
   }
 function getMovieGenres (param){
@@ -28,9 +33,13 @@ function getMovieGenres (param){
         genreList.push(localStorage.getItem(key));
     });
 
-    if (genreList.length < 4) {
+    if (!genreList){
+        genresMovie = 'Other';
+    } else if (genreList.length < 4) {
         genresMovie = genreList.join(', ');
-    } else {genresMovie = genreList.slice(0, 2).join(', ')};
+    } else {
+        genresMovie = genreList.slice(0, 2).join(', ').concat(', Other');
+    };
     return genresMovie
 }
   
