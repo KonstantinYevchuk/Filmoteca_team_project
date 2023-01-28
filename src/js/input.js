@@ -3,6 +3,15 @@ import { getSearchMoviesFetch } from './fetch-films';
 import { createCardMarkup } from './main-markup';
 import { createPopularMoviesMarkup } from './main-markup';
 
+Notify.init({
+    width: '400px',
+    position: 'center-top',
+    closeButton: false,
+    timeout: 1000,
+    clickToClose: true,
+    cssAnimationStyle: 'from-top',
+});
+
 export let searchQuery = '';
 let searchPage = null;
 
@@ -24,6 +33,7 @@ async function onSearch(evt) {
             Notify.warning('Search result not successful. Enter the correct movie name and try again')
             // load and render population film
             createPopularMoviesMarkup();
+            resetErrMessage();
             return
         }
 
@@ -31,10 +41,11 @@ async function onSearch(evt) {
         const moviesArray = await getFetchResp.results;
         const markup = moviesArray.map(movie => createCardMarkup(movie)).join('');
         galleryEl.innerHTML = markup;
-        seacrhError.classList.add('is-hidden');
+        resetErrMessage();
 
         if (!moviesArray.length) {
             seacrhError.classList.remove('is-hidden');
+            createPopularMoviesMarkup();
             Notify.failure('Ooops, movies matching your search were not found')
             return
         }
@@ -50,5 +61,10 @@ function resetRequest() {
     searchInput.value = '';
 };
 
+function resetErrMessage() { 
+    setTimeout(() => { 
+            seacrhError.classList.add('is-hidden');
+        }, 1000);
+}
 
 
