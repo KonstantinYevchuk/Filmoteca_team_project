@@ -12,18 +12,19 @@ function createCardMarkup({
     genre_ids,
     release_date,
     vote_average,
+    id,
   }) {
     
     getMovieGenres (genre_ids);
     
     return `<li class="movie">
-        <picture>
+        <picture data-movie-id=${id}>
             <source src="./images/modal-Default-Img.jpg">
             <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
         </picture>    
-        <h2 class="movie__title">${title}</h2>
-        <p class="movie__subtitle">${genresMovie}${' | '+ release_date.slice(0,4)}</p>
-        <p class="movie__rate">${vote_average}</p>
+        <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
+        <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${' | '+ release_date.slice(0,4)}</p>
+        <p class="movie__rate" data-movie-id=${id}>${vote_average}</p>
         </li>`
   }
 function getMovieGenres (param){
