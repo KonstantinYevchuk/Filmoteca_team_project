@@ -16,3 +16,6 @@ modal();
 cutLongText();
 
 import './js/modal-students';
+
+import './js/modal-registration'
+

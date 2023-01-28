@@ -1188,4 +1188,41 @@ button {
   .modal-window {
     max-width: 1000px;
   }
+}
+.reg_modal {
+  width: 320px;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 40px 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.reg_modal__btm-close {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: #000;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.reg_modal__btm-close:hover, .reg_modal__btm-close:focus {
+  border-color: #FF6B01;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reg_modal__btm-close:hover .reg_modal__close-icon, .reg_modal__btm-close:focus .reg_modal__close-icon {
+  stroke: #FF6B01;
+}
+
+.reg_modal__close-icon {
+  stroke: #000;
 }/*# sourceMappingURL=index.css.map */
