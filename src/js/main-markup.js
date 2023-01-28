@@ -6,24 +6,29 @@ const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
 let genresMovie = '';
+console.log(genresMovie);
 
 function createCardMarkup(res) {
-  // getMovieGenres(genre_ids);
+  getMovieGenres(res);
 
   const markup = res
-    .map(({ poster_path, title, release_date, vote_average, id }) => {
-      return `<li class="movie">
+    .map(
+      ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
+        return `<li class="movie">
         <picture data-movie-id=${id}>
             <source src="./images/modal-Default-Img.jpg">
             <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
         </picture>
         <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
         <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${
-        ' | ' + release_date.slice(0, 4)
-      }</p>
-        <p class="movie__rate" data-movie-id=${id}>${vote_average}</p>
+          ' | ' + release_date.slice(0, 4)
+        }</p>
+        <p class="movie__rate" data-movie-id=${id}>${vote_average.toFixed(
+          1
+        )}</p>
         </li>`;
-    })
+      }
+    )
     .join('');
 
   galleryEl.innerHTML = markup;
