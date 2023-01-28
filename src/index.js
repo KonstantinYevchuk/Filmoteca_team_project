@@ -1,6 +1,7 @@
 import './js/firebase';
 import './js/input';
 import { modalOpen, cutLongText } from './js/modal-markup';
+import './js/modal';
 import './js/fetch-trailer';
 import './js/view-Trailer';
 
