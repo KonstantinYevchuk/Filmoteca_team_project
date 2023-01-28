@@ -11,13 +11,7 @@ export async function fetchTrailer(id = 536554) {
             }
             return resp.json()
         });
-        // console.log(await resp.json());
-        // if (!resp.ok) {
-        //     throw new Error("Bad request!!!");
-        // }
-        // return await resp.json();
     } catch (err){
         console.log(err);
     }
 }
-// console.log("hi");

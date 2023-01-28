@@ -1,54 +1,32 @@
 import { fetchTrailer } from "./fetch-trailer";
-import modalOpen from "./modal";
+// import modalOpen from "./modal";
 import Notiflix from "notiflix";
 
 
-// const r = modalOpen();
-
-// console.dir(r);
-
 const trailerBtn = document.querySelector('.js-trailer__btn');
-const modal = document.querySelector('.modal-trailer');
+const modal = document.querySelector('.trailer');
 const beak = document.querySelector('[data-modal-trailer]');
 const closeBtn = document.querySelector('[data-modal-close-trailer]');
-// console.log(closeBtn);
-
+const body = document.querySelector('body');
 
 trailerBtn.addEventListener('click', onClick);
 closeBtn.addEventListener('click', onClose);
 
-async function onClick(evt) {
-    // console.log("evt");
+body.addEventListener('keydown', closeModalOnEsc);
+beak.addEventListener('click', closeModalOnBackdrop);
 
-//   const refs = {
-//     // openModalBtn: document.querySelector('[data-modal-open-trailer]'),
-//     closeModalBtn: document.querySelector('[data-modal-close-trailer]'),
-//     modal: document.querySelector('[data-modal-trailer]'),
-//     // body: document.querySelector('body'),
-//   };
-
-    // console.log(refs.modal);
-    // refs.closeModalBtn.addEventListener('click', toggleModal);
+async function onClick() {
 
     beak.classList.toggle('is-hidden');
-
-//     function toggleModal() {
-//     refs.modal.classList.toggle('is-hidden');
-//   }
 
     try {
         const resp = await fetchTrailer();
         const { results } = resp;
-
-        // console.log(results.length);
         if (results.length === 0) {
             Notiflix.Notify.info('Sorry, no trailer found!', { timeout: 1000 });
             return;
         }
-
-        // console.log(modalOpen());
         createTrailerMarkup(results[0].key)
-
     } catch (err) {
         Notiflix.Notify.failure(err.message);
     }
@@ -56,6 +34,16 @@ async function onClick(evt) {
 
 function onClose() {
     beak.classList.toggle('is-hidden');
+    modal.innerHTML = '';
+}
+
+function closeModalOnEsc(e) {
+    if (e.keyCode === 27) onClose();
+}
+
+function closeModalOnBackdrop(e) {
+    console.log(e.target.classList.value);
+    if (e.target.classList.value === 'back-drop') onClose();
 }
 
 
@@ -73,5 +61,3 @@ function createTrailerMarkup(key) {
         ></iframe>`
   );
 }
-
-// createTrailerMarkup('Hj1vP05HGOg');
