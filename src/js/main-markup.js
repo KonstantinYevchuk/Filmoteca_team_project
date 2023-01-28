@@ -4,27 +4,38 @@ const galleryEl = document.querySelector('.gallery');
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
+let genresMovie = '';
 
 function createCardMarkup({
     poster_path,
     title,
     genre_ids,
     release_date,
-    vote_average,
   }) {
-    let genreList = [];
-    genre_ids.map(key =>{
-        genreList.push(localStorage.getItem(key));
-    });
+    
+    getMovieGenres (genre_ids);
+
     return `<li class="movie">
         <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
         <h2 class="movie__title">${title}</h2>
-        <p class="movie__subtitle">${genreList.slice(0, 2).join(', ')+", Other | "}${release_date.slice(0,4)}</p>
+        <p class="movie__subtitle">${genresMovie}${' | '+ release_date.slice(0,4)}</p>
         </li>`
   }
+function getMovieGenres (param){
+    let genreList = [];
 
-function createPopularMoviesMarkup() {
-    getPopularMoviesFetch()
+    param.map(key =>{
+        genreList.push(localStorage.getItem(key));
+    });
+
+    if (genreList.length < 4) {
+        genresMovie = genreList.join(', ');
+    } else {genresMovie = genreList.slice(0, 2).join(', ')};
+    return genresMovie
+}
+  
+async function createPopularMoviesMarkup() {
+    await getPopularMoviesFetch()
     .then(data => {
         const movies = data.results;
         console.log(movies)
