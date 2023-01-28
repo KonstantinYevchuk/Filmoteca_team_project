@@ -78,7 +78,7 @@ function handlrePagination(evt) {
         pagination(data.page, totalPage);
       })
       .catch(error => {
-        Notiflix.Notify.failure('Data error2');
+        Notiflix.Notify.failure(console.log(error));
       });
     return;
   }
@@ -89,6 +89,6 @@ function handlrePagination(evt) {
       pagination(data.page, totalPage);
     })
     .catch(error => {
-      Notiflix.Notify.failure('Data error3');
+      Notiflix.Notify.failure(console.log(error));
     });
 }

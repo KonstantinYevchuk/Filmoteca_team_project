@@ -8,12 +8,19 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
 export const totalPage = 500;
 
 function createCardMarkup(res) {
+  // console.log(res);
+  // let genreList = [];
+  // res.genre_ids.map(key => {
+  //   genreList.push(localStorage.getItem(key));
+  // });
   const markup = res
     .map(({ poster_path, title, genre_ids, release_date, vote_average }) => {
       return `<li class="movie">
         <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
-        <h2 class="movie__title">${title}</h2>
-        <p class="movie__subtitle">${release_date.slice(0, 4)}</p>
+        <h2 class="movie__title">${title},${vote_average}</h2>
+        <p class="movie__subtitle">${
+          genre_ids.slice(0, 2).join(', ') + ', Other | '
+        }${release_date.slice(0, 4)}</p>
         </li>`;
     })
     .join('');
@@ -45,9 +52,10 @@ async function getMoviesGenres() {
       throw new Error(response.statusText);
     }
     const resp = await response.json();
-    // console.log(resp);
+    console.log(resp.genres);
     await resp.genres.forEach(item => {
       localStorage.setItem(item.id, item.name);
+      // console.log(resp);
     });
     return resp;
   } catch (err) {
