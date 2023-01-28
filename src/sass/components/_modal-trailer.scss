@@ -1,0 +1,12 @@
+.modal-trailer{
+    position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 280px;
+        max-height: calc(100vh - 20px);
+        z-index: 3;
+        background-color: #ffffff;
+}

@@ -2,7 +2,7 @@ import { fetchTrailer } from "./fetch-trailer";
 import Notiflix from "notiflix";
 
 const trailerBtn = document.querySelector('.js-trailer__btn');
-const modal = document.querySelector('.container-trailer');
+const modal = document.querySelector('.modal');
 console.dir(modal);
 
 

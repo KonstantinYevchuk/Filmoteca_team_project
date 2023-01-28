@@ -20,4 +20,4 @@ export async function fetchTrailer(id = 536554) {
         console.log(err);
     }
 }
-console.log("hi");
+// console.log("hi");

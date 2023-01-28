@@ -186,7 +186,7 @@ function OnAddWatched() {
   const colRef = collection(db, 'vasya');
   setDoc(newWatchedRef, ObjectData, { merge: true })
     .then(() => {
-      console.log(colRef.id);
+      // console.log(colRef.id);
       Notify.success('Video added to your "watched" list');
     })
     .catch(err => Notify.failure(err.message));

@@ -27,7 +27,7 @@ function createPopularMoviesMarkup() {
     getPopularMoviesFetch()
     .then(data => {
         const movies = data.results;
-        console.log(movies)
+        // console.log(movies)
         const markup = movies.map(movie => createCardMarkup(movie)).join('');
         galleryEl.innerHTML = markup;
     })
@@ -45,7 +45,7 @@ async function getMoviesGenres (){
             throw new Error(response.statusText);
         }
         const resp = await response.json();
-        console.log(resp);
+        // console.log(resp);
         await resp.genres.forEach(item=>{
             localStorage.setItem(item.id, item.name);
         });
