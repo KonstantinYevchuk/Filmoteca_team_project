@@ -9,27 +9,32 @@ import Notiflix from "notiflix";
 
 const trailerBtn = document.querySelector('.js-trailer__btn');
 const modal = document.querySelector('.modal-trailer');
-// console.dir(modal);
+const beak = document.querySelector('[data-modal-trailer]');
+const closeBtn = document.querySelector('[data-modal-close-trailer]');
+// console.log(closeBtn);
 
 
 trailerBtn.addEventListener('click', onClick);
+closeBtn.addEventListener('click', onClose);
 
 async function onClick(evt) {
     // console.log("evt");
 
-  const refs = {
-    openModalBtn: document.querySelector('[data-modal-open-trailer]'),
-    closeModalBtn: document.querySelector('[data-modal-close-trailer]'),
-    modal: document.querySelector('[data-modal-trailer]'),
-    // body: document.querySelector('body'),
-  };
+//   const refs = {
+//     // openModalBtn: document.querySelector('[data-modal-open-trailer]'),
+//     closeModalBtn: document.querySelector('[data-modal-close-trailer]'),
+//     modal: document.querySelector('[data-modal-trailer]'),
+//     // body: document.querySelector('body'),
+//   };
 
-    console.log(refs.modal);
+    // console.log(refs.modal);
+    // refs.closeModalBtn.addEventListener('click', toggleModal);
 
-    refs.modal.classList.toggle('is-hidden');
+    beak.classList.toggle('is-hidden');
 
-
-
+//     function toggleModal() {
+//     refs.modal.classList.toggle('is-hidden');
+//   }
 
     try {
         const resp = await fetchTrailer();
@@ -47,10 +52,10 @@ async function onClick(evt) {
     } catch (err) {
         Notiflix.Notify.failure(err.message);
     }
+}
 
-
-
-
+function onClose() {
+    beak.classList.toggle('is-hidden');
 }
 
 
