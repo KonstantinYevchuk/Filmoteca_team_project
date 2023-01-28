@@ -5,18 +5,22 @@
     transform: translate(-50%, -50%);
     overflow-y: auto;
     overflow-x: hidden;
-    // width: 280px;
     max-height: calc(100vh - 20px);
     z-index: 11;
-    background-color: transparent;
-
-    width: 500px;
-    // height: 250px;
 }
 
 .trailer__video{
     width: 500px;
     height: 250px;
     margin-top: 45px;
-    margin-bottom: 0;
+
+@media screen and (min-width: 768px){
+    width: 600px;
+    height: 300px;
+}
+
+@media screen and (min-width: 1280px) {
+    width: 700px;
+    max-height: 350px;
+}
 }

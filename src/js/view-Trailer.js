@@ -16,9 +16,7 @@ body.addEventListener('keydown', closeModalOnEsc);
 beak.addEventListener('click', closeModalOnBackdrop);
 
 async function onClick() {
-
     beak.classList.toggle('is-hidden');
-
     try {
         const resp = await fetchTrailer();
         const { results } = resp;
@@ -45,7 +43,6 @@ function closeModalOnBackdrop(e) {
     console.log(e.target.classList.value);
     if (e.target.classList.value === 'back-drop') onClose();
 }
-
 
 function createTrailerMarkup(key) {
     modal.insertAdjacentHTML(
