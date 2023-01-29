@@ -1,9 +1,4 @@
-
 import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
-
-
-
-
 
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
@@ -13,7 +8,7 @@ createPopularMoviesMarkup();
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 
-const refs = {
+export const refs = {
   closeModalBtn: document.querySelector('[data-modal-close]'),
   modal: document.querySelector('[data-modal]'),
   body: document.querySelector('body'),
@@ -29,7 +24,9 @@ const refs = {
 };
 
 const searchForm = document.querySelector('.search-form');
-searchForm.addEventListener('submit', getCards);
+if (searchForm) {
+  searchForm.addEventListener('submit', getCards);
+}
 
 // export function modal() {
 refs.closeModalBtn.addEventListener('click', closeModal);
@@ -73,10 +70,6 @@ async function openCard(e) {
 
     const film = await response.json();
     console.log(film);
-
-
-
-
 
     const genreList = [];
 

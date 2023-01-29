@@ -3,14 +3,14 @@ import { createCardMarkup } from './main-markup';
 
 const galleryEl = document.querySelector('.js-gallery');
 
-async function createUpcomingMoviesMarkup() {
-  await getUpcomingMovies()
+export function createUpcomingMoviesMarkup() {
+  getUpcomingMovies()
     .then(data => {
       const movies = data.results;
-      const markup = movies.map(movie => createCardMarkup(movie)).join('');
+      const markup = createCardMarkup(movies);
       galleryEl.innerHTML = markup;
     })
     .catch(err => console.log(err));
 }
 
-export { createUpcomingMoviesMarkup };
+// export { createUpcomingMoviesMarkup };
