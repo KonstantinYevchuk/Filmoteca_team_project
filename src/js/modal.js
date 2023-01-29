@@ -1,6 +1,8 @@
 
 import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
+import { findId } from './view-Trailer';
+
 
 
 
@@ -72,10 +74,9 @@ async function openCard(e) {
     }
 
     const film = await response.json();
-    console.log(film.id);
+    console.log(film);
 
-
-
+    findId(film.id);
 
 
     const genreList = [];
