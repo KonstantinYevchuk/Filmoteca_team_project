@@ -100,7 +100,7 @@ onAuthStateChanged(auth, user => {
   return user.isAnonymous;
 });
 
-console.log(user.isAnonymous)
+
 
 
 const loginFormBtn = document.querySelector('#data-formBtn-login');
