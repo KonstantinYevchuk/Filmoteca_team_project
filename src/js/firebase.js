@@ -195,7 +195,7 @@ function OnAddWatched() {
   // })
 }
 
-OnAddWatched();
+// OnAddWatched();
 
 function OnDelWatched(e) {
   e.preventDefault();
