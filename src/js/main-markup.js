@@ -9,11 +9,12 @@ let genresMovie = '';
 console.log(genresMovie);
 
 function createCardMarkup(res) {
-  getMovieGenres(res);
-
+  
+  console.log(res)
   const markup = res
     .map(
       ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
+        getMovieGenres(genre_ids);
         return `<li class="movie">
         <picture data-movie-id=${id}>
             <source src="./images/modal-Default-Img.jpg">
@@ -54,10 +55,6 @@ function getMovieGenres(param) {
 async function createPopularMoviesMarkup() {
   await getPopularMoviesFetch()
     .then(data => {
-      // const movies = data.results;
-      // console.log(movies);
-      // const markup = movies.map(movie => createCardMarkup(movie)).join('');
-      // galleryEl.innerHTML = markup;
       createCardMarkup(data.results);
       pagination(data.page, data.total_pages);
     })
