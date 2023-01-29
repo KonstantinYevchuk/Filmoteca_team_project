@@ -72,7 +72,7 @@ async function openCard(e) {
     }
 
     const film = await response.json();
-    console.log(film);
+    console.log(film.id);
 
 
 
@@ -144,7 +144,7 @@ export function cutLongText() {
 function getCards() {
   setTimeout(() => {
     refs.card = document.querySelectorAll('.movie');
-    console.log(refs.card);
+    // console.log(refs.card);
     refs.card.forEach(e => e.addEventListener('click', openCard));
   }, 500);
 }

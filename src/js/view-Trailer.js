@@ -9,6 +9,8 @@ const beak = document.querySelector('[data-modal-trailer]');
 const closeBtn = document.querySelector('[data-modal-close-trailer]');
 const body = document.querySelector('body');
 
+// console.log(trailerBtn);
+
 trailerBtn.addEventListener('click', onClick);
 closeBtn.addEventListener('click', onClose);
 
