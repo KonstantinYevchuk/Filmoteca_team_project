@@ -93,8 +93,7 @@
 
     &:hover,
     &:focus {
-        background: #FF6B01;
-        box-shadow: 0px 8px 43px rgba(255, 107, 1, 0.6);
+        
         border-color: #FF6B01;
     }
 
@@ -106,4 +105,9 @@
         width: 148px;
         height: 42px;
     }
+}
+.library_btn--current{
+    background: #FF6B01;
+    box-shadow: 0px 8px 43px rgba(255, 107, 1, 0.6);
+    border-color: #FF6B01;
 }

@@ -10,10 +10,13 @@
 @import '../sass/components/to-the-top';
 @import '../sass/components/loader';
 @import '../sass/layout/header';
+@import '../sass/components/modal-registration.scss';
 @import '../sass/layout/auth-reg';
 @import '../sass/layout/header-library';
 @import '../sass/layout/gallery';
 
 @import '../sass/layout/footer';
 @import '../sass/components/backdrop';
-@import '../sass/components/modal-registration.scss'
+
+@import '../sass/components/pagination'
+
