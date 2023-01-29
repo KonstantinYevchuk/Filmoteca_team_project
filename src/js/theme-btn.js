@@ -18,11 +18,11 @@ function addDarkClassToHTML() {
   try {
     if (localStorage.getItem('theme') === 'dark') {
       bodyTheme.classList.add('theme-dark');
-      iconTheme.setAttribute('href', './images/symbol-defs.a8b2e413.svg#icon-light');
+      iconTheme.setAttribute('href', './images/symbol-defs.svg#icon-light');
     }
     else {
       bodyTheme.classList.remove('theme-dark');
-      iconTheme.setAttribute('href', './images/symbol-defs.a8b2e413.svg#icon-dark');
+      iconTheme.setAttribute('href', './images/symbol-defs.svg#icon-dark');
     }
   } catch (err) { }
 }
