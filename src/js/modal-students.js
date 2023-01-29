@@ -38,12 +38,16 @@ function onClick() {
 // function makeGalleryStudents(students) {
 //     const markup = students.reduce((acc, {name, photoPreview, position}) => {
 //       return acc + `<li class="gallery_item">
-//         <img src="${photoPreview}" alt="${name}" class="gallery_img">
+//         <a href=""><img src="${photoPreview}" alt="${name}" title="${position}" class="gallery_img"></a> 
 //         <p class="gallery_text">${position}</p></li>
 //         `
 //     }, '');
 //     galleryEl.insertAdjacentHTML('beforeend', markup)
 // } 
 
-// bodyEl.removeEventListener('keydown', keydownEvent);
-// backdropEl.removeEventListener('click', modalClick);
+var lightbox = new SimpleLightbox('.gallery a', { 
+    captionsData: "alt",
+    captionPosotion: 'bottom',
+    captionDaley: 250
+  });
+
