@@ -215,8 +215,20 @@
     border: none;
     border-bottom: 1px solid #ffffff;
     padding-bottom: 4px;
+    padding-left: 10px;
     display: block;
     color: #ffffff;
+
+    &:hover,
+    &:focus{
+        border-color: #FF6B01;
+        transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+        // &::placeholder{
+        //     color: #FF6B01;
+        //     transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        // }
+    }
 
     &::placeholder {
         font-family: 'Roboto';
@@ -244,6 +256,7 @@
 .search-btn {
     width: 12px;
     height: 12px;
+    padding-right: 10px;
     background-color: #0000;
     border: none;
     position: absolute;
