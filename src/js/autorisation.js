@@ -30,7 +30,7 @@ let currentUser;
 
 const loginForm = document.querySelector('.login-form');
 const signupForm = document.querySelector('.registration-form');
-const logout = document.querySelector('.logout-btn');
+const logout = document.querySelector('.js-btn-exit');
 
 signupForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -80,15 +80,15 @@ loginForm.addEventListener('submit', e => {
     });
 });
 
-// logout.addEventListener('click', e => {
-//   signOut(auth)
-//     .then(() => {
-//       Notify.info(`The user ${name} signed out`);
-//     })
-//     .catch(err => {
-//       Notify.failure(err.message);
-//     });
-// });
+logout.addEventListener('click', e => {
+  signOut(auth)
+    .then(() => {
+      Notify.info(`The user ${name} signed out`);
+    })
+    .catch(err => {
+      Notify.failure(err.message);
+    });
+});
 
 const userLoginIcon = document.querySelector('js-btn-in');
 const userLogoutIcon = document.querySelector('js-btn-exit');
@@ -99,3 +99,31 @@ onAuthStateChanged(auth, user => {
   console.log(user);
   return user.isAnonymous;
 });
+
+console.log(user.isAnonymous)
+
+
+const loginFormBtn = document.querySelector('#data-formBtn-login');
+const regFormBtn = document.querySelector('#data-formBtn-reg');
+const logForm = document.querySelector('#data-login-box');
+const regForm = document.querySelector('#data-reg-box');
+loginFormBtn.addEventListener('click', e => {
+  logForm.classList.add('current');
+  regForm.classList.remove('current');
+  loginFormBtn.classList.toggle('target-btn');
+  regFormBtn.classList.toggle('target-btn');
+});
+regFormBtn.addEventListener('click', e => {
+  regForm.classList.add('current');
+  logForm.classList.remove('current');
+  loginFormBtn.classList.toggle('target-btn');
+  regFormBtn.classList.toggle('target-btn');
+});
+
+// function onFormToggle(add, rev) {
+//   console.log('HELLOO');
+//   add.classList.add('current');
+//   rev.classList.remove('current');
+//   loginFormBtn.classList.toggle('target-btn');
+//   regFormBtn.classList.toggle('target-btn');
+// }
