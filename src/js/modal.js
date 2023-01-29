@@ -1,10 +1,17 @@
 
+import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
-import { getPopularMoviesFetch } from './fetch-films';
+
+
+
+
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
 
 createPopularMoviesMarkup();
+
+const API_URL = 'https://api.themoviedb.org/3/';
+const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 
 const refs = {
   closeModalBtn: document.querySelector('[data-modal-close]'),
@@ -21,68 +28,79 @@ const refs = {
   card: null,
 };
 
-let res = null;
+const searchForm = document.querySelector('.search-form');
+searchForm.addEventListener('submit', getCards);
 
-export async function request() {
-  const data = await getPopularMoviesFetch();
-  res = data.results;
+// export function modal() {
+refs.closeModalBtn.addEventListener('click', closeModal);
+
+function openModal() {
+  refs.modal.classList.remove('is-hidden');
+
+  refs.body.addEventListener('keydown', closeModalOnEsc);
+  refs.modal.addEventListener('click', closeModalOnBackdrop);
 }
 
-export function modal() {
-  refs.closeModalBtn.addEventListener('click', closeModal);
+function closeModal() {
+  refs.modal.classList.add('is-hidden');
 
-  function openModal() {
-    refs.modal.classList.remove('is-hidden');
+  refs.body.addEventListener('keydown', closeModalOnEsc);
+  refs.modal.addEventListener('click', closeModalOnBackdrop);
+}
 
-    refs.body.addEventListener('keydown', closeModalOnEsc);
-    refs.modal.addEventListener('click', closeModalOnBackdrop);
+function closeModalOnEsc(e) {
+  if (e.keyCode === 27) closeModal();
+}
+
+function closeModalOnBackdrop(e) {
+  if (e.target.classList.value === 'backdrop') closeModal();
+}
+
+getCards();
+
+async function openCard(e) {
+  if (!e.target.dataset.movieId) {
+    return;
   }
 
-  function closeModal() {
-    refs.modal.classList.add('is-hidden');
-
-    refs.body.addEventListener('keydown', closeModalOnEsc);
-    refs.modal.addEventListener('click', closeModalOnBackdrop);
-  }
-
-  function closeModalOnEsc(e) {
-    if (e.keyCode === 27) closeModal();
-  }
-
-  function closeModalOnBackdrop(e) {
-    if (e.target.classList.value === 'backdrop') closeModal();
-  }
-
-  setTimeout(() => {
-    refs.card = document.querySelectorAll('.movie');
-    console.log(refs.card);
-    refs.card.forEach(e => e.addEventListener('click', openCard));
-
-  }, 500);
-
-  function openCard(e) {
-    for (const film of res) {
-      if (film.id === +e.target.dataset.movieId) {
-        const genreList = [];
-        film.genre_ids.map(key => {
-          genreList.push(localStorage.getItem(key));
-        });
-
-        refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
-        refs.title.textContent = film.title;
-        refs.voteAverage.textContent = film.vote_average.toFixed(1);
-        refs.voteCount.textContent = film.vote_count;
-        refs.popularity.textContent = film.popularity.toFixed(1);
-        refs.originalTitle.textContent = film.original_title;
-        refs.genre.textContent = genreList.join(', ');
-        refs.about.textContent = film.overview;
-
-        openModal();
-        break;
-      }
+  try {
+    const response = await fetch(
+      `${API_URL}movie/${+e.target.dataset.movieId}?api_key=${API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(response.statusText);
     }
+
+    const film = await response.json();
+    console.log(film);
+
+
+
+
+
+    const genreList = [];
+
+    console.log(film.genres);
+
+    film.genres.map(({ id }) => {
+      genreList.push(localStorage.getItem(id));
+    });
+
+    refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
+    refs.title.textContent = film.title;
+    refs.voteAverage.textContent = film.vote_average.toFixed(1);
+    refs.voteCount.textContent = film.vote_count;
+    refs.popularity.textContent = film.popularity.toFixed(1);
+    refs.originalTitle.textContent = film.original_title;
+    refs.genre.textContent = genreList.join(', ');
+    refs.about.textContent = film.overview;
+
+    openModal();
+  } catch (error) {
+    console.log(error);
   }
 }
+// }
 
 // Обрезание длинного текста и добавление "читать далее"
 export function cutLongText() {
@@ -121,4 +139,12 @@ export function cutLongText() {
       refs.modalBtnClose.removeEventListener('click', onButtonClose);
     }
   }
+}
+
+function getCards() {
+  setTimeout(() => {
+    refs.card = document.querySelectorAll('.movie');
+    console.log(refs.card);
+    refs.card.forEach(e => e.addEventListener('click', openCard));
+  }, 500);
 }
