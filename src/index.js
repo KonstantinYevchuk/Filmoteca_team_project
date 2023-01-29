@@ -7,6 +7,8 @@ import {
 } from './js/main-markup';
 import './js/modal';
 
-import './js/modal-students';
+// createPopularMoviesMarkup();
+// createCardMarkup();
+// getMoviesGenres();
 
-import './js/modal-registration';
+import './js/modal-students';
