@@ -1,10 +1,7 @@
-import { getPopularMoviesFetch } from './fetch-films';
-import {
-  createPopularMoviesMarkup,
-  createCardMarkup,
-  createPopularMoviesMarkup,
-} from './main-markup';
+import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
+import { createCardMarkup } from './main-markup';
 import Notiflix from 'notiflix';
+import { searchQuery } from './input';
 
 const paginationBox = document.querySelector('.pagination');
 let globalCurrentPage = 0;
@@ -64,7 +61,55 @@ function handlrePagination(evt) {
     return;
   }
   if (evt.target.textContent === 'left') {
-    getPopularMoviesFetch((globalCurrentPage -= 1))
+    if (searchQuery !== '') {
+      getSearchMoviesFetch(searchQuery, (globalCurrentPage -= 1))
+        .then(data => {
+          createCardMarkup(data.results);
+          pagination(data.page, data.total_pages);
+        })
+        .catch(error => {
+          Notiflix.Notify.failure('Data error1');
+        });
+      return;
+    } else {
+      getPopularMoviesFetch((globalCurrentPage -= 1))
+        .then(data => {
+          createCardMarkup(data.results);
+          pagination(data.page, data.total_pages);
+        })
+        .catch(error => {
+          Notiflix.Notify.failure('Data error1');
+        });
+      return;
+    }
+  }
+  if (evt.target.textContent === 'right') {
+    if (searchQuery !== '') {
+      getSearchMoviesFetch(searchQuery, (globalCurrentPage += 1))
+        .then(data => {
+          createCardMarkup(data.results);
+          pagination(data.page, data.total_pages);
+        })
+        .catch(error => {
+          Notiflix.Notify.failure('Data error1');
+        });
+      return;
+    } else {
+      getPopularMoviesFetch((globalCurrentPage += 1))
+        .then(data => {
+          createCardMarkup(data.results);
+          pagination(data.page, data.total_pages);
+        })
+        .catch(error => {
+          Notiflix.Notify.failure('Data error1');
+        });
+      return;
+    }
+  }
+  const page = evt.target.textContent;
+
+  if (searchQuery !== '') {
+    getSearchMoviesFetch(searchQuery, page)
       .then(data => {
         createCardMarkup(data.results);
         pagination(data.page, data.total_pages);
@@ -73,9 +118,8 @@ function handlrePagination(evt) {
         Notiflix.Notify.failure('Data error1');
       });
     return;
-  }
-  if (evt.target.textContent === 'right') {
-    getPopularMoviesFetch((globalCurrentPage += 1))
+  } else {
+    getPopularMoviesFetch(page)
       .then(data => {
         createCardMarkup(data.results);
         pagination(data.page, data.total_pages);
@@ -85,13 +129,4 @@ function handlrePagination(evt) {
       });
     return;
   }
-  const page = evt.target.textContent;
-  getPopularMoviesFetch(page)
-    .then(data => {
-      createCardMarkup(data.results);
-      pagination(data.page, data.total_pages);
-    })
-    .catch(error => {
-      Notiflix.Notify.failure(console.log(error));
-    });
 }
