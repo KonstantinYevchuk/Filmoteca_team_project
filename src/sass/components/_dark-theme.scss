@@ -1,0 +1,62 @@
+.theme {
+    margin-left: auto;
+    width: 45px;
+    height: 45px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.changeTheme {
+    width: 35px;
+    height: 35px;
+    fill: #c4c1ad;
+  }
+
+  
+.theme-dark,
+.theme-dark .modal__item,
+.theme-dark .table__value--grey,
+.theme-dark .modal-window {
+    background-color: #444141;
+}
+
+.theme-dark .footer {
+    background-color: #757272;
+}
+
+.theme-dark .arrow-left ,
+.theme-dark .arrow-right {
+    background-color: #a39696;
+}
+
+.theme-dark .modal__table,
+.theme-dark .table__value,
+.theme-dark .modal__text,
+.theme-dark  .modal__about,
+.theme-dark .pagination li,
+// .theme-dark
+// .theme-dark
+// .theme-dark
+.theme-dark .movie__title,
+.theme-dark .currentPage,
+.theme-dark .footer_item,
+.theme-dark .footer_btn  {
+    color: #f5f5f5;
+}
+
+.theme-dark .number-pagination button {
+    color: #f5f5f5;
+}
+
+.theme-dark .table__name {
+    color: #ac9754;
+}
+
+
+.theme-dark .modal-window_icon,
+.theme-dark .modal__icon,
+.theme-dark .reg_modal__btm-close
+ {
+    stroke: #f5f5f5;
+}
+
