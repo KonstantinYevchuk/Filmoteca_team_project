@@ -3,6 +3,7 @@
 import { getPopularMoviesFetch } from './fetch-films';
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
+import { addLocalStorage } from './q-local-storadge';
 
 createPopularMoviesMarkup();
 
@@ -76,7 +77,8 @@ export function modal() {
         refs.originalTitle.textContent = film.original_title;
         refs.genre.textContent = genreList.join(', ');
         refs.about.textContent = film.overview;
-
+       
+        addLocalStorage(film);
         openModal();
         break;
       }
