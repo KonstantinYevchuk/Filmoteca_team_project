@@ -9,6 +9,11 @@ let genresMovie = '';
 
 console.log(genresMovie);
 
+const imageUrl = new URL(
+    '../images/modal-Default-Img.jpg?width=250',
+    import.meta.url
+  );
+
 function createCardMarkup(res) {
   
   console.log(res)
@@ -17,10 +22,8 @@ function createCardMarkup(res) {
       ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
         getMovieGenres(genre_ids);
         return `<li class="movie">
-        <picture data-movie-id=${id}>
-            <source src="./images/modal-Default-Img.jpg">
-            <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
-        </picture>
+        <img src="${IMAGE_BASE_URL}${poster_path}" onerror="this.src='${imageUrl}'" alt="movie poster" class="movie__poster" data-movie-id=${id} loading="lazy"/>
+        <div class="movie__description">
         <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
         <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${
           ' | ' + release_date.slice(0, 4)
@@ -28,6 +31,7 @@ function createCardMarkup(res) {
         <p class="movie__rate" data-movie-id=${id}>${vote_average.toFixed(
           1
         )}</p>
+        </div>
         </li>`;
       }
     )
@@ -84,6 +88,7 @@ async function getMoviesGenres() {
     console.log(err);
   }
 }
+getMoviesGenres()
 
 function smoothScrolling() {
   const {
@@ -95,8 +100,6 @@ function smoothScrolling() {
     behavior: 'smooth',
   });
 }
-
-getMoviesGenres();
 
 export { createPopularMoviesMarkup, createCardMarkup, getMoviesGenres };
 export { IMAGE_BASE_URL, API_KEY, API_URL };
