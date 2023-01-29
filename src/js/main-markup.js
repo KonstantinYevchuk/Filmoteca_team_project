@@ -6,6 +6,7 @@ const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
 let genresMovie = '';
+
 console.log(genresMovie);
 
 function createCardMarkup(res) {
@@ -57,6 +58,7 @@ async function createPopularMoviesMarkup() {
     .then(data => {
       createCardMarkup(data.results);
       pagination(data.page, data.total_pages);
+
     })
     .catch(err => console.log(err));
 }
@@ -70,6 +72,7 @@ async function getMoviesGenres() {
     );
     if (!response.ok) {
       throw new Error(response.statusText);
+
     }
     const resp = await response.json();
     console.log(resp);

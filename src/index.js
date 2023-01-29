@@ -1,9 +1,15 @@
 import './js/firebase';
 import './js/input';
-import { modalOpen, cutLongText } from './js/modal-markup';
+import {
+  createPopularMoviesMarkup,
+  createCardMarkup,
+  getMoviesGenres,
+} from './js/main-markup';
+import { request, modal, cutLongText } from './js/modal';
 
 
 modalOpen();
 cutLongText();
 
 import './js/modal-students';
+

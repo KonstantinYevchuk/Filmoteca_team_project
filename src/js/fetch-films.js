@@ -18,7 +18,7 @@ async function getPopularMoviesFetch(page) {
       throw new Error(response.statusText);
     }
     const popularMovies = await response.json();
-    console.log(popularMovies);
+    // console.log(popularMovies);
     return popularMovies;
   } catch (error) {
     console.log(error);
