@@ -1,4 +1,10 @@
+
 import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
+
+
+
+
+
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
 
@@ -67,6 +73,10 @@ async function openCard(e) {
 
     const film = await response.json();
     console.log(film);
+
+
+
+
 
     const genreList = [];
 

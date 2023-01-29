@@ -32,7 +32,7 @@ function onClick() {
         
     }
     
-    console.log(makeGalleryStudents(galleryTeam));    
+    // console.log(makeGalleryStudents(galleryTeam));    
 } 
 
 // function makeGalleryStudents(students) {

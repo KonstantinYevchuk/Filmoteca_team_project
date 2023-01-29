@@ -11,14 +11,21 @@
       </svg>
     </button>
     <div class="modal__item">
-      <img
-        class="modal__img"
-        src="./images/modal-Default-Img.jpg"
-        alt="Movie"
-        width="100%"
-        loading="lazy"
-      />
-      <div class="modal__description">
+      <div class="modal__container-img">
+        <img
+          class="modal__img"
+          src="./images/modal-Default-Img.jpg"
+          alt="Movie"
+          width="100%"
+        />
+        <button type="button" class="js-trailer__btn">
+          <svg class="modal__play" aria-label="Play trailer">
+            <use href="./images/symbol-defs.svg#play-button"></use>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal__container">
         <table class="modal__table">
           <thead>
             <tr>
@@ -97,9 +104,6 @@
             data-action="queue"
           >
             add to queue
-          </button>
-          <button class="modal__btn js-trailer__btn" type="button">
-            Trailer
           </button>
         </div>
       </div>
