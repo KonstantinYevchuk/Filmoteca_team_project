@@ -46,4 +46,21 @@ async function getSearchMoviesFetch(query, page) {
   }
 }
 
-export { getPopularMoviesFetch, getSearchMoviesFetch };
+async function getUpcomingMovies(page) {
+  try {
+    const response = await fetch(
+      `${API_URL}/movie/upcoming?api_key=${API_KEY}&page=${page || 1}`
+    );
+    // console.log(response);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const upcomingMovies = await response.json();
+    // console.log(upcomingMovies);
+    return upcomingMovies;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export { getPopularMoviesFetch, getSearchMoviesFetch, getUpcomingMovies };
