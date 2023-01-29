@@ -37,7 +37,6 @@ function openModal() {
   refs.body.addEventListener('keydown', closeModalOnEsc);
   refs.modal.addEventListener('click', closeModalOnBackdrop);
 }
-
 function closeModal() {
   refs.modal.classList.add('is-hidden');
 
@@ -134,7 +133,7 @@ export function cutLongText() {
   }
 }
 
-function getCards() {
+export function getCards() {
   setTimeout(() => {
     refs.card = document.querySelectorAll('.movie');
     console.log(refs.card);
