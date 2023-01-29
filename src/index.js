@@ -5,10 +5,8 @@ import {
   createCardMarkup,
   getMoviesGenres,
 } from './js/main-markup';
+
 import './js/modal';
 
-// createPopularMoviesMarkup();
-// createCardMarkup();
-// getMoviesGenres();
-
 import './js/modal-students';
+import './js/modal-registration';
