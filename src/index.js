@@ -7,15 +7,9 @@ import {
 } from './js/main-markup';
 import { request, modal, cutLongText } from './js/modal';
 
-// createPopularMoviesMarkup();
-// createCardMarkup();
-// getMoviesGenres();
 
-request();
-modal();
+modalOpen();
 cutLongText();
 
 import './js/modal-students';
-
-import './js/modal-registration'
 
