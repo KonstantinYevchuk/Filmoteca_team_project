@@ -3,8 +3,8 @@ import { createCardMarkup } from './main-markup';
 
 const galleryEl = document.querySelector('.js-gallery');
 
-export function createUpcomingMoviesMarkup() {
-  getUpcomingMovies()
+export function createUpcomingMoviesMarkup(page) {
+  getUpcomingMovies(page)
     .then(data => {
       const movies = data.results;
       const markup = createCardMarkup(movies);

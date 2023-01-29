@@ -2,6 +2,7 @@ import { Notify } from 'notiflix';
 import { createCardMarkup } from './main-markup';
 import { createUpcomingMoviesMarkup } from './q-local-storadge';
 import { getCards } from './modal';
+import pagination from './pagination';
 const galleryEl = document.querySelector('.js-gallery');
 
 const getWatchedBtn = document.querySelector('.js-watched-btn');
