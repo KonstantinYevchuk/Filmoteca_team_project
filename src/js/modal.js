@@ -1,3 +1,5 @@
+
+
 import { getPopularMoviesFetch } from './fetch-films';
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
@@ -55,6 +57,7 @@ export function modal() {
     refs.card = document.querySelectorAll('.movie');
     console.log(refs.card);
     refs.card.forEach(e => e.addEventListener('click', openCard));
+
   }, 500);
 
   function openCard(e) {
