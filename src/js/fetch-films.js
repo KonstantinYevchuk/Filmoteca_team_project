@@ -19,6 +19,7 @@ async function getPopularMoviesFetch(page) {
     }
     const popularMovies = await response.json();
     // console.log(popularMovies);
+    localStorage.setItem('currentData', JSON.stringify(popularMovies));
     return popularMovies;
   } catch (error) {
     console.log(error);
@@ -40,6 +41,7 @@ async function getSearchMoviesFetch(query, page) {
     }
     const searchMovies = await response.json();
     console.log(searchMovies);
+    localStorage.setItem('currentData', JSON.stringify(searchMovies));
     return searchMovies;
   } catch (error) {
     console.log(error);
@@ -57,6 +59,8 @@ async function getUpcomingMovies(page) {
     }
     const upcomingMovies = await response.json();
     // console.log(upcomingMovies);
+    localStorage.setItem('currentData', JSON.stringify(upcomingMovies));
+
     return upcomingMovies;
   } catch (error) {
     console.log(error);
