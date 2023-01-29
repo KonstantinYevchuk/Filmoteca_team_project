@@ -1,6 +1,8 @@
 
 import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
+import { findId } from './view-Trailer';
+
 
 
 
@@ -74,8 +76,7 @@ async function openCard(e) {
     const film = await response.json();
     console.log(film);
 
-
-
+    findId(film.id);
 
 
     const genreList = [];
@@ -144,7 +145,7 @@ export function cutLongText() {
 function getCards() {
   setTimeout(() => {
     refs.card = document.querySelectorAll('.movie');
-    console.log(refs.card);
+    // console.log(refs.card);
     refs.card.forEach(e => e.addEventListener('click', openCard));
   }, 500);
 }

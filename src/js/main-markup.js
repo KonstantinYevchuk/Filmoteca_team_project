@@ -15,6 +15,9 @@ const imageUrl = new URL(
 );
 
 function createCardMarkup(res) {
+
+  
+
   // console.log(res)
   const markup = res
     .map(

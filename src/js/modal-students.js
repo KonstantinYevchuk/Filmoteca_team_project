@@ -3,7 +3,7 @@ import { galleryTeam } from "./gellary-team";
 const bodyEl = document.body;
 const openBtn = document.querySelector('.footer_btn');
 const closeBtn = document.querySelector('.modal-window__button');
-const backdropEl = document.querySelector('.back-drop');
+const backdropEl = document.querySelectorAll('.back-drop');
 const modalEl = document.querySelector('.modal-window');
 const galleryEl = document.querySelector('.gallery_students');
 
@@ -12,22 +12,22 @@ closeBtn.addEventListener('click', onClick);
 
 function onClick() {
     // console.log(e);
-    backdropEl.classList.toggle('is-hidden');
+    backdropEl[1].classList.toggle('is-hidden');
 
     bodyEl.addEventListener("keydown", keydownEvent);
     function keydownEvent(evt) {
         if(evt.key === "Escape") {
-            backdropEl.classList.add('is-hidden');
+            backdropEl[1].classList.add('is-hidden');
             bodyEl.removeEventListener('keydown', keydownEvent);
         }
     }  
      
-    backdropEl.addEventListener('click', modalClick);
+    backdropEl[1].addEventListener('click', modalClick);
     function modalClick(evt) {
         // console.log(evt.currentTarget);
         if(evt.target !== modalEl) {
-            backdropEl.classList.add('is-hidden');
-            backdropEl.removeEventListener('click', modalClick);
+            backdropEl[1].classList.add('is-hidden');
+            backdropEl[1].removeEventListener('click', modalClick);
         }
         
     }
