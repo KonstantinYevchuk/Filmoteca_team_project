@@ -16,16 +16,16 @@ function createCardMarkup(res) {
     .map(
       ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
         getMovieGenres(genre_ids);
-        return `<li class="movie">
-        <picture data-movie-id=${id}>
-            <source src="./images/modal-Default-Img.jpg">
-            <img src="${IMAGE_BASE_URL}${poster_path}" alt="movie poster" class="movie__poster" loading="lazy"/>
+        return `<li class="movie" data-movie-id="${id}">
+        <picture data-movie-id="${id}">
+            <source srcset="${IMAGE_BASE_URL}${poster_path}" type="image/jpg">
+            <img src="./images/modal-Default-Img.jpg" alt="movie poster" class="movie__poster" loading="lazy" data-movie-id="${id}"/>
         </picture>
-        <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
-        <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${
+        <h2 class="movie__title" data-movie-id="${id}">${title}</h2>
+        <p class="movie__subtitle" data-movie-id="${id}">${genresMovie}${
           ' | ' + release_date.slice(0, 4)
         }</p>
-        <p class="movie__rate" data-movie-id=${id}>${vote_average.toFixed(
+        <p class="movie__rate" data-movie-id="${id}">${vote_average.toFixed(
           1
         )}</p>
         </li>`;
