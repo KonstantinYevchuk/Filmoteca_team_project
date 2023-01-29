@@ -10,12 +10,14 @@ let genresMovie = '';
 // console.log(genresMovie);
 
 const imageUrl = new URL(
-    '../images/modal-Default-Img.jpg?width=250',
-    import.meta.url
-  );
+  '../images/modal-Default-Img.jpg?width=250',
+  import.meta.url
+);
 
 function createCardMarkup(res) {
+
   
+
   // console.log(res)
   const markup = res
     .map(
@@ -27,7 +29,6 @@ function createCardMarkup(res) {
         <div class="movie__description">
         <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
         <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${
-
           ' | ' + release_date.slice(0, 4)
         }</p>
         <p class="movie__rate" data-movie-id="${id}">${vote_average.toFixed(
@@ -64,7 +65,6 @@ async function createPopularMoviesMarkup() {
     .then(data => {
       createCardMarkup(data.results);
       pagination(data.page, data.total_pages);
-
     })
     .catch(err => console.log(err));
 }
@@ -78,7 +78,6 @@ async function getMoviesGenres() {
     );
     if (!response.ok) {
       throw new Error(response.statusText);
-
     }
     const resp = await response.json();
     // console.log(resp);
@@ -90,7 +89,7 @@ async function getMoviesGenres() {
     console.log(err);
   }
 }
-getMoviesGenres()
+getMoviesGenres();
 
 function smoothScrolling() {
   const {
