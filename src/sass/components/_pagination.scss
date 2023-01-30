@@ -33,12 +33,12 @@ a, button {
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
-    color: #000000;
+    color: var(--main-font-color);
   
     &:hover{
-      background: #FF6B08;
+      background: var(--active-btn-bgr-pagination);
       border-radius: 8px;
-      color: #fff;
+      color: var(--main-light-font-color);
     }
   }
   
@@ -55,11 +55,11 @@ a, button {
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #fff;
+    color: var(--main-light-font-color);
   
     width: 40px;
     height: 40px;
-    background: #FF6B08;
+    background: var(--active-btn-bgr-pagination);
     border-radius: 5px;
     padding: 8px;
     margin: 0 2px 0 2px;
@@ -70,7 +70,7 @@ a, button {
     width: 40px;
     height: 40px;
     border-radius: 5px;
-    background-color: #f7f7f7;
+    background-color: var(--arrow-btn-bgr-pagination);
     transform: matrix(-1,0,0,1,0,0);
     background-position: 50%;
     background-repeat: no-repeat;
@@ -78,7 +78,7 @@ a, button {
     font-size: 0;
   
     &:hover{
-      background-color: #FF6B08;;
+      background-color: var(--active-btn-bgr-pagination);;
       border-radius: 8px;
     }
   }
