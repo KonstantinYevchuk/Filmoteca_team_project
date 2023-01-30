@@ -105,7 +105,7 @@ async function openCard(e) {
 
   }
 }
-// }
+}
 
 // Обрезание длинного текста и добавление "читать далее"
 export function cutLongText() {
