@@ -3,8 +3,7 @@ import { createCardMarkup } from './main-markup';
 
 // import { getCards } from './modal';
 // import pagination from './pagination';
-// import { getUpcomingMovies } from './fetch-films';
-
+import { getUpcomingMovies } from './fetch-films';
 
 const galleryEl = document.querySelector('.js-gallery');
 
@@ -57,7 +56,7 @@ function createCollectionMoviesMarkup(key) {
   localStorage.setItem('currentData', data);
 }
 
-export function createUpcomingMoviesMarkup(page) {
+function createUpcomingMoviesMarkup(page) {
   getUpcomingMovies(page)
     .then(data => {
       const movies = data.results;
@@ -65,4 +64,11 @@ export function createUpcomingMoviesMarkup(page) {
       galleryEl.innerHTML = markup;
     })
     .catch(err => console.log(err));
+}
+function getCards() {
+  setTimeout(() => {
+    refs.card = document.querySelectorAll('.movie');
+    // console.log(refs.card);
+    refs.card.forEach(e => e.addEventListener('click', openCard));
+  }, 500);
 }
