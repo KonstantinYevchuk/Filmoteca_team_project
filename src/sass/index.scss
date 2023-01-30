@@ -2,6 +2,7 @@
 @import '../sass/utils/variables';
 @import '../sass/utils/vissualy-hidden';
 @import '../sass/base/basestyles';
+@import '../sass/components/dark-theme';
 @import '../sass/base/container';
 
 @import '../sass/components/modal-film';
@@ -10,9 +11,11 @@
 @import '../sass/components/to-the-top';
 @import '../sass/components/loader';
 @import '../sass/layout/header';
+@import '../sass/components/modal-registration.scss';
 @import '../sass/layout/auth-reg';
 @import '../sass/layout/header-library';
 @import '../sass/layout/gallery';
+@import '../sass/layout/gallery-library';
 
 @import '../sass/layout/footer';
 @import '../sass/components/backdrop';

@@ -1,11 +1,20 @@
 
+import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
-import { getPopularMoviesFetch } from './fetch-films';
+import { findId } from './view-Trailer';
+
+
+
+
+
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
 import { addLocalStorage } from './q-local-storadge';
 
 createPopularMoviesMarkup();
+
+const API_URL = 'https://api.themoviedb.org/3/';
+const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 
 const refs = {
   closeModalBtn: document.querySelector('[data-modal-close]'),
@@ -22,44 +31,54 @@ const refs = {
   card: null,
 };
 
-let res = null;
+const searchForm = document.querySelector('.search-form');
+searchForm.addEventListener('submit', getCards);
 
-export async function request() {
-  const data = await getPopularMoviesFetch();
-  res = data.results;
+// export function modal() {
+refs.closeModalBtn.addEventListener('click', closeModal);
+
+function openModal() {
+  refs.modal.classList.remove('is-hidden');
+
+  refs.body.addEventListener('keydown', closeModalOnEsc);
+  refs.modal.addEventListener('click', closeModalOnBackdrop);
 }
 
-export function modal() {
-  refs.closeModalBtn.addEventListener('click', closeModal);
+function closeModal() {
+  refs.modal.classList.add('is-hidden');
 
-  function openModal() {
-    refs.modal.classList.remove('is-hidden');
+  refs.body.addEventListener('keydown', closeModalOnEsc);
+  refs.modal.addEventListener('click', closeModalOnBackdrop);
+}
 
-    refs.body.addEventListener('keydown', closeModalOnEsc);
-    refs.modal.addEventListener('click', closeModalOnBackdrop);
+function closeModalOnEsc(e) {
+  if (e.keyCode === 27) closeModal();
+}
+
+function closeModalOnBackdrop(e) {
+  if (e.target.classList.value === 'backdrop') closeModal();
+}
+
+getCards();
+
+async function openCard(e) {
+  if (!e.target.dataset.movieId) {
+    return;
   }
 
-  function closeModal() {
-    refs.modal.classList.add('is-hidden');
+  try {
+    const response = await fetch(
+      `${API_URL}movie/${+e.target.dataset.movieId}?api_key=${API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
 
-    refs.body.addEventListener('keydown', closeModalOnEsc);
-    refs.modal.addEventListener('click', closeModalOnBackdrop);
-  }
+    const film = await response.json();
+    console.log(film);
 
-  function closeModalOnEsc(e) {
-    if (e.keyCode === 27) closeModal();
-  }
+    findId(film.id);
 
-  function closeModalOnBackdrop(e) {
-    if (e.target.classList.value === 'backdrop') closeModal();
-  }
-
-  setTimeout(() => {
-    refs.card = document.querySelectorAll('.movie');
-    console.log(refs.card);
-    refs.card.forEach(e => e.addEventListener('click', openCard));
-
-  }, 500);
 
   function openCard(e) {
     for (const film of res) {
@@ -83,8 +102,10 @@ export function modal() {
         break;
       }
     }
+
   }
 }
+// }
 
 // Обрезание длинного текста и добавление "читать далее"
 export function cutLongText() {
@@ -123,4 +144,12 @@ export function cutLongText() {
       refs.modalBtnClose.removeEventListener('click', onButtonClose);
     }
   }
+}
+
+function getCards() {
+  setTimeout(() => {
+    refs.card = document.querySelectorAll('.movie');
+    // console.log(refs.card);
+    refs.card.forEach(e => e.addEventListener('click', openCard));
+  }, 500);
 }

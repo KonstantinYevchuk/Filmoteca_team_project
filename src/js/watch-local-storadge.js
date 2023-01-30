@@ -1,5 +1,6 @@
 import { createPopularMoviesMarkup } from './main-markup';
 import { createCardMarkup } from './main-markup';
+import { createUpcomingMoviesMarkup } from './q-local-storadge';
 
 const galleryEl = document.querySelector('.js-gallery');
 
@@ -8,7 +9,7 @@ const getQueueBtn = document.querySelector('.js-queue-btn');
 
 getWatchedBtn.addEventListener('click', onGetWatched);
 getQueueBtn.addEventListener('click', onGetQueue);
-
+createLibraryMarkup('watched');
 function onGetWatched() {
   createLibraryMarkup('watched');
 }
@@ -22,10 +23,11 @@ function createLibraryMarkup(key) {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
     if (!parsed) {
-      createPopularMoviesMarkup();
+      createUpcomingMoviesMarkup();
     } else {
       createCollectionMoviesMarkup(key);
     }
+    localStorage.setItem('currentData', currentData);
   } catch (error) {
     console.log(error);
   }
@@ -45,4 +47,5 @@ function createCollectionMoviesMarkup(key) {
   const movies = data.results;
   const markup = movies.map(movie => createCardMarkup(movie));
   galleryEl.innerHTML = markup;
+  currentData = data;
 }

@@ -19,6 +19,7 @@ async function getPopularMoviesFetch(page) {
     }
     const popularMovies = await response.json();
     // console.log(popularMovies);
+    localStorage.setItem('currentData', JSON.stringify(popularMovies));
     return popularMovies;
   } catch (error) {
     console.log(error);
@@ -40,10 +41,30 @@ async function getSearchMoviesFetch(query, page) {
     }
     const searchMovies = await response.json();
     console.log(searchMovies);
+    localStorage.setItem('currentData', JSON.stringify(searchMovies));
     return searchMovies;
   } catch (error) {
     console.log(error);
   }
 }
 
-export { getPopularMoviesFetch, getSearchMoviesFetch };
+async function getUpcomingMovies(page) {
+  try {
+    const response = await fetch(
+      `${API_URL}/movie/upcoming?api_key=${API_KEY}&page=${page || 1}`
+    );
+    // console.log(response);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const upcomingMovies = await response.json();
+    // console.log(upcomingMovies);
+    localStorage.setItem('currentData', JSON.stringify(upcomingMovies));
+
+    return upcomingMovies;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export { getPopularMoviesFetch, getSearchMoviesFetch, getUpcomingMovies };
