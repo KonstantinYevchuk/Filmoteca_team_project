@@ -1,19 +1,19 @@
 import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
-
 import { findId } from './view-Trailer';
+
+import {addLocalStoradge} from './q-local-storadge';
 
 
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
-// import { addLocalStorage } from './q-local-storadge';
 
 createPopularMoviesMarkup();
 
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 
-export const refs = {
+const refs = {
   closeModalBtn: document.querySelector('[data-modal-close]'),
   modal: document.querySelector('[data-modal]'),
   body: document.querySelector('body'),
@@ -28,10 +28,14 @@ export const refs = {
   card: null,
 };
 
-const searchForm = document.querySelector('.search-form');
-if (searchForm) {
-  searchForm.addEventListener('submit', getCards);
+let res = null;
+
+export async function request() {
+  const data = await getPopularMoviesFetch();
+  res = data.results;
 }
+const searchForm = document.querySelector('.search-form');
+searchForm.addEventListener('submit', getCards);
 
 // export function modal() {
 refs.closeModalBtn.addEventListener('click', closeModal);
@@ -42,6 +46,7 @@ function openModal() {
   refs.body.addEventListener('keydown', closeModalOnEsc);
   refs.modal.addEventListener('click', closeModalOnBackdrop);
 }
+
 function closeModal() {
   refs.modal.classList.add('is-hidden');
 
@@ -75,40 +80,37 @@ async function openCard(e) {
     const film = await response.json();
     console.log(film);
 
-
     findId(film.id);
 
+    const genreList = [];
 
-  function openCard(e) {
-    for (const film of res) {
-      if (film.id === +e.target.dataset.movieId) {
-        const genreList = [];
-        film.genre_ids.map(key => {
-          genreList.push(localStorage.getItem(key));
-        });
+    console.log(film.genres);
 
-        refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
-        refs.title.textContent = film.title;
-        refs.voteAverage.textContent = film.vote_average.toFixed(1);
-        refs.voteCount.textContent = film.vote_count;
-        refs.popularity.textContent = film.popularity.toFixed(1);
-        refs.originalTitle.textContent = film.original_title;
-        refs.genre.textContent = genreList.join(', ');
-        refs.about.textContent = film.overview;
-       
-        addLocalStorage(film);
-        openModal();
-        break;
-      }
-    }
+    film.genres.map(({ id }) => {
+      genreList.push(localStorage.getItem(id));
+    });
 
+    refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
+    refs.title.textContent = film.title;
+    refs.voteAverage.textContent = film.vote_average.toFixed(1);
+    refs.voteCount.textContent = film.vote_count;
+    refs.popularity.textContent = film.popularity.toFixed(1);
+    refs.originalTitle.textContent = film.original_title;
+    refs.genre.textContent = genreList.join(', ');
+    refs.about.textContent = film.overview;
 
+    
+    openModal();
+    addLocalStoradge(film);
+
+  } catch (error) {
+    console.log(error);
   }
 }
-
+// }
 
 // Обрезание длинного текста и добавление "читать далее"
-function cutLongText() {
+export function cutLongText() {
   const refs = {
     modalText: document.querySelector('.modal__text'),
     modalBtnClose: document.querySelector('.modal__btn-close'),
@@ -152,5 +154,4 @@ function getCards() {
     // console.log(refs.card);
     refs.card.forEach(e => e.addEventListener('click', openCard));
   }, 500);
-}
 }
