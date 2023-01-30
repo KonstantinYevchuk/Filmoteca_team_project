@@ -1,8 +1,9 @@
 import { Notify } from 'notiflix';
 import { createCardMarkup } from './main-markup';
-import { createUpcomingMoviesMarkup } from './q-local-storadge';
 import { getCards } from './modal';
 import pagination from './pagination';
+import { getUpcomingMovies } from './fetch-films';
+
 const galleryEl = document.querySelector('.js-gallery');
 
 const getWatchedBtn = document.querySelector('.js-watched-btn');
@@ -52,4 +53,14 @@ function createCollectionMoviesMarkup(key) {
   const markup = movies.map(movie => createCardMarkup(movie));
   galleryEl.innerHTML = markup;
   localStorage.setItem('currentData', data);
+}
+
+export function createUpcomingMoviesMarkup(page) {
+  getUpcomingMovies(page)
+    .then(data => {
+      const movies = data.results;
+      const markup = createCardMarkup(movies);
+      galleryEl.innerHTML = markup;
+    })
+    .catch(err => console.log(err));
 }
