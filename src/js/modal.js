@@ -2,7 +2,7 @@ import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
 import { findId } from './view-Trailer';
 
-// import { addLocalStoradge } from './q-local-storadge';
+import addLocalStoradge from './q-local-storadge';
 
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
@@ -50,6 +50,7 @@ function closeModal() {
 
   refs.body.removeEventListener('keydown', closeModalOnEsc);
   refs.modal.removeEventListener('click', closeModalOnBackdrop);
+  refs.modalImg.src = '';
 }
 
 function closeModalOnEsc(e) {
@@ -59,8 +60,6 @@ function closeModalOnEsc(e) {
 function closeModalOnBackdrop(e) {
   if (e.target.classList.value === 'backdrop') closeModal();
 }
-
-// getCards();
 
 async function openCard(e) {
   if (!e.target.dataset.movieId) {
