@@ -15,10 +15,6 @@ const imageUrl = new URL(
 );
 
 function createCardMarkup(res) {
-
-
-  
-
   // console.log(res)
 
   const markup = res
@@ -72,7 +68,7 @@ async function createPopularMoviesMarkup() {
     .catch(err => console.log(err));
 }
 
-createPopularMoviesMarkup();
+// createPopularMoviesMarkup();
 
 async function getMoviesGenres() {
   try {
