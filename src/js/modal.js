@@ -4,7 +4,6 @@ import { findId } from './view-Trailer';
 
 // import {addLocalStoradge} from './q-local-storadge';
 
-
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
 
@@ -35,8 +34,9 @@ export async function request() {
   res = data.results;
 }
 const searchForm = document.querySelector('.search-form');
-searchForm.addEventListener('submit', getCards);
-
+if (searchForm) {
+  searchForm.addEventListener('submit', getCards);
+}
 // export function modal() {
 refs.closeModalBtn.addEventListener('click', closeModal);
 
@@ -99,10 +99,8 @@ async function openCard(e) {
     refs.genre.textContent = genreList.join(', ');
     refs.about.textContent = film.overview;
 
-    
     openModal();
     addLocalStoradge(film);
-
   } catch (error) {
     console.log(error);
   }
