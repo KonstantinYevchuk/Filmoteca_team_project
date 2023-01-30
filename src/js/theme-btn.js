@@ -1,7 +1,10 @@
-const changeThemeBtn = document.querySelector('.changeTheme');
+const changeThemeBtn = document.querySelector('.switch-checkbox');
 const iconTheme = changeThemeBtn.firstElementChild;
-const bodyTheme = document.querySelector('body')
+const bodyTheme = document.querySelector('body');
 
+console.log('HELLO');
+console.dir(changeThemeBtn);
+console.log('BAY');
 changeThemeBtn.addEventListener('click', changeTheme);
 
 function changeTheme() {
@@ -15,16 +18,20 @@ function changeTheme() {
 }
 
 function addDarkClassToHTML() {
+  console.dir(changeThemeBtn);
   try {
     if (localStorage.getItem('theme') === 'dark') {
       bodyTheme.classList.add('theme-dark');
-      iconTheme.setAttribute('href', './images/symbol-defs.svg#icon-light');
+      changeThemeBtn.checked = true;
     }
     else {
       bodyTheme.classList.remove('theme-dark');
-      iconTheme.setAttribute('href', './images/symbol-defs.svg#icon-dark');
+      changeThemeBtn.checked = false;
     }
   } catch (err) { }
+}
+function onclick() {
+
 }
 
 addDarkClassToHTML();
