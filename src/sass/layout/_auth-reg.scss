@@ -103,7 +103,7 @@
 
 .login-form-btn{
     background: transparent;
-    border: 1px solid #000;
+    border: 1px solid  var(--main-font-color);
     border-radius: 4px;
     text-transform: uppercase;
     padding: 5px 8px;
@@ -172,7 +172,7 @@
 
 .registration-form-btn {
     background: transparent;
-    border: 1px solid #000;
+    border: 1px solid  var(--main-font-color);
     border-radius: 4px;
     text-transform: uppercase;
     padding: 5px 8px;
