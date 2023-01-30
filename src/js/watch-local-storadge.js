@@ -1,8 +1,10 @@
 import { Notify } from 'notiflix';
 import { createCardMarkup } from './main-markup';
+
 import { getCards } from './modal';
 import pagination from './pagination';
 import { getUpcomingMovies } from './fetch-films';
+
 
 const galleryEl = document.querySelector('.js-gallery');
 

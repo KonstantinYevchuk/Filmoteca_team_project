@@ -1,7 +1,16 @@
 import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
+
+import { findId } from './view-Trailer';
+
+
+
+
+
+
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
+import { addLocalStorage } from './q-local-storadge';
 
 createPopularMoviesMarkup();
 
@@ -70,32 +79,40 @@ async function openCard(e) {
     const film = await response.json();
     console.log(film);
 
-    const genreList = [];
 
-    console.log(film.genres);
+    findId(film.id);
 
-    film.genres.map(({ id }) => {
-      genreList.push(localStorage.getItem(id));
-    });
 
-    refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
-    refs.title.textContent = film.title;
-    refs.voteAverage.textContent = film.vote_average.toFixed(1);
-    refs.voteCount.textContent = film.vote_count;
-    refs.popularity.textContent = film.popularity.toFixed(1);
-    refs.originalTitle.textContent = film.original_title;
-    refs.genre.textContent = genreList.join(', ');
-    refs.about.textContent = film.overview;
+  function openCard(e) {
+    for (const film of res) {
+      if (film.id === +e.target.dataset.movieId) {
+        const genreList = [];
+        film.genre_ids.map(key => {
+          genreList.push(localStorage.getItem(key));
+        });
 
-    openModal();
-  } catch (error) {
-    console.log(error);
+        refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
+        refs.title.textContent = film.title;
+        refs.voteAverage.textContent = film.vote_average.toFixed(1);
+        refs.voteCount.textContent = film.vote_count;
+        refs.popularity.textContent = film.popularity.toFixed(1);
+        refs.originalTitle.textContent = film.original_title;
+        refs.genre.textContent = genreList.join(', ');
+        refs.about.textContent = film.overview;
+       
+        addLocalStorage(film);
+        openModal();
+        break;
+      }
+    }
+
+
   }
 }
-// }
+
 
 // Обрезание длинного текста и добавление "читать далее"
-export function cutLongText() {
+function cutLongText() {
   const refs = {
     modalText: document.querySelector('.modal__text'),
     modalBtnClose: document.querySelector('.modal__btn-close'),
@@ -136,7 +153,8 @@ export function cutLongText() {
 export function getCards() {
   setTimeout(() => {
     refs.card = document.querySelectorAll('.movie');
-    console.log(refs.card);
+    // console.log(refs.card);
     refs.card.forEach(e => e.addEventListener('click', openCard));
   }, 500);
+}
 }

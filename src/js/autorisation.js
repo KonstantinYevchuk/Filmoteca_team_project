@@ -9,6 +9,8 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 
+// Firebase AUTH
+
 const firebaseConfig = {
   apiKey: 'AIzaSyDpHH4vTWioKzjyjXO2I80-uE6v02JiNMc',
   authDomain: 'filmoteka-students-goit.firebaseapp.com',
@@ -36,14 +38,15 @@ signupForm.addEventListener('submit', e => {
   name = signupForm.user_name.value;
   const email = signupForm.mail.value;
   const password = signupForm.password.value;
-  const ObjectData = {
+
+  const ObjectDataName = {
     name: `${name}`,
   };
 
   createUserWithEmailAndPassword(auth, email, password)
     .then(cred => {
       // Бажано сюди впихнути НЕТЛІФАЙ
-      Notify.success(`The user: ${cred.user} has been created`);
+      Notify.success(`The user: ${name} has been created`);
       signupForm.reset();
     })
     .catch(err => {
@@ -53,7 +56,7 @@ signupForm.addEventListener('submit', e => {
 
   // СТВОРИТИ в БД по НЕЙМ БАЗУ ДАННИх, яка буде слідкувати за списками
   const newUserRef = doc(db, email, 'username');
-  setDoc(newUserRef, ObjectData, { merge: true }).catch(err =>
+  setDoc(newUserRef, ObjectDataName, { merge: true }).catch(err =>
     Notify.failure(err.message)
   );
   // addDoc(colRef, {
@@ -69,24 +72,30 @@ loginForm.addEventListener('submit', e => {
 
   signInWithEmailAndPassword(auth, email, password)
     .then(cred => {
-      Notify.success(`user logged in: ${cred.user}`);
+      Notify.success(`user logged in: ${name}`);
+      const userIconName = document.querySelector('');
     })
     .catch(err => {
       Notify.failure(err.message);
     });
 });
 
-logout.addEventListener('click', e => {
-  signOut(auth)
-    .then(() => {
-      Notify.info(`The user ${name} signed out`);
-    })
-    .catch(err => {
-      Notify.failure(err.message);
-    });
-});
+// logout.addEventListener('click', e => {
+//   signOut(auth)
+//     .then(() => {
+//       Notify.info(`The user ${name} signed out`);
+//     })
+//     .catch(err => {
+//       Notify.failure(err.message);
+//     });
+// });
+
+const userLoginIcon = document.querySelector('js-btn-in');
+const userLogoutIcon = document.querySelector('js-btn-exit');
 
 onAuthStateChanged(auth, user => {
-  currentUser = user.d.email;
+  currentUser = user.email;
   console.log(currentUser);
+  console.log(user);
+  return user.isAnonymous;
 });

@@ -69,13 +69,13 @@
       max-width: 1000px;
     }
   }
-  // .gallery_students {
-  //   display: flex;
-  //   gap: 15px;
-  //   justify-content: center;
-  //   align-items: center;
-  //   flex-wrap: wrap;
-  // }
-  // .gallery_item {
-  //   width: 150px;
-  // }
+  .gallery_students {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .gallery_item {
+    width: 150px;
+  }

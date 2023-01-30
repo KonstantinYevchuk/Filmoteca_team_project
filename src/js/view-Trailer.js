@@ -9,16 +9,23 @@ const beak = document.querySelector('[data-modal-trailer]');
 const closeBtn = document.querySelector('[data-modal-close-trailer]');
 const body = document.querySelector('body');
 
+let id = null;
+
 trailerBtn.addEventListener('click', onClick);
 closeBtn.addEventListener('click', onClose);
 
 body.addEventListener('keydown', closeModalOnEsc);
 beak.addEventListener('click', closeModalOnBackdrop);
 
+export function findId(idFilm) {
+    id = idFilm;
+}
+
 async function onClick() {
     beak.classList.toggle('is-hidden');
     try {
-        const resp = await fetchTrailer();
+        console.log(id);
+        const resp = await fetchTrailer(id);
         const { results } = resp;
         if (results.length === 0) {
             Notiflix.Notify.info('Sorry, no trailer found!', { timeout: 1000 });
