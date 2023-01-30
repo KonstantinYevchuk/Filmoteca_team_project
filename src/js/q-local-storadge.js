@@ -1,4 +1,5 @@
 
+
 const LOCAL_STORAGE_WATCHED = 'watched';
 const LOCAL_STORAGE_QUEUE = 'queue';
 
@@ -62,4 +63,5 @@ function getList(key) {
 }
 
 export { addLocalStorage };
+
 

@@ -16,9 +16,11 @@ const imageUrl = new URL(
 
 function createCardMarkup(res) {
 
+
   
 
   // console.log(res)
+
   const markup = res
     .map(
       ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
@@ -42,6 +44,7 @@ function createCardMarkup(res) {
 
   galleryEl.innerHTML = markup;
   smoothScrolling();
+  return markup;
 }
 function getMovieGenres(param) {
   let genreList = [];
@@ -92,9 +95,8 @@ async function getMoviesGenres() {
 getMoviesGenres();
 
 function smoothScrolling() {
-  const {
-    height: cardHeight,
-  } = galleryEl.firstElementChild.getBoundingClientRect();
+  const { height: cardHeight } =
+    galleryEl.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
     top: cardHeight * -200,

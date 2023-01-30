@@ -1,6 +1,10 @@
-import { createPopularMoviesMarkup } from './main-markup';
+import { Notify } from 'notiflix';
 import { createCardMarkup } from './main-markup';
-// import { createUpcomingMoviesMarkup } from './q-local-storadge';
+
+import { getCards } from './modal';
+import pagination from './pagination';
+import { getUpcomingMovies } from './fetch-films';
+
 
 const galleryEl = document.querySelector('.js-gallery');
 
@@ -23,13 +27,15 @@ function createLibraryMarkup(key) {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
     if (!parsed) {
+      Notify.info('Your library is empty!');
       createUpcomingMoviesMarkup();
     } else {
       createCollectionMoviesMarkup(key);
     }
-    localStorage.setItem('currentData', currentData);
   } catch (error) {
     console.log(error);
+  } finally {
+    getCards();
   }
 }
 
@@ -37,6 +43,7 @@ function getCollectionMoviesLocal(key) {
   try {
     const localJson = localStorage.getItem(key);
     const data = JSON.parse(localJson);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -47,5 +54,15 @@ function createCollectionMoviesMarkup(key) {
   const movies = data.results;
   const markup = movies.map(movie => createCardMarkup(movie));
   galleryEl.innerHTML = markup;
-  currentData = data;
+  localStorage.setItem('currentData', data);
+}
+
+export function createUpcomingMoviesMarkup(page) {
+  getUpcomingMovies(page)
+    .then(data => {
+      const movies = data.results;
+      const markup = createCardMarkup(movies);
+      galleryEl.innerHTML = markup;
+    })
+    .catch(err => console.log(err));
 }
