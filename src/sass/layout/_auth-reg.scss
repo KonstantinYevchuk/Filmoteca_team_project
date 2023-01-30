@@ -27,7 +27,7 @@
 }
 
 .target-btn {
-    border-bottom: 2px solid #ff6b01;
+    border-bottom: 2px solid var(--main-bgr-btn);
 }
 
 .auth-reg-forms {
@@ -103,7 +103,7 @@
 
 .login-form-btn{
     background: transparent;
-    border: 1px solid #000;
+    border: 1px solid var(--main-font-color);
     border-radius: 4px;
     text-transform: uppercase;
     padding: 5px 8px;
@@ -172,7 +172,7 @@
 
 .registration-form-btn {
     background: transparent;
-    border: 1px solid #000;
+    border: 1px solid var(--main-font-color);
     border-radius: 4px;
     text-transform: uppercase;
     padding: 5px 8px;

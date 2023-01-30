@@ -28,7 +28,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #ff6b01;
+  background: var(--main-bgr-btn);
   margin: -4px 0 0 -4px;
 }
 .loader div:nth-child(1) {
