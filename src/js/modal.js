@@ -2,7 +2,7 @@ import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
 import { findId } from './view-Trailer';
 
-// import {addLocalStoradge} from './q-local-storadge';
+// import { addLocalStoradge } from './q-local-storadge';
 
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
@@ -24,20 +24,18 @@ const refs = {
   genre: document.querySelector('.js-film-genre'),
   about: document.querySelector('.js-film-about'),
   modalImg: document.querySelector('.modal__img'),
-  card: null,
+  galleryUl: document.querySelector('.js-gallery'),
 };
 
 let res = null;
+
+refs.galleryUl.addEventListener('click', openCard);
 
 export async function request() {
   const data = await getPopularMoviesFetch();
   res = data.results;
 }
-const searchForm = document.querySelector('.search-form');
-if (searchForm) {
-  searchForm.addEventListener('submit', getCards);
-}
-// export function modal() {
+
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal() {
@@ -50,8 +48,8 @@ function openModal() {
 function closeModal() {
   refs.modal.classList.add('is-hidden');
 
-  refs.body.addEventListener('keydown', closeModalOnEsc);
-  refs.modal.addEventListener('click', closeModalOnBackdrop);
+  refs.body.removeEventListener('keydown', closeModalOnEsc);
+  refs.modal.removeEventListener('click', closeModalOnBackdrop);
 }
 
 function closeModalOnEsc(e) {
@@ -62,7 +60,7 @@ function closeModalOnBackdrop(e) {
   if (e.target.classList.value === 'backdrop') closeModal();
 }
 
-getCards();
+// getCards();
 
 async function openCard(e) {
   if (!e.target.dataset.movieId) {
@@ -105,7 +103,6 @@ async function openCard(e) {
     console.log(error);
   }
 }
-// }
 
 // Обрезание длинного текста и добавление "читать далее"
 export function cutLongText() {
@@ -144,12 +141,4 @@ export function cutLongText() {
       refs.modalBtnClose.removeEventListener('click', onButtonClose);
     }
   }
-}
-
-function getCards() {
-  setTimeout(() => {
-    refs.card = document.querySelectorAll('.movie');
-    // console.log(refs.card);
-    refs.card.forEach(e => e.addEventListener('click', openCard));
-  }, 500);
 }
