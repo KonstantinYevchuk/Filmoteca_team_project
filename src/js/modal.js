@@ -2,7 +2,7 @@ import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 
 import { findId } from './view-Trailer';
 
-import {addLocalStoradge} from './q-local-storadge';
+// import {addLocalStoradge} from './q-local-storadge';
 
 
 // import './main-markup';
