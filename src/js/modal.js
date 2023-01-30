@@ -4,13 +4,9 @@ import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 import { findId } from './view-Trailer';
 
 
-
-
-
-
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
-import { addLocalStorage } from './q-local-storadge';
+// import { addLocalStorage } from './q-local-storadge';
 
 createPopularMoviesMarkup();
 
@@ -150,7 +146,7 @@ function cutLongText() {
   }
 }
 
-export function getCards() {
+function getCards() {
   setTimeout(() => {
     refs.card = document.querySelectorAll('.movie');
     // console.log(refs.card);
