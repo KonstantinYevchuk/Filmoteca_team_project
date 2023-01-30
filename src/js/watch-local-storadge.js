@@ -1,6 +1,6 @@
 import { createPopularMoviesMarkup } from './main-markup';
 import { createCardMarkup } from './main-markup';
-import { createUpcomingMoviesMarkup } from './q-local-storadge';
+// import { createUpcomingMoviesMarkup } from './q-local-storadge';
 
 const galleryEl = document.querySelector('.js-gallery');
 

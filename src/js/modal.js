@@ -105,7 +105,7 @@ async function openCard(e) {
 
   }
 }
-}
+
 
 // Обрезание длинного текста и добавление "читать далее"
 function cutLongText() {
@@ -152,4 +152,5 @@ function getCards() {
     // console.log(refs.card);
     refs.card.forEach(e => e.addEventListener('click', openCard));
   }, 500);
+}
 }
