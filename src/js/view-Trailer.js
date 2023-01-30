@@ -1,7 +1,5 @@
-import { fetchTrailer } from "./fetch-trailer";
-// import modalOpen from "./modal";
-import Notiflix from "notiflix";
-
+import { fetchTrailer } from './fetch-films'; // import modalOpen from "./modal";
+import Notiflix from 'notiflix';
 
 const trailerBtn = document.querySelector('.js-trailer__btn');
 const modal = document.querySelector('.trailer');
@@ -18,43 +16,43 @@ body.addEventListener('keydown', closeModalOnEsc);
 beak.addEventListener('click', closeModalOnBackdrop);
 
 export function findId(idFilm) {
-    id = idFilm;
+  id = idFilm;
 }
 
 async function onClick() {
-    beak.classList.toggle('is-hidden');
-    try {
-        console.log(id);
-        const resp = await fetchTrailer(id);
-        const { results } = resp;
-        if (results.length === 0) {
-            Notiflix.Notify.info('Sorry, no trailer found!', { timeout: 1000 });
-            return;
-        }
-        createTrailerMarkup(results[0].key)
-    } catch (err) {
-        Notiflix.Notify.failure(err.message);
+  beak.classList.toggle('is-hidden');
+  try {
+    console.log(id);
+    const resp = await fetchTrailer(id);
+    const { results } = resp;
+    if (results.length === 0) {
+      Notiflix.Notify.info('Sorry, no trailer found!', { timeout: 1000 });
+      return;
     }
+    createTrailerMarkup(results[0].key);
+  } catch (err) {
+    Notiflix.Notify.failure(err.message);
+  }
 }
 
 function onClose() {
-    beak.classList.toggle('is-hidden');
-    modal.innerHTML = '';
+  beak.classList.toggle('is-hidden');
+  modal.innerHTML = '';
 }
 
 function closeModalOnEsc(e) {
-    if (e.keyCode === 27) onClose();
+  if (e.keyCode === 27) onClose();
 }
 
 function closeModalOnBackdrop(e) {
-    console.log(e.target.classList.value);
-    if (e.target.classList.value === 'back-drop') onClose();
+  console.log(e.target.classList.value);
+  if (e.target.classList.value === 'back-drop') onClose();
 }
 
 function createTrailerMarkup(key) {
-    modal.insertAdjacentHTML(
+  modal.insertAdjacentHTML(
     'beforeend',
-        `<iframe
+    `<iframe
             class="trailer__video"
             src="https://www.youtube.com/embed/${key}?&autoplay=1"
             title="YouTube video player"

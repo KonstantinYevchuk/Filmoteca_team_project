@@ -71,4 +71,24 @@ async function getUpcomingMovies(page) {
   }
 }
 
-export { getPopularMoviesFetch, getSearchMoviesFetch, getUpcomingMovies };
+async function fetchTrailer(id = 536554) {
+  try {
+    return await fetch(`${API_URL}${id}/videos?api_key=${API_KEY}`).then(
+      resp => {
+        if (!resp.ok) {
+          throw new Error('Bad request!!!');
+        }
+        return resp.json();
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export {
+  getPopularMoviesFetch,
+  getSearchMoviesFetch,
+  getUpcomingMovies,
+  fetchTrailer,
+};
