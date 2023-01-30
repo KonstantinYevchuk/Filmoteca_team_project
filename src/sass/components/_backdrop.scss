@@ -27,13 +27,13 @@
   left: 50%;
   padding: 40px;
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: var(--main-light-font-color);
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
     0px 2px 1px rgba(0, 0, 0, 0.2);
 
   transform: translate(-50%, -50%);
   overflow-y: scroll;
-  // background-image: url('/src/images/back-img.jpg');
+  // background-image: url('/src/images/back-1.jpg');
   // background-size: cover;
   // background-repeat: no-repeat;
 }
@@ -53,9 +53,9 @@
   
 }
 .modal-window_icon {
-  stroke: #000000;
+  stroke: var(--main-font-color);
   &:hover {
-    stroke:  #FF6B01;
+    stroke: var(--main-bgr-btn);
   
   }
 }
@@ -80,8 +80,17 @@
 }
 .gallery_item {
   width: 250px;
-  
   text-align: center;
+  border-bottom: 1px solid #eeeeee;
+  border-right: 1px solid #eeeeee;
+  border-left: 1px solid #eeeeee;
+  transition: box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover,
+  &:focus {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+    1px 4px 6px rgba(0, 0, 0, 0.16);
+  }
 }
 @media screen and (min-width: 768px) {
   .gallery_item {
@@ -96,7 +105,7 @@
 
 .gallery_text{
   margin-top: 10px;
-  color:  #FF6B01;
+  color: var(--main-bgr-btn);
 }
 
 @media screen and (min-width: 768px) {
