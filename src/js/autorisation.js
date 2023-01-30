@@ -32,6 +32,9 @@ const loginForm = document.querySelector('.login-form');
 const signupForm = document.querySelector('.registration-form');
 const logout = document.querySelector('.js-btn-exit');
 
+const logBtnContainer = document.querySelector('.js-btn-in');
+const exitBtnContainer = document.querySelector('.js-btn-exit');
+
 signupForm.addEventListener('submit', e => {
   e.preventDefault();
 
@@ -47,6 +50,8 @@ signupForm.addEventListener('submit', e => {
     .then(cred => {
       // Бажано сюди впихнути НЕТЛІФАЙ
       Notify.success(`The user: ${name} has been created`);
+      logBtnContainer.hidden = true;
+      exitBtnContainer.hidden = false;
       signupForm.reset();
     })
     .catch(err => {
@@ -66,14 +71,15 @@ signupForm.addEventListener('submit', e => {
 
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
-
+  name = loginForm.login.value;
   const email = loginForm.mail.value;
   const password = loginForm.password.value;
 
   signInWithEmailAndPassword(auth, email, password)
     .then(cred => {
-      Notify.success(`user logged in: ${name}`);
-      const userIconName = document.querySelector('');
+      Notify.success(`user: ${name} logged in`);
+      logBtnContainer.hidden = true;
+      exitBtnContainer.hidden = false;
     })
     .catch(err => {
       Notify.failure(err.message);
@@ -83,25 +89,72 @@ loginForm.addEventListener('submit', e => {
 logout.addEventListener('click', e => {
   signOut(auth)
     .then(() => {
-      Notify.info(`The user ${name} signed out`);
+      Notify.info(`The user logged out`);
+      logBtnContainer.hidden = false;
+      exitBtnContainer.hidden = true;
     })
     .catch(err => {
       Notify.failure(err.message);
     });
 });
 
-const userLoginIcon = document.querySelector('js-btn-in');
-const userLogoutIcon = document.querySelector('js-btn-exit');
+function checkUserStatus() {
+  if (auth.currentUser == null) {
+    logBtnContainer.hidden = false;
+    exitBtnContainer.hidden = true;
+  }
 
-onAuthStateChanged(auth, user => {
-  currentUser = user.email;
-  console.log(currentUser);
-  console.log(user);
-  return user.isAnonymous;
-});
+  onAuthStateChanged(auth, user => {
+    logBtnContainer.hidden = true;
+    exitBtnContainer.hidden = false;
+  })
+}
+
+checkUserStatus();
+
+// onAuthStateChanged(auth, user => {
+//   if (!user == null) {
+//     logBtnContainer.hidden = true;
+//     exitBtnContainer.hidden = false;
+//   }
+//   logBtnContainer.hidden = false;
+//   exitBtnContainer.hidden = true;
+// });
+console.log(auth);
 
 
 
+// const logInBtn = document.querySelector('.login-form-btn');
+// const exitBtn = document.querySelector('.js-exit');
+
+// logInBtn.addEventListener('click', onLogInBtnClick);
+// exitBtn.addEventListener('click', onExitBtnClick);
+
+// function onLogInBtnClick() {
+//   whenUserLogged();
+// }
+// console.log(auth);
+// function whenUserLogged() {
+//     onAuthStateChanged(auth, user => {
+//       if (!auth.currentUser) {
+//         logBtnContainer.hidden = true;
+//         exitBtnContainer.hidden = false;
+//       }
+//       logBtnContainer.hidden = false;
+//       exitBtnContainer.hidden = true;
+//     })
+  
+// }
+// whenUserLogged();
+
+// function onExitBtnClick() {
+//   onAuthStateChanged(auth, user => {
+//   if (user.isAnonymous) {
+//     logBtnContainer.hidden = false;
+//     exitBtnContainer.hidden = true;
+//   }
+// })
+// }
 
 const loginFormBtn = document.querySelector('#data-formBtn-login');
 const regFormBtn = document.querySelector('#data-formBtn-reg');
@@ -119,6 +172,17 @@ regFormBtn.addEventListener('click', e => {
   loginFormBtn.classList.toggle('target-btn');
   regFormBtn.classList.toggle('target-btn');
 });
+
+// logout.addEventListener('click', e => {
+//   signOut(auth)
+//     .then(() => {
+//       Notify.info(The user ${name} signed out);
+//     })
+//     .catch(err => {
+//       Notify.failure(err.message);
+//     });
+// });
+
 
 // function onFormToggle(add, rev) {
 //   console.log('HELLOO');
