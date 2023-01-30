@@ -14,7 +14,7 @@ import {
   getMoviesGenres,
 } from './js/main-markup';
 
-import './js/modal';
+// import './js/modal';
 
 import './js/modal-students';
 import './js/modal-registration';

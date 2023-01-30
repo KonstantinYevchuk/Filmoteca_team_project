@@ -12,22 +12,22 @@ closeBtn.addEventListener('click', onClick);
 
 function onClick() {
   // console.log(e);
-  backdropEl[1].classList.toggle('is-hidden');
+  backdropEl[backdropEl.length -1].classList.toggle('is-hidden');
 
   bodyEl.addEventListener('keydown', keydownEvent);
   function keydownEvent(evt) {
     if (evt.key === 'Escape') {
-      backdropEl[1].classList.add('is-hidden');
+      backdropEl[backdropEl.length -1].classList.add('is-hidden');
       bodyEl.removeEventListener('keydown', keydownEvent);
     }
   }
 
-  backdropEl[1].addEventListener('click', modalClick);
+  backdropEl[backdropEl.length -1].addEventListener('click', modalClick);
   function modalClick(evt) {
     // console.log(evt.currentTarget);
     if (evt.target !== modalEl) {
-      backdropEl[1].classList.add('is-hidden');
-      backdropEl[1].removeEventListener('click', modalClick);
+      backdropEl[backdropEl.length -1].classList.add('is-hidden');
+      backdropEl[backdropEl.length -1].removeEventListener('click', modalClick);
     }
   }
 
@@ -40,6 +40,7 @@ function makeGalleryStudents(students) {
       acc +
       `<li class="gallery_item">
         <img src="${photoPreview}" alt="${name}" class="gallery_img">
+        <h2 class="gallery_name">${name}</h2>
         <p class="gallery_text">${position}</p></li>
         `
     );
