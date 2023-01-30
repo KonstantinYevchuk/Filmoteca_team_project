@@ -1,5 +1,6 @@
 import './js/firebase';
 import './js/theme-btn';
+import './js/loader';
 import './js/input';
 import './js/modal-markup';
 
