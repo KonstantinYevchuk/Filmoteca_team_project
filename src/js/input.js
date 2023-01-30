@@ -20,7 +20,9 @@ const searchForm = document.querySelector('.search-form');
 const searchInput = document.querySelector('.inputsearch');
 const galleryEl = document.querySelector('.js-gallery');
 const seacrhError = document.querySelector('.search-error');
-searchForm.addEventListener('submit', onSearch);
+if (searchForm) {
+  searchForm.addEventListener('submit', onSearch);
+}
 
 async function onSearch(evt) {
   evt.preventDefault();
