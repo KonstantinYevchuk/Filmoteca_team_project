@@ -3,7 +3,7 @@
 const LOCAL_STORAGE_WATCHED = 'watched';
 const LOCAL_STORAGE_QUEUE = 'queue';
 
-function addLocalStorage(movieData) {
+export default function addLocalStorage(movieData) {
 
   const watchBtn = document.querySelector('[data-action="watch"]');
   const queueBtn = document.querySelector('[data-action="queue"]');
@@ -62,6 +62,6 @@ function getList(key) {
   return localList;
 }
 
-export { addLocalStorage };
+// export { addLocalStorage };
 
 
