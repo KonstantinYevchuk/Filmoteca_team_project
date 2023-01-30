@@ -19,7 +19,7 @@
     margin-top: 10px;
 }
 .movie__title {
-    color: rgba(0, 0, 0, 1);
+    color: var(--main-font-color);
     font-size: 12px;
     line-height: 1.33;
     text-transform: uppercase;
@@ -29,7 +29,7 @@
     display: flex;
     font-size: 12px;
     line-height: 1.33;
-    color: rgba(255, 107, 8, 1);
+    color: var(--second-font-color);
 }
 .movie__rate {
     visibility: hidden;
