@@ -2,7 +2,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { getSearchMoviesFetch } from './fetch-films';
 import { createCardMarkup } from './main-markup';
 import { createPopularMoviesMarkup } from './main-markup';
-import { pagination } from './pagination';
+import pagination from './pagination';
 
 Notify.init({
   width: '400px',
@@ -43,6 +43,7 @@ async function onSearch(evt) {
     const getFetchResp = await getSearchMoviesFetch(searchQuery, searchPage);
     const moviesArray = await getFetchResp.results;
     createCardMarkup(moviesArray);
+    pagination(getFetchResp.page, getFetchResp.total_pages);
     resetErrMessage();
 
     if (!moviesArray.length) {
