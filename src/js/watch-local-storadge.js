@@ -13,6 +13,8 @@ const getQueueBtn = document.querySelector('.js-queue-btn');
 getWatchedBtn.addEventListener('click', onGetWatched);
 getQueueBtn.addEventListener('click', onGetQueue);
 createLibraryMarkup('watched');
+
+console.log('hello');
 function onGetWatched() {
   createLibraryMarkup('watched');
 }
@@ -25,16 +27,16 @@ function createLibraryMarkup(key) {
   try {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
-    if (!parsed) {
-      Notify.info('Your library is empty!');
-      createUpcomingMoviesMarkup();
-    } else {
-      createCollectionMoviesMarkup(key);
-    }
+    // if (!parsed) {
+    //   Notify.info('Your library is empty!');
+    galleryEl.innerHTML = `<h1>EMPTY LIBRARY</h1>`;
+    // } else {
+    //   createCollectionMoviesMarkup(key);
+    // }
   } catch (error) {
     console.log(error);
   } finally {
-    getCards();
+    // getCards();
   }
 }
 
@@ -50,25 +52,27 @@ function getCollectionMoviesLocal(key) {
 }
 function createCollectionMoviesMarkup(key) {
   const data = getCollectionMoviesLocal(key);
-  const movies = data.results;
-  const markup = movies.map(movie => createCardMarkup(movie));
-  galleryEl.innerHTML = markup;
+  // console.log(data);
+  // const movies = data.results;
+  // console.log(movies);
+  createCardMarkup(data);
+  // galleryEl.innerHTML = markup;
   localStorage.setItem('currentData', data);
 }
 
-function createUpcomingMoviesMarkup(page) {
-  getUpcomingMovies(page)
-    .then(data => {
-      const movies = data.results;
-      const markup = createCardMarkup(movies);
-      galleryEl.innerHTML = markup;
-    })
-    .catch(err => console.log(err));
-}
-function getCards() {
-  setTimeout(() => {
-    refs.card = document.querySelectorAll('.movie');
-    // console.log(refs.card);
-    refs.card.forEach(e => e.addEventListener('click', openCard));
-  }, 500);
-}
+// function createUpcomingMoviesMarkup(page) {
+//   getUpcomingMovies(page)
+//     .then(data => {
+//       const movies = data.results;
+//       const markup = createCardMarkup(movies);
+//       galleryEl.innerHTML = markup;
+//     })
+//     .catch(err => console.log(err));
+// }
+// function getCards() {
+//   setTimeout(() => {
+//     refs.card = document.querySelectorAll('.movie');
+//     // console.log(refs.card);
+//     refs.card.forEach(e => e.addEventListener('click', openCard));
+//   }, 500);
+// }
