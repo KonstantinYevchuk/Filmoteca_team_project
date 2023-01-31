@@ -1,41 +1,13 @@
 import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
-
 import { findId } from './view-Trailer';
-
 import addLocalStoradge from './q-local-storadge';
+import { refs } from './refs';
 
 // import './main-markup';
-import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
-
+// import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
 // createPopularMoviesMarkup();
 
-const API_URL = 'https://api.themoviedb.org/3/';
-const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
-
-const refs = {
-  closeModalBtn: document.querySelector('[data-modal-close]'),
-  modal: document.querySelector('[data-modal]'),
-  body: document.querySelector('body'),
-  title: document.querySelector('.table__title'),
-  voteAverage: document.querySelector('.table__value--orange'),
-  voteCount: document.querySelector('.table__value--grey'),
-  popularity: document.querySelector('.js-film-popularity'),
-  originalTitle: document.querySelector('.js-film-original-title'),
-  genre: document.querySelector('.js-film-genre'),
-  about: document.querySelector('.js-film-about'),
-  modalImg: document.querySelector('.modal__img'),
-  galleryUl: document.querySelector('.js-gallery'),
-};
-
-let res = null;
-
 refs.galleryUl.addEventListener('click', openCard);
-
-export async function request() {
-  const data = await getPopularMoviesFetch();
-  res = data.results;
-}
-
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal() {
@@ -66,40 +38,30 @@ async function openCard(e) {
     return;
   }
 
-  try {
-    const response = await fetch(
-      `${API_URL}movie/${+e.target.dataset.movieId}?api_key=${API_KEY}`
-    );
-    if (!response.ok) {
-      throw new Error(response.statusText);
+  const dataFilms = JSON.parse(localStorage.getItem('currentData'));
+
+  for (const film of dataFilms.results) {
+    if (film.id === +e.target.dataset.movieId) {
+      findId(film.id);
+
+      const genreList = [];
+
+      film.genre_ids.map(({ id }) => {
+        genreList.push(localStorage.getItem(id));
+      });
+
+      refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
+      refs.title.textContent = film.title;
+      refs.voteAverage.textContent = film.vote_average.toFixed(1);
+      refs.voteCount.textContent = film.vote_count;
+      refs.popularity.textContent = film.popularity.toFixed(1);
+      refs.originalTitle.textContent = film.original_title;
+      refs.genre.textContent = genreList.join(', ');
+      refs.about.textContent = film.overview;
+
+      openModal();
+      addLocalStoradge(film);
     }
-
-    const film = await response.json();
-    console.log(film);
-
-    findId(film.id);
-
-    const genreList = [];
-
-    console.log(film.genres);
-
-    film.genres.map(({ id }) => {
-      genreList.push(localStorage.getItem(id));
-    });
-
-    refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
-    refs.title.textContent = film.title;
-    refs.voteAverage.textContent = film.vote_average.toFixed(1);
-    refs.voteCount.textContent = film.vote_count;
-    refs.popularity.textContent = film.popularity.toFixed(1);
-    refs.originalTitle.textContent = film.original_title;
-    refs.genre.textContent = genreList.join(', ');
-    refs.about.textContent = film.overview;
-
-    openModal();
-    addLocalStoradge(film);
-  } catch (error) {
-    console.log(error);
   }
 }
 
