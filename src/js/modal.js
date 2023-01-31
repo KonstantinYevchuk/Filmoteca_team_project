@@ -16,7 +16,10 @@ const scrollController = {
 };
 
 let res = null;
-export async function request() {
+
+refs.galleryUl.addEventListener('click', openCard);
+
+async function request() {
   const data = await getPopularMoviesFetch();
   res = data.results;
 }
@@ -83,8 +86,9 @@ async function openCard(e) {
   }
 }
 
-// Cutting long text and adding "Read More"
-export function cutLongText() {
+
+// Обрезание длинного текста и добавление "читать далее"
+function cutLongText() {
   const refs = {
     modalText: document.querySelector('.modal__text'),
     modalBtnClose: document.querySelector('.modal__btn-close'),
@@ -121,3 +125,4 @@ export function cutLongText() {
     }
   }
 }
+export {request, openCard, cutLongText};
