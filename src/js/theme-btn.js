@@ -1,7 +1,8 @@
-const changeThemeBtn = document.querySelector('.switch-checkbox');
-const bodyTheme = document.querySelector('body');
+import {refs} from './refs';
+// const changeThemeBtn = document.querySelector('.switch-checkbox');
+// const bodyTheme = document.querySelector('body');
 
-changeThemeBtn.addEventListener('click', changeTheme);
+refs.changeThemeBtn.addEventListener('click', changeTheme);
 
 function changeTheme() {
   if (localStorage.getItem('theme') === 'dark') {
@@ -16,11 +17,11 @@ function changeTheme() {
 function addDarkClassToHTML() {
   try {
     if (localStorage.getItem('theme') === 'dark') {
-      bodyTheme.classList.add('theme-dark');
-      changeThemeBtn.checked = true;
+      refs.bodyTheme.classList.add('theme-dark');
+      refs.changeThemeBtn.checked = true;
     }
     else {
-      bodyTheme.classList.remove('theme-dark');
+      refs.bodyTheme.classList.remove('theme-dark');
     }
   } catch (err) { }
 }

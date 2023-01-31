@@ -32,15 +32,20 @@
   .theme-dark .modal__text,
   .theme-dark  .modal__about,
   .theme-dark .pagination li,
-  // .theme-dark
-  // .theme-dark
-  // .theme-dark
+  .theme-dark .gallery_name,
   .theme-dark .movie__title,
   .theme-dark .currentPage,
   .theme-dark .footer_item,
   .theme-dark .footer_btn,
   .theme-dark .number-pagination button   {
       color: var(--main-bgr-footer);
+  }
+  .theme-dark .movie {
+    border-color: transparent;
+      &:hover,
+      &:focus {
+        border-color: var(--dark-bgr-footer);
+      }
   }
   
   .theme-dark .table__name {
@@ -54,6 +59,12 @@
       stroke: var(--main-bgr-footer);
   }
 
+  .theme-dark .modal__btn-close {
+    background-color: transparent;
+  }
+  .theme-dark .gallery_item {
+    border-color: var(--dark-bgr-footer);
+  }
 
 /* The switch - the box around the slider */
 .switch {
