@@ -45,9 +45,9 @@ function makeGalleryStudents(students) {
   refs.galleryStudents.innerHTML = markup;
 }
 
-function keydownEvent(evt, btn) {
-  if (evt.key === 'Escape') {
-    btn.classList.add('is-hidden');
-    btn.removeEventListener('keydown', keydownEvent);
-  }
-}
+// function keydownEvent(evt, btn) {
+//   if (evt.key === 'Escape') {
+//     btn.classList.add('is-hidden');
+//     btn.removeEventListener('keydown', keydownEvent);
+//   }
+// }
