@@ -1,4 +1,5 @@
 createPopularMoviesMarkup();
+checkUserStatus();
 import './js/firebase';
 import './js/theme-btn';
 import './js/loader';
@@ -17,3 +18,4 @@ import './js/modal';
 import './js/modal-students';
 import './js/modal-registration';
 import './js/autorisation';
+import { checkUserStatus } from './js/autorisation';
