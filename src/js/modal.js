@@ -31,7 +31,7 @@ let res = null;
 
 refs.galleryUl.addEventListener('click', openCard);
 
-export async function request() {
+async function request() {
   const data = await getPopularMoviesFetch();
   res = data.results;
 }
@@ -104,7 +104,7 @@ async function openCard(e) {
 }
 
 // Обрезание длинного текста и добавление "читать далее"
-export function cutLongText() {
+function cutLongText() {
   const refs = {
     modalText: document.querySelector('.modal__text'),
     modalBtnClose: document.querySelector('.modal__btn-close'),
@@ -141,3 +141,4 @@ export function cutLongText() {
     }
   }
 }
+export {request, openCard, cutLongText};
