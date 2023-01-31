@@ -1,10 +1,6 @@
 const changeThemeBtn = document.querySelector('.switch-checkbox');
-const iconTheme = changeThemeBtn.firstElementChild;
 const bodyTheme = document.querySelector('body');
 
-console.log('HELLO');
-console.dir(changeThemeBtn);
-console.log('BAY');
 changeThemeBtn.addEventListener('click', changeTheme);
 
 function changeTheme() {
@@ -18,7 +14,6 @@ function changeTheme() {
 }
 
 function addDarkClassToHTML() {
-  console.dir(changeThemeBtn);
   try {
     if (localStorage.getItem('theme') === 'dark') {
       bodyTheme.classList.add('theme-dark');
@@ -26,12 +21,8 @@ function addDarkClassToHTML() {
     }
     else {
       bodyTheme.classList.remove('theme-dark');
-      changeThemeBtn.checked = false;
     }
   } catch (err) { }
-}
-function onclick() {
-
 }
 
 addDarkClassToHTML();
