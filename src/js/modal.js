@@ -1,25 +1,10 @@
 import { getPopularMoviesFetch } from './fetch-films';
 import { findId } from './view-Trailer';
-
 import addLocalStoradge from './q-local-storadge';
+import { refs } from './refs';
 
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
-
-const refs = {
-  closeModalBtn: document.querySelector('[data-modal-close]'),
-  modal: document.querySelector('[data-modal]'),
-  body: document.querySelector('body'),
-  title: document.querySelector('.table__title'),
-  voteAverage: document.querySelector('.table__value--orange'),
-  voteCount: document.querySelector('.table__value--grey'),
-  popularity: document.querySelector('.js-film-popularity'),
-  originalTitle: document.querySelector('.js-film-original-title'),
-  genre: document.querySelector('.js-film-genre'),
-  about: document.querySelector('.js-film-about'),
-  modalImg: document.querySelector('.modal__img'),
-  galleryUl: document.querySelector('.js-gallery'),
-};
 
 const scrollController = {
   disablesScroll() {
