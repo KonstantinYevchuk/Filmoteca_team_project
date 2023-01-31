@@ -4,27 +4,28 @@ import { refs } from './refs';
 
 refs.openBtn.addEventListener('click', onClick);
 refs.closeBtnStudents.addEventListener('click', onClick);
+const backdrop = refs.backdropEl[refs.backdropEl.length -1];
 
 function onClick() {
   // console.log(e);
-  refs.backdropEl[refs.backdropEl.length -1].classList.toggle('is-hidden');
+  backdrop.classList.toggle('is-hidden');
 
   refs.bodyEl.addEventListener('keydown', keydownEvent);
   function keydownEvent(evt) {
     if (evt.key === 'Escape') {
-      refs.backdropEl[refs.backdropEl.length -1].classList.add('is-hidden');
+      addClassBtn(backdrop)
       refs.bodyEl.removeEventListener('keydown', keydownEvent);
     }
   }
 
-  refs.backdropEl[refs.backdropEl.length -1].addEventListener('click', modalClick);
+  backdrop.addEventListener('click', modalClick);
   function modalClick(evt) {
-    // console.log(evt.currentTarget);
-    if (evt.currentTarget === refs.modalEl) {
+    console.log(evt.target);
+    if (evt.target !== backdrop) {
       return
     } else {
-      refs.backdropEl[refs.backdropEl.length -1].classList.add('is-hidden');
-      refs.backdropEl[refs.backdropEl.length -1].removeEventListener('click', modalClick);
+      addClassBtn(backdrop);
+      backdrop.removeEventListener('click', modalClick);
     }
   }
 
@@ -45,9 +46,6 @@ function makeGalleryStudents(students) {
   refs.galleryStudents.innerHTML = markup;
 }
 
-// function keydownEvent(evt, btn) {
-//   if (evt.key === 'Escape') {
-//     btn.classList.add('is-hidden');
-//     btn.removeEventListener('keydown', keydownEvent);
-//   }
-// }
+function addClassBtn(btn) {
+    btn.classList.add('is-hidden');  
+}
