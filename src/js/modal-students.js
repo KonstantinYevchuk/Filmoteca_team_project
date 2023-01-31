@@ -1,12 +1,6 @@
 import { galleryTeam } from './gellary-team';
 import { refs } from './refs';
 
-// const bodyEl = document.body;
-// const openBtn = document.querySelector('.footer_btn');
-// const closeBtn = document.querySelector('.modal-window__button');
-// const backdropEl = document.querySelectorAll('.back-drop');
-// const modalEl = document.querySelector('.modal-window');
-// const galleryEl = document.querySelector('.gallery_students');
 
 refs.openBtn.addEventListener('click', onClick);
 refs.closeBtnStudents.addEventListener('click', onClick);
@@ -26,7 +20,9 @@ function onClick() {
   refs.backdropEl[refs.backdropEl.length -1].addEventListener('click', modalClick);
   function modalClick(evt) {
     // console.log(evt.currentTarget);
-    if (evt.target !== refs.modalEl) {
+    if (evt.currentTarget === refs.modalEl) {
+      return
+    } else {
       refs.backdropEl[refs.backdropEl.length -1].classList.add('is-hidden');
       refs.backdropEl[refs.backdropEl.length -1].removeEventListener('click', modalClick);
     }
@@ -49,4 +45,9 @@ function makeGalleryStudents(students) {
   refs.galleryStudents.innerHTML = markup;
 }
 
-
+function keydownEvent(evt, btn) {
+  if (evt.key === 'Escape') {
+    btn.classList.add('is-hidden');
+    btn.removeEventListener('keydown', keydownEvent);
+  }
+}

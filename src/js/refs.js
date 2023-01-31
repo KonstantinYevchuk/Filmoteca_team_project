@@ -35,16 +35,16 @@ export const refs = {
   //====---loader.js--====//
   loader: document.querySelector('.loader'),
   //====---main-markup.js--====//
-  galleryEl: document.querySelector('.gallery'),
+  galleryElMain: document.querySelector('.gallery'),
   //====--theme-btn.js--====//
   changeThemeBtn: document.querySelector('.switch-checkbox'),
   bodyTheme: document.querySelector('body'),
   //===---to-the-top.js--===//
   mybutton: document.getElementById("myBtn"),
   //===---registration.js--===//
-  openModalBtn: document.querySelector('[data-modal-reg-open]'),
-  closeModalBtn: document.querySelector('[data-modal-reg-close]'),
-  modal: document.querySelector('[data-reg-modal]'),
+  openBtnRegistration: document.querySelector('[data-modal-reg-open]'),
+  closeBtnRegistration: document.querySelector('[data-modal-reg-close]'),
+  modalRegistration: document.querySelector('[data-reg-modal]'),
   //===---modal-students.js--===//
   bodyEl: document.body,
   openBtn: document.querySelector('.footer_btn'),
@@ -52,28 +52,18 @@ export const refs = {
   backdropEl: document.querySelectorAll('.back-drop'),
   modalEl: document.querySelector('.modal-window'),
   galleryStudents: document.querySelector('.gallery_students'),
-  //====---modal.js--=====//
-  closeModalBtn: document.querySelector('[data-modal-close]'),
-  modal: document.querySelector('[data-modal]'),
-  body: document.querySelector('body'),
-  title: document.querySelector('.table__title'),
-  voteAverage: document.querySelector('.table__value--orange'),
-  voteCount: document.querySelector('.table__value--grey'),
-  popularity: document.querySelector('.js-film-popularity'),
-  originalTitle: document.querySelector('.js-film-original-title'),
-  genre: document.querySelector('.js-film-genre'),
-  about: document.querySelector('.js-film-about'),
-  modalImg: document.querySelector('.modal__img'),
-  galleryUl: document.querySelector('.js-gallery'),
   //====---pagination---===//
   paginationBox: document.querySelector('.pagination'),
   //====---view-trailer.js---===//
   trailerBtn: document.querySelector('.js-trailer__btn'),
-  modal: document.querySelector('.trailer'),
+  modalTrailer: document.querySelector('.trailer'),
   beak: document.querySelector('[data-modal-trailer]'),
   closeBtn: document.querySelector('[data-modal-close-trailer]'),
   body: document.querySelector('body'),
-  //===---q-local-storage.js===---
+  //===---watch-local-storage.js===---
   getWatchedBtn: document.querySelector('.js-watched-btn'),
   getQueueBtn: document.querySelector('.js-queue-btn'),
+  //===---q-watch-local-storage.js---===//
+  watchBtn: document.querySelector('[data-action="watch"]'),
+  queueBtn: document.querySelector('[data-action="queue"]'),
 };
