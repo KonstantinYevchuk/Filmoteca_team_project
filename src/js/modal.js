@@ -61,6 +61,7 @@ async function openCard(e) {
 
       openModal();
       addLocalStoradge(film);
+      break;
     }
   }
 }
