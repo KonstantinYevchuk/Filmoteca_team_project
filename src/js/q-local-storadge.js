@@ -7,7 +7,10 @@ export default function addLocalStorage(movieData) {
 
   const watchBtn = document.querySelector('[data-action="watch"]');
   const queueBtn = document.querySelector('[data-action="queue"]');
-
+  const isLibrary = location.pathname.includes('library');
+  const imgId = document.querySelector(`[data-movie-id="${movieData.id}"]`);
+  const cartItem = imgId.parentNode;
+   
   watchBtn.addEventListener('click', addWatch);
   queueBtn.addEventListener('click', addQueue);
 
@@ -36,6 +39,9 @@ export default function addLocalStorage(movieData) {
        watchedList = watchedList.filter(film => film.id !== movieData.id);
        watchBtn.classList.remove('button__accent');
        watchBtn.textContent = 'Add to watched';
+       if (isLibrary && cartItem ) {
+          cartItem.remove();
+        }
      } else {
        watchedList.push(movieData);
        watchBtn.classList.add('button__accent');
@@ -51,6 +57,9 @@ export default function addLocalStorage(movieData) {
        queueList = queueList.filter(film => film.id !== movieData.id);
        queueBtn.classList.remove('button__accent');
        queueBtn.textContent = 'Add to queue';
+        if (isLibrary && cartItem ) {
+          cartItem.remove();
+        }
      } else {
        queueList.push(movieData);
        queueBtn.classList.add('button__accent');
