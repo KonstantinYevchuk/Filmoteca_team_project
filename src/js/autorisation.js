@@ -1,3 +1,4 @@
+import { refs } from './refs';
 import { initializeApp } from 'firebase/app';
 import { Notify } from 'notiflix';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
@@ -33,6 +34,11 @@ const signupForm = document.querySelector('.registration-form');
 const logout = document.querySelector('.js-btn-exit');
 const logBtnContainer = document.querySelector('.js-btn-in');
 const exitBtnContainer = document.querySelector('.js-btn-exit');
+
+// const loginFormBtn = document.querySelector('#data-formBtn-login');
+// const regFormBtn = document.querySelector('#data-formBtn-reg');
+// const logForm = document.querySelector('#data-login-box');
+// const regForm = document.querySelector('#data-reg-box');
 
 
 signupForm.addEventListener('submit', e => {
@@ -118,20 +124,15 @@ checkUserStatus();
 console.log(auth);
 
 
-
-const loginFormBtn = document.querySelector('#data-formBtn-login');
-const regFormBtn = document.querySelector('#data-formBtn-reg');
-const logForm = document.querySelector('#data-login-box');
-const regForm = document.querySelector('#data-reg-box');
-loginFormBtn.addEventListener('click', e => {
-  logForm.classList.add('current');
-  regForm.classList.remove('current');
-  loginFormBtn.classList.toggle('target-btn');
-  regFormBtn.classList.toggle('target-btn');
+refs.loginFormBtn.addEventListener('click', e => {
+  refs.logForm.classList.add('current');
+  refs.regForm.classList.remove('current');
+  refs.loginFormBtn.classList.toggle('target-btn');
+  refs.regFormBtn.classList.toggle('target-btn');
 });
-regFormBtn.addEventListener('click', e => {
-  regForm.classList.add('current');
-  logForm.classList.remove('current');
-  loginFormBtn.classList.toggle('target-btn');
-  regFormBtn.classList.toggle('target-btn');
+refs.regFormBtn.addEventListener('click', e => {
+  refs.regForm.classList.add('current');
+  refs.logForm.classList.remove('current');
+  refs.loginFormBtn.classList.toggle('target-btn');
+  refs.regFormBtn.classList.toggle('target-btn');
 });
