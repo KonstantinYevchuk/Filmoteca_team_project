@@ -7,7 +7,7 @@ import addLocalStoradge from './q-local-storadge';
 // import './main-markup';
 import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
 
-createPopularMoviesMarkup();
+// createPopularMoviesMarkup();
 
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';

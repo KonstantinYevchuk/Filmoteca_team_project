@@ -1,3 +1,4 @@
+createPopularMoviesMarkup();
 import './js/firebase';
 import './js/theme-btn';
 import './js/loader';
@@ -9,11 +10,7 @@ import './js/view-Trailer';
 import './js/fetch-films';
 import './js/pagination';
 import './js/main-markup';
-import {
-  createPopularMoviesMarkup,
-  createCardMarkup,
-  getMoviesGenres,
-} from './js/main-markup';
+import { createPopularMoviesMarkup } from './js/main-markup';
 
 import './js/modal';
 
