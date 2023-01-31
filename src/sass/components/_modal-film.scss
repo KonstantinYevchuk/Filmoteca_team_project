@@ -261,9 +261,11 @@
 }
 
 .modal__btn--watched {
-  background-color: var(--main-bgr-btn);
-  color: var(--main-light-font-color);
-  border: 1px solid var(--main-bgr-btn);
+  // background-color: var(--main-bgr-btn);
+  // color: var(--main-light-font-color);
+  background-color: var(--main-light-font-color);
+  border: 1px solid var(--main-font-color);
+  // border: 1px solid var(--main-bgr-btn);
   padding: 0;
 }
 
@@ -271,6 +273,12 @@
   background-color: var(--main-light-font-color);
   border: 1px solid var(--main-font-color);
   padding: 0;
+}
+
+.button__accent{
+  background-color: var(--main-bgr-btn);
+  color: var(--main-light-font-color);
+  border: 1px solid var(--main-bgr-btn);
 }
 
 .modal__play {
