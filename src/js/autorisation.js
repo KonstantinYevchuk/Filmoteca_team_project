@@ -1,3 +1,4 @@
+import { refs } from './refs';
 import { initializeApp } from 'firebase/app';
 import { Notify } from 'notiflix';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
@@ -31,9 +32,14 @@ let currentUser;
 const loginForm = document.querySelector('.login-form');
 const signupForm = document.querySelector('.registration-form');
 const logout = document.querySelector('.js-btn-exit');
-
 const logBtnContainer = document.querySelector('.js-btn-in');
 const exitBtnContainer = document.querySelector('.js-btn-exit');
+
+// const loginFormBtn = document.querySelector('#data-formBtn-login');
+// const regFormBtn = document.querySelector('#data-formBtn-reg');
+// const logForm = document.querySelector('#data-login-box');
+// const regForm = document.querySelector('#data-reg-box');
+
 
 signupForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -98,96 +104,35 @@ logout.addEventListener('click', e => {
     });
 });
 
-function checkUserStatus() {
-  if (auth.currentUser == null) {
-    logBtnContainer.hidden = false;
-    exitBtnContainer.hidden = true;
-  }
-
-  onAuthStateChanged(auth, user => {
-    logBtnContainer.hidden = true;
-    exitBtnContainer.hidden = false;
+export async function checkUserStatus() {
+const userStatus =  await onAuthStateChanged(auth, user => {
+    console.log(user);
+    if (!user) {
+      
+      logBtnContainer.hidden = false;
+      exitBtnContainer.hidden = true;
+    } else{
+      logBtnContainer.hidden = true;
+      exitBtnContainer.hidden = false;
+    }
   })
+  
 }
 
 checkUserStatus();
 
-// onAuthStateChanged(auth, user => {
-//   if (!user == null) {
-//     logBtnContainer.hidden = true;
-//     exitBtnContainer.hidden = false;
-//   }
-//   logBtnContainer.hidden = false;
-//   exitBtnContainer.hidden = true;
-// });
 console.log(auth);
 
 
-
-// const logInBtn = document.querySelector('.login-form-btn');
-// const exitBtn = document.querySelector('.js-exit');
-
-// logInBtn.addEventListener('click', onLogInBtnClick);
-// exitBtn.addEventListener('click', onExitBtnClick);
-
-// function onLogInBtnClick() {
-//   whenUserLogged();
-// }
-// console.log(auth);
-// function whenUserLogged() {
-//     onAuthStateChanged(auth, user => {
-//       if (!auth.currentUser) {
-//         logBtnContainer.hidden = true;
-//         exitBtnContainer.hidden = false;
-//       }
-//       logBtnContainer.hidden = false;
-//       exitBtnContainer.hidden = true;
-//     })
-  
-// }
-// whenUserLogged();
-
-// function onExitBtnClick() {
-//   onAuthStateChanged(auth, user => {
-//   if (user.isAnonymous) {
-//     logBtnContainer.hidden = false;
-//     exitBtnContainer.hidden = true;
-//   }
-// })
-// }
-
-const loginFormBtn = document.querySelector('#data-formBtn-login');
-const regFormBtn = document.querySelector('#data-formBtn-reg');
-const logForm = document.querySelector('#data-login-box');
-const regForm = document.querySelector('#data-reg-box');
-loginFormBtn.addEventListener('click', e => {
-  logForm.classList.add('current');
-  regForm.classList.remove('current');
-  loginFormBtn.classList.toggle('target-btn');
-  regFormBtn.classList.toggle('target-btn');
+refs.loginFormBtn.addEventListener('click', e => {
+  refs.logForm.classList.add('current');
+  refs.regForm.classList.remove('current');
+  refs.loginFormBtn.classList.toggle('target-btn');
+  refs.regFormBtn.classList.toggle('target-btn');
 });
-regFormBtn.addEventListener('click', e => {
-  regForm.classList.add('current');
-  logForm.classList.remove('current');
-  loginFormBtn.classList.toggle('target-btn');
-  regFormBtn.classList.toggle('target-btn');
+refs.regFormBtn.addEventListener('click', e => {
+  refs.regForm.classList.add('current');
+  refs.logForm.classList.remove('current');
+  refs.loginFormBtn.classList.toggle('target-btn');
+  refs.regFormBtn.classList.toggle('target-btn');
 });
-
-// logout.addEventListener('click', e => {
-//   signOut(auth)
-//     .then(() => {
-//       Notify.info(The user ${name} signed out);
-//     })
-//     .catch(err => {
-//       Notify.failure(err.message);
-//     });
-// });
-
-
-// function onFormToggle(add, rev) {
-//   console.log('HELLOO');
-//   add.classList.add('current');
-//   rev.classList.remove('current');
-//   loginFormBtn.classList.toggle('target-btn');
-//   regFormBtn.classList.toggle('target-btn');
-// }
