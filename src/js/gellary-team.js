@@ -1,5 +1,5 @@
-import orestUrl from '../images/modal-Default-Img.jpg';
-import orestPhoto from '../images/modal-Default-Img.jpg';
+import orestUrl from '../images/team/Orest_Mykhalchuk_150.jpg';
+import orestPhoto from '../images//team/Orest_Mykhalchuk_150.jpg';
 import yevchukUrl from '../images/team/Konstantin_Yevchuk_150.jpg';
 import yevchukPhoto from '../images/team/Konstantin_Yevchuk_450.jpg';
 import titovUrl from '../images/team/Yevgen_Titov_150.jpg';
