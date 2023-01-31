@@ -57,9 +57,8 @@ export const refs = {
   //====---view-trailer.js---===//
   trailerBtn: document.querySelector('.js-trailer__btn'),
   modalTrailer: document.querySelector('.trailer'),
-  beak: document.querySelector('[data-modal-trailer]'),
+  back_drop: document.querySelector('[data-modal-trailer]'),
   closeBtn: document.querySelector('[data-modal-close-trailer]'),
-  body: document.querySelector('body'),
   //===---watch-local-storage.js===---
   getWatchedBtn: document.querySelector('.js-watched-btn'),
   getQueueBtn: document.querySelector('.js-queue-btn'),
