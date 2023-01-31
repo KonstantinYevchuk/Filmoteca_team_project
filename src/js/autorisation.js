@@ -113,6 +113,7 @@ const userStatus =  await onAuthStateChanged(auth, user => {
   
 }
 
+checkUserStatus();
 
 console.log(auth);
 
