@@ -1,16 +1,18 @@
-
+import { refs } from './refs';
 
 const LOCAL_STORAGE_WATCHED = 'watched';
 const LOCAL_STORAGE_QUEUE = 'queue';
 
 export default function addLocalStorage(movieData) {
 
-  const watchBtn = document.querySelector('[data-action="watch"]');
-  const queueBtn = document.querySelector('[data-action="queue"]');
+  // const watchBtn = document.querySelector('[data-action="watch"]');
+  // const queueBtn = document.querySelector('[data-action="queue"]');
+  const watchBtn = refs.watchBtn;
+  const queueBtn = refs.queueBtn;
+
   const isLibrary = location.pathname.includes('library');
-  const imgId = document.querySelector(`[data-movie-id="${movieData.id}"]`);
-  const cartItem = imgId.parentNode;
-   
+  const cartItem = document.querySelector(`[data-movie-id="${movieData.id}"]`);
+     
   watchBtn.addEventListener('click', addWatch);
   queueBtn.addEventListener('click', addQueue);
 
