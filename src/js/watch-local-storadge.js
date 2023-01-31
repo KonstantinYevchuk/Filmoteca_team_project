@@ -8,7 +8,7 @@ import { openCard } from './modal';
 // import pagination from './pagination';
 // import { getUpcomingMovies } from './fetch-films';
 
-const galleryEl = document.querySelector('.js-gallery');
+const galleryUl = document.querySelector('.js-gallery');
 
 if (refs.getWatchedBtn || refs.getQueueBtn) {
   refs.getWatchedBtn.addEventListener('click', onGetWatched);
@@ -32,16 +32,14 @@ function createLibraryMarkup(key) {
     const parsed = JSON.parse(data);
     console.log(parsed);
     if (!parsed.length) {
-      galleryEl.innerHTML = `<li><h1>EMPTY LIBRARY</h1></li>`;
+      galleryUl.innerHTML = `<li><h1>EMPTY LIBRARY</h1></li>`;
     } else {
       createCardMarkup(parsed);
       // localStorage.setItem('currentData', parsed);
-      // galleryEl.innerHTML = `<li><h1>FULL</h1></li>`;
+      // galleryUl.innerHTML = `<li><h1>FULL</h1></li>`;
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    openCard();
   }
 }
 
@@ -61,6 +59,6 @@ function createLibraryMarkup(key) {
 //   // const movies = data.results;
 //   // console.log(movies);
 //   createCardMarkup(data);
-//   // galleryEl.innerHTML = markup;
+//   // galleryUl.innerHTML = markup;
 //   localStorage.setItem('currentData', data);
 // }
