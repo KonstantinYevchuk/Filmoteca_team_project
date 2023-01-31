@@ -1,13 +1,7 @@
-import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
-
+import { getPopularMoviesFetch } from './fetch-films';
 import { findId } from './view-Trailer';
 
 import addLocalStoradge from './q-local-storadge';
-
-// import './main-markup';
-import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
-
-// createPopularMoviesMarkup();
 
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
@@ -27,30 +21,37 @@ const refs = {
   galleryUl: document.querySelector('.js-gallery'),
 };
 
+const scrollController = {
+  disablesScroll() {
+    document.body.style.overflow = 'hidden';
+  },
+  enabledScroll() {
+    document.body.style.overflow = 'scroll';
+  },
+};
+
 let res = null;
-
-refs.galleryUl.addEventListener('click', openCard);
-
 export async function request() {
   const data = await getPopularMoviesFetch();
   res = data.results;
 }
 
+refs.galleryUl.addEventListener('click', openCard);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal() {
   refs.modal.classList.remove('is-hidden');
-
   refs.body.addEventListener('keydown', closeModalOnEsc);
   refs.modal.addEventListener('click', closeModalOnBackdrop);
+  scrollController.disablesScroll();
 }
 
 function closeModal() {
   refs.modal.classList.add('is-hidden');
-
   refs.body.removeEventListener('keydown', closeModalOnEsc);
   refs.modal.removeEventListener('click', closeModalOnBackdrop);
   refs.modalImg.src = '';
+  scrollController.enabledScroll();
 }
 
 function closeModalOnEsc(e) {
@@ -75,14 +76,8 @@ async function openCard(e) {
     }
 
     const film = await response.json();
-    console.log(film);
-
     findId(film.id);
-
     const genreList = [];
-
-    console.log(film.genres);
-
     film.genres.map(({ id }) => {
       genreList.push(localStorage.getItem(id));
     });
@@ -103,7 +98,7 @@ async function openCard(e) {
   }
 }
 
-// Обрезание длинного текста и добавление "читать далее"
+// Cutting long text and adding "Read More"
 export function cutLongText() {
   const refs = {
     modalText: document.querySelector('.modal__text'),
