@@ -20,13 +20,48 @@ async function getPopularMoviesFetch(page) {
       throw new Error(response.statusText);
     }
     const popularMovies = await response.json();
-    // console.log(popularMovies);
-    localStorage.setItem('currentData', JSON.stringify(popularMovies));
-    return popularMovies;
+    console.log(popularMovies);
+    // console.log(popularMovies.results);
+    
+    popularMovies.results.map(Movies => {
+      getMovieGenres(Movies.genre_ids);
+      Movies.genres = getMovieGenres(Movies.genre_ids) });    //   тут в localStorage currentData  додаю іменовані жанри
+      localStorage.setItem('currentData', JSON.stringify(popularMovies));
+      //   
+      
+    return popularMovies;    
   } catch (error) {
     console.log(error);
   }
 }
+function getMovieGenres(param) {
+  let genreList = [];
+
+  param.map(key => {
+    genreList.push(localStorage.getItem(key)); 
+  });
+  return genreList;
+};
+
+async function getMoviesGenres() {
+  try {
+    const response = await fetch(
+      `${API_URL}/genre/movie/list?api_key=${API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const resp = await response.json();
+    // console.log(resp);
+    await resp.genres.forEach(item => {
+      localStorage.setItem(item.id, item.name);
+    });
+    return resp;
+  } catch (err) {
+    console.log(err);
+  }
+}
+getMoviesGenres();
 
 async function getSearchMoviesFetch(query, page) {
   if (!query) {

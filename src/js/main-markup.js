@@ -19,8 +19,8 @@ function createCardMarkup(res) {
 
   const markup = res
     .map(
-      ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
-        getMovieGenres(genre_ids);
+      ({ poster_path, title, release_date, genres, vote_average, id }) => {
+        let genresMovie = hideTheExtraOnesMovieGenres(genres);
 
         return `<li class="movie">
         <img src="${IMAGE_BASE_URL}${poster_path}" onerror="this.src='${imageUrl}'" alt="movie poster" class="movie__poster" data-movie-id=${id} loading="lazy"/>
@@ -42,22 +42,40 @@ function createCardMarkup(res) {
   smoothScrolling();
   return markup;
 }
-function getMovieGenres(param) {
-  let genreList = [];
 
-  param.map(key => {
-    genreList.push(localStorage.getItem(key));
-  });
-
-  if (!genreList) {
+function hideTheExtraOnesMovieGenres(param) {
+  let genresMovie = ''
+  if (!param) {
     genresMovie = 'Other';
-  } else if (genreList.length < 4) {
-    genresMovie = genreList.join(', ');
+  } else if (param.length < 4) {
+    genresMovie = param.join(', ');
   } else {
-    genresMovie = genreList.slice(0, 2).join(', ').concat(', Other');
+    genresMovie = param.slice(0, 2).join(', ').concat(', Other');
   }
   return genresMovie;
 }
+
+//  #######           Тут частину переніс в файл fetch-films.js function getMovieGenres(param)  #######
+//  #######           Частину залишив в тут в function hideTheExtraOnesMovieGenres(param) ######
+
+// function getMovieGenres(param) {
+//   let genreList = [];
+
+//   param.map(key => {
+//     genreList.push(localStorage.getItem(key));
+//   });
+
+//   if (!genreList) {
+//     genresMovie = 'Other';
+//   } else if (genreList.length < 4) {
+//     genresMovie = genreList.join(', ');
+//   } else {
+//     genresMovie = genreList.slice(0, 2).join(', ').concat(', Other');
+//   }
+//   return genresMovie;
+// }
+
+//  ###########                #######################
 
 async function createPopularMoviesMarkup() {
   await getPopularMoviesFetch()
@@ -68,27 +86,32 @@ async function createPopularMoviesMarkup() {
     .catch(err => console.log(err));
 }
 
-// createPopularMoviesMarkup();
+createPopularMoviesMarkup();
 
-async function getMoviesGenres() {
-  try {
-    const response = await fetch(
-      `${API_URL}/genre/movie/list?api_key=${API_KEY}`
-    );
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    const resp = await response.json();
-    // console.log(resp);
-    await resp.genres.forEach(item => {
-      localStorage.setItem(item.id, item.name);
-    });
-    return resp;
-  } catch (err) {
-    console.log(err);
-  }
-}
-getMoviesGenres();
+
+//    ####   Перенесено в файл fetch-films.js         ##########
+
+// async function getMoviesGenres() {
+//   try {
+//     const response = await fetch(
+//       `${API_URL}/genre/movie/list?api_key=${API_KEY}`
+//     );
+//     if (!response.ok) {
+//       throw new Error(response.statusText);
+//     }
+//     const resp = await response.json();
+//     // console.log(resp);
+//     await resp.genres.forEach(item => {
+//       localStorage.setItem(item.id, item.name);
+//     });
+//     return resp;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+// getMoviesGenres();
+
+//  #########################              ##########
 
 function smoothScrolling() {
   const { height: cardHeight } =
