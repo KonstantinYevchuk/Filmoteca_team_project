@@ -50,8 +50,6 @@ async function openCard(e) {
         genreList.push(localStorage.getItem(genre));
       });
 
-      console.log(genreList);
-
       refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
       refs.title.textContent = film.title;
       refs.voteAverage.textContent = film.vote_average.toFixed(1);
