@@ -62,28 +62,23 @@ function closeModalOnBackdrop(e) {
 }
 
 async function openCard(e) {
-  if (!e.target.dataset.movieId) {
+  const filmId = +e.target.dataset.movieId;
+  if (!filmId) {
+    
     return;
   }
 
-  try {
-    const response = await fetch(
-      `${API_URL}movie/${+e.target.dataset.movieId}?api_key=${API_KEY}`
-    );
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-
-    const film = await response.json();
-    console.log(film);
-
+  try {      
+    const genreList = [];
+    const savedSettings = localStorage.getItem("currentData");
+    const parsedSettings = JSON.parse(savedSettings);
+    
+    const films = parsedSettings.results;   
+    const film = films.find(film => film.id === filmId);
+    
     findId(film.id);
 
-    const genreList = [];
-
-    console.log(film.genres);
-
-    film.genres.map(({ id }) => {
+    film.genre_ids.map(id => {
       genreList.push(localStorage.getItem(id));
     });
 
@@ -101,7 +96,7 @@ async function openCard(e) {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 // Обрезание длинного текста и добавление "читать далее"
 function cutLongText() {
