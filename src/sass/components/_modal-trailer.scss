@@ -10,17 +10,17 @@
 }
 
 .trailer__video{
-    width: 240px;
-    height: 250px;
+    width: 426px;
+    height: 240px;
     margin-top: 45px;
 
 @media screen and (min-width: 768px){
-    width: 600px;
-    height: 300px;
+    width: 640px;
+    height: 360px;
 }
 
 @media screen and (min-width: 1280px) {
-    width: 700px;
-    max-height: 350px;
+    width: 764px;
+    max-height: 390px;
 }
 }

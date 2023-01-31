@@ -1,33 +1,25 @@
 import { fetchTrailer } from "./fetch-trailer";
-// import modalOpen from "./modal";
+import { refs } from "./refs";
 import Notiflix from "notiflix";
-
-
-const trailerBtn = document.querySelector('.js-trailer__btn');
-const modal = document.querySelector('.trailer');
-const beak = document.querySelector('[data-modal-trailer]');
-const closeBtn = document.querySelector('[data-modal-close-trailer]');
-const body = document.querySelector('body');
 
 let id = null;
 
-trailerBtn.addEventListener('click', onClick);
-closeBtn.addEventListener('click', onClose);
-
-body.addEventListener('keydown', closeModalOnEsc);
-beak.addEventListener('click', closeModalOnBackdrop);
+refs.trailerBtn.addEventListener('click', onClick);
+refs.closeBtn.addEventListener('click', onClose);
+refs.body.addEventListener('keydown', closeModalOnEsc);
+refs.back_drop.addEventListener('click', closeModalOnBackdrop);
 
 export function findId(idFilm) {
     id = idFilm;
 }
 
 async function onClick() {
-    beak.classList.toggle('is-hidden');
+    refs.back_drop.classList.toggle('is-hidden');
     try {
-        console.log(id);
         const resp = await fetchTrailer(id);
         const { results } = resp;
         if (results.length === 0) {
+            onClose()
             Notiflix.Notify.info('Sorry, no trailer found!', { timeout: 1000 });
             return;
         }
@@ -38,8 +30,8 @@ async function onClick() {
 }
 
 function onClose() {
-    beak.classList.toggle('is-hidden');
-    modal.innerHTML = '';
+    refs.back_drop.classList.toggle('is-hidden');
+    refs.modalTrailer.innerHTML = '';
 }
 
 function closeModalOnEsc(e) {
@@ -47,12 +39,11 @@ function closeModalOnEsc(e) {
 }
 
 function closeModalOnBackdrop(e) {
-    console.log(e.target.classList.value);
     if (e.target.classList.value === 'back-drop') onClose();
 }
 
 function createTrailerMarkup(key) {
-    modal.insertAdjacentHTML(
+    refs.modalTrailer.insertAdjacentHTML(
     'beforeend',
         `<iframe
             class="trailer__video"
