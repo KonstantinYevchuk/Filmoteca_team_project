@@ -20,10 +20,14 @@ createLibraryMarkup('watched');
 console.log('hello');
 function onGetWatched() {
   createLibraryMarkup('watched');
+  btnActive(refs.getWatchedBtn);
+  btnRemoveClass(refs.getQueueBtn)
 }
 
 function onGetQueue() {
   createLibraryMarkup('queue');
+  btnActive(refs.getQueueBtn);
+  btnRemoveClass(refs.getWatchedBtn)
 }
 
 function createLibraryMarkup(key) {
@@ -62,3 +66,14 @@ function createLibraryMarkup(key) {
 //   // galleryUl.innerHTML = markup;
 //   localStorage.setItem('currentData', data);
 // }
+
+function btnActive(btn) {
+  if(btn.classList.contains("library_btn--current")) {
+    return
+  } else {
+    btn.classList.add("library_btn--current");
+  }
+}
+function btnRemoveClass(btn) {
+  btn.classList.remove("library_btn--current");
+}
