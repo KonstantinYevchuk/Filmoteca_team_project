@@ -46,9 +46,11 @@ async function openCard(e) {
 
       const genreList = [];
 
-      film.genre_ids.map(({ id }) => {
-        genreList.push(localStorage.getItem(id));
+      film.genre_ids.map(genre => {
+        genreList.push(localStorage.getItem(genre));
       });
+
+      console.log(genreList);
 
       refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
       refs.title.textContent = film.title;
