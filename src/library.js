@@ -9,4 +9,4 @@ import './js/watch-local-storadge';
 import './js/infinity-scroll';
 import './js/modal-students';
 // import './js/modal-registration';
-import './js/autorisation';
+// import './js/autorisation';
