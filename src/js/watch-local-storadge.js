@@ -7,7 +7,7 @@ import { openCard } from './modal';
 // import { getCards } from './modal';
 // import pagination from './pagination';
 // import { getUpcomingMovies } from './fetch-films';
-
+const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 const galleryUl = document.querySelector('.js-gallery');
 
 if (refs.getWatchedBtn || refs.getQueueBtn) {
@@ -21,13 +21,13 @@ console.log('hello');
 function onGetWatched() {
   createLibraryMarkup('watched');
   btnActive(refs.getWatchedBtn);
-  btnRemoveClass(refs.getQueueBtn)
+  btnRemoveClass(refs.getQueueBtn);
 }
 
 function onGetQueue() {
   createLibraryMarkup('queue');
   btnActive(refs.getQueueBtn);
-  btnRemoveClass(refs.getWatchedBtn)
+  btnRemoveClass(refs.getWatchedBtn);
 }
 
 function createLibraryMarkup(key) {
@@ -36,10 +36,9 @@ function createLibraryMarkup(key) {
     const parsed = JSON.parse(data);
     console.log(parsed);
     if (!parsed.length) {
-      galleryUl.innerHTML = `<li><h1>EMPTY LIBRARY</h1></li>`;
+      galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
     } else {
       createCardMarkup(parsed);
-      // localStorage.setItem('currentData', parsed);
       // galleryUl.innerHTML = `<li><h1>FULL</h1></li>`;
     }
   } catch (error) {
@@ -68,12 +67,12 @@ function createLibraryMarkup(key) {
 // }
 
 function btnActive(btn) {
-  if(btn.classList.contains("library_btn--current")) {
-    return
+  if (btn.classList.contains('library_btn--current')) {
+    return;
   } else {
-    btn.classList.add("library_btn--current");
+    btn.classList.add('library_btn--current');
   }
 }
 function btnRemoveClass(btn) {
-  btn.classList.remove("library_btn--current");
+  btn.classList.remove('library_btn--current');
 }
