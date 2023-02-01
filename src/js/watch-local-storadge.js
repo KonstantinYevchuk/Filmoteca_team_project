@@ -22,7 +22,7 @@ if (refs.getQueueBtn) {
 // getMoviesGenres();
 createLibraryMarkup('watched');
 
-console.log('hello');
+// console.log('hello');
 function onGetWatched() {
   createLibraryMarkup('watched');
 }
