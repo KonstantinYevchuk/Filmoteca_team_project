@@ -1,6 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { fetchSignInMethodsForEmail } from 'firebase/auth';
+import {
+  fetchSignInMethodsForEmail,
+  getAuth,
+  getUserByEmail,
+} from 'firebase/auth';
 import {
   getFirestore,
   collection,
@@ -9,10 +13,7 @@ import {
   setDoc,
   getDoc,
   addDoc,
-  deleteDoc,
-  arrayUnion,
-  updateDoc,
-  arrayRemove,
+  onSnapshot,
 } from 'firebase/firestore';
 import { Notify } from 'notiflix';
 
@@ -34,183 +35,237 @@ const app = initializeApp(firebaseConfig);
 // init service
 
 const db = getFirestore();
+const auth = getAuth();
 
-// Потрібні змінні, в яких будух читання або витягнення відповідної інформації
+// Ready exports
+// РОБЛЮ ПО НОВОМУ
 
-let id = 545611;
+// ДОДАЄ КАРТОЧКУ В БД КОРИСТУВАЧА
 
-export async function getQueueItem(name) {
-  const colsUserRef = collection(db, `${name}`);
-  let users = [];
-  let data;
+export async function createNewQueueDataItem(idObj, addObj) {
+  // id фільма, якого додаєте в БД
+  const id = idObj;
+  // newObjectForExample { ОБ'ЄКТ } фільма який додаєте в БД
+  const newObjectForExample = addObj;
 
-  await getDocs(colsUserRef)
-    .then(snapshot => {
-      snapshot.docs.forEach(user => {
-        users.push({ ...user.data() });
-      });
-      console.log(users);
-      console.log(users[0]);
-      data = users[0];
-      let { queue, watched } = data;
-      console.log(queue);
+  // Дістає мило користувача за яким шукає в БД
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
 
-      for (let i = 0; i < queue.length; i += 1) {
-        // console.log(queue[i]);
-        const objParse = JSON.parse(queue[i]);
-        const needType = objParse.id;
-        if (needType == id) {
-          // ТОДІ МАЛЮЄМО КАРТОЧКУ ТУТ
-          // console.log('Yes');
-        }
-        // Тоді нічого не малюємо
-        // console.log('no');
-      }
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-}
+      //getItemsFromList дістає всі дані, що записані у користувача
+      const queueList = getItemsFromList(userMail, 'list')
+        .then(async dataList => {
+          console.log(dataList);
 
-// Можна прибрати конст, залишити функцію, звертатись за імЯм яке потім буде обробляти інформацію
-// ЯКЩО ПОВЕРТАЄ ПРОМІС, МОЖЕ ЗВЕРНУТИСЬ ДО НЬОГО, ЯК ДО ПРОМІСА
-
-export async function getWatchedItem(name) {
-  const colsUserRef = collection(db, `${name}`);
-  let users = [];
-  let data2;
-  // type ID should be "NUMBER"
-
-  await getDocs(colsUserRef)
-    .then(snapshot => {
-      snapshot.docs.forEach(user => {
-        users.push({ ...user.data() });
-      });
-      console.log(users);
-      console.log(users[0]);
-      data2 = users[0];
-      let { queue, watched } = data2;
-      console.log(watched);
-
-      for (let i = 0; i < watched.length; i += 1) {
-        // console.log(watched[i]);
-        const objParse2 = JSON.parse(watched[i]);
-        const needType2 = objParse2.id;
-        if (needType2 == id) {
-          // ТОДІ МАЛЮЄМО КАРТОЧКУ ТУТ
-          // console.log('Yes');
-        }
-        // Тоді нічого не малюємо
-        // console.log('no');
-      }
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-}
-
-export async function getWatchedItemAll(name) {
-  const colsUserRef = collection(db, `${name}`);
-  let users = [];
-  let data2;
-  // type ID should be "NUMBER"
-
-  await getDocs(colsUserRef)
-    .then(snapshot => {
-      snapshot.docs.forEach(user => {
-        users.push({ ...user.data() });
-      });
-      console.log(users);
-      console.log(users[0]);
-      data2 = users[0];
-      let { queue, watched } = data2;
-      console.log(watched);
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-}
-
-export async function getQueueItemAll(name) {
-  const colsUserRef = collection(db, `${name}`);
-  let users = [];
-  let data2;
-  // type ID should be "NUMBER"
-
-  await getDocs(colsUserRef)
-    .then(snapshot => {
-      snapshot.docs.forEach(user => {
-        users.push({ ...user.data() });
-      });
-      console.log(users);
-      console.log(users[0]);
-      data2 = users[0];
-      let { queue, watched } = data2;
-      console.log(queue);
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-}
-
-// Create Data
-
-// const addWatchedBtn = document.querySelector('.add-watched');
-// const delWatchedBtn = document.querySelector('.del-watched');
-// const addQueueBtn = document.querySelector('.add-queue');
-// const delQueueBtn = document.querySelector('.del-queue');
-
-// addWatchedBtn.addEventListener('click', OnAddWatched(e));
-// delWatchedBtn.addEventListener('click', OnDelWatched(e));
-// addQueueBtn.addEventListener('click', OnAddQueue(e));
-// delQueueBtn.addEventListener('click', OnDelQueue(e));
-let name = 'vasya';
-
-const ObjectData = {
-  watched: [
-    {
-      adult: false,
-      backdrop_path: '/yYrvN5WFeGYjJnRzhY0QXuo4Isw.jpg',
-      id: 505642,
-    },
-    {
-      original_title: 'Devotion',
-      overview:
-        "The harrowing true story of two elite US Navy fighter pilots during the Korean War. Their heroic sacrifices would ultimately make them the Navy's most celebrated wingmen.",
-    },
-  ],
-};
-
-function OnAddWatched() {
-  const newWatchedRef = doc(db, name, 'watched');
-  const colRef = collection(db, 'vasya');
-  setDoc(newWatchedRef, ObjectData, { merge: true })
-    .then(() => {
-      // console.log(colRef.id);
-      Notify.success('Video added to your "watched" list');
-    })
-    .catch(err => Notify.failure(err.message));
-  // addDoc(colRef, {
-  //   Or u can create Ur specific object
-  // })
-}
-
-// OnAddWatched();
-
-function OnDelWatched(e) {
-  e.preventDefault();
-
-  const docRef = doc(db, name, id);
-
-  deleteDoc(docRef).then(() => {
-    Notify.info(`Video remove from "Watched" list`);
+          // Перевірка масиву чи він пустий
+          if (dataList.queue[0].id == undefined) {
+            // якщо пустий відразу додає об'єкт фільма
+            dataList.queue[0] = newObjectForExample;
+          } else {
+            // Якщо не пустий, то перебирай весь масив об'єктів, перевіряє айдішники фільма що додається
+            if (!dataList.queue.find(obj => obj.id === id)) {
+              // якщо не знаходить, то додає об'єкт фільма у масив даних
+              dataList.queue.push(newObjectForExample);
+            }
+          }
+          // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
+          return dataList;
+        })
+        .then(async newDataList => {
+          // newDataList це новий масив, який буде перезаписуватися на БД
+          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+        });
+    }
   });
 }
 
-function OnAddQueue(e) {
-  e.preventDefault();
+async function OnAddObj(userMail, data) {
+  const newQueueRef = doc(db, userMail, 'list');
+
+  const result = await setDoc(newQueueRef, data, { merge: true })
+    .then(() => {
+      Notify.success('Video added to your "watched" list');
+    })
+    .catch(err => Notify.failure(err.message));
+  return result;
 }
 
-function OnDelQueue(e) {
-  e.preventDefault();
+async function getItemsFromList(userMail, list) {
+  const docRef = doc(db, userMail, list);
+  const docSnap = await getDoc(docRef);
+  const objectsArray = { queue: [] };
+  if (docSnap.exists()) {
+    docSnap.data().queue.map(obj => {
+      objectsArray.queue.push(obj);
+    });
+    console.log(docSnap.data());
+
+    console.log(objectsArray);
+    return objectsArray;
+  }
+  return objectsArray;
 }
+
+// ДОДАЄ ФІЛЬМ В ПЕРЕГЛЯНУТИх
+
+export async function createNewWatchedDataItem(idObj, addObj) {
+  // id фільма, якого додаєте в БД
+  const id = idObj;
+  // newObjectForExample { ОБ'ЄКТ } фільма який додаєте в БД
+  const newObjectForExample = addObj;
+
+  // Дістає мило користувача за яким шукає в БД
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
+
+      //getItemsFromList дістає всі дані, що записані у користувача
+      const queueList = getWatchedItemsFromList(userMail, 'list')
+        .then(async dataList => {
+          console.log(dataList);
+
+          // Перевірка масиву чи він пустий
+          if (dataList.watched[0].id == undefined) {
+            // якщо пустий відразу додає об'єкт фільма
+            dataList.watched[0] = newObjectForExample;
+          } else {
+            // Якщо не пустий, то перебирай весь масив об'єктів, перевіряє айдішники фільма що додається
+            if (!dataList.watched.find(obj => obj.id === id)) {
+              // якщо не знаходить, то додає об'єкт фільма у масив даних
+              dataList.watched.push(newObjectForExample);
+            }
+          }
+          // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
+          return dataList;
+        })
+        .then(async newDataList => {
+          // newDataList це новий масив, який буде перезаписуватися на БД
+          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+        });
+    }
+  });
+}
+
+async function getWatchedItemsFromList(userMail, list) {
+  const docRef = doc(db, userMail, list);
+  const docSnap = await getDoc(docRef);
+  const objectsArray = { watched: [] };
+  if (docSnap.exists()) {
+    docSnap.data().watched.map(obj => {
+      objectsArray.watched.push(obj);
+    });
+    console.log(docSnap.data());
+
+    console.log(objectsArray);
+    return objectsArray;
+  }
+  return objectsArray;
+}
+
+// ВИДАЛЯЄ ФІЛЬМ З БД КОРИСТУВАЧА
+
+export async function deleteWatchedDataItem(idObj, addObj) {
+  // id фільма, якого видаляєте в БД
+  const id = idObj;
+  // newObjectForExample { ОБ'ЄКТ } фільма який видаляєте в БД
+  const newObjectForExample = addObj;
+
+  // Дістає мило користувача за яким шукає в БД
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
+
+      //getItemsFromList дістає всі дані, що записані у користувача
+      const queueList = getWatchedItemsFromList(userMail, 'list')
+        .then(async dataList => {
+          console.log(dataList);
+          // Перевірка масиву чи він пустий
+          if (!dataList.watched[0].id == undefined) {
+            // якщо знаходить, то потрібно видалити об'єкт фільма з масива даних
+            for (let i = 0; i < dataList.watched.length; i += 1) {
+              if (dataList.watched[i].id === id) {
+                dataList.watched.splice(i, 1);
+              }
+            }
+            // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
+            return dataList;
+          }
+        })
+        .then(async newDataList => {
+          // newDataList це новий масив, який буде перезаписуватися на БД
+          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+        });
+    }
+  });
+}
+
+export async function deleteWatchedDataItem(idObj, addObj) {
+  // id фільма, якого видаляєте в БД
+  const id = idObj;
+  // newObjectForExample { ОБ'ЄКТ } фільма який видаляєте в БД
+  const newObjectForExample = addObj;
+
+  // Дістає мило користувача за яким шукає в БД
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
+
+      //getItemsFromList дістає всі дані, що записані у користувача
+      const queueList = getWatchedItemsFromList(userMail, 'list')
+        .then(async dataList => {
+          console.log(dataList);
+          // Перевірка масиву чи він пустий
+          if (!dataList.queue[0].id == undefined) {
+            // якщо знаходить, то потрібно видалити об'єкт фільма з масива даних
+            for (let i = 0; i < dataList.queue.length; i += 1) {
+              if (dataList.queue[i].id === id) {
+                dataList.queue.splice(i, 1);
+              }
+            }
+            // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
+            return dataList;
+          }
+        })
+        .then(async newDataList => {
+          // newDataList це новий масив, який буде перезаписуватися на БД
+          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+        });
+    }
+  });
+}
+
+// Живу сторінку потрібно доробити, без допомоги ніяк не обійтись. Не я ж малюю)
+
+async function realDBQueueItems() {
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      // тут вже пишемо методи, які беруть або створюють дату з фаєрбейса
+
+      const userMail = user.email;
+      const colRealRef = collection(db, userMail);
+
+      onSnapshot(colRealRef, snapshot => {
+        let user = [];
+        snapshot.docs.forEach(doc => {
+          user.push({ ...doc.data() });
+        });
+        console.log(user);
+      });
+    }
+  });
+}
+
+// realDBQueueItems();
+
+// Real time collection data
+
+// const colRealRef = collection(db, userMail);
+
+// onSnapshot(colRealRef, snapshot => {
+//   let user = [];
+//   snapshot.docs.forEach(doc => {
+//     user.push({ ...doc.data() });
+//   });
+//   console.log(user);
+// });
