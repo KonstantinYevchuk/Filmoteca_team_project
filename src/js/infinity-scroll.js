@@ -20,7 +20,7 @@ export function onInfinityLoad(entries, observer) {
     if (parsed.length) {
        entries.forEach(entry => {
     if (entry.isIntersecting) {
-      console.log(parsed.slice(from, to))
+      // console.log(parsed.slice(from, to))
       createCardMarkupLibrary(parsed.slice(from, to));
       from += 3;
       to += 3;
@@ -32,6 +32,6 @@ export function onInfinityLoad(entries, observer) {
   } catch (error) {
     console.log(error)
   }
-  console.log(entries)
+  // console.log(entries)
  
 }
