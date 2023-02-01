@@ -28,7 +28,6 @@ const db = getFirestore();
 
 const auth = getAuth();
 let name;
-let currentUser;
 
 const loginForm = document.querySelector('.login-form');
 const signupForm = document.querySelector('.registration-form');
@@ -36,10 +35,6 @@ const logout = document.querySelector('.js-btn-exit');
 const logBtnContainer = document.querySelector('.js-btn-in');
 const exitBtnContainer = document.querySelector('.js-btn-exit');
 
-// const loginFormBtn = document.querySelector('#data-formBtn-login');
-// const regFormBtn = document.querySelector('#data-formBtn-reg');
-// const logForm = document.querySelector('#data-login-box');
-// const regForm = document.querySelector('#data-reg-box');
 
 
 signupForm.addEventListener('submit', e => {
@@ -60,7 +55,7 @@ signupForm.addEventListener('submit', e => {
       exitBtnContainer.hidden = false;
       signupForm.reset();
       toggleModal();
-      refs.libraryHidden.classList.replace('visually-hidden', 'nav_link');
+      refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
     })
     .catch(err => {
       // netlify wrongs
@@ -89,7 +84,7 @@ loginForm.addEventListener('submit', e => {
       logBtnContainer.hidden = true;
       exitBtnContainer.hidden = false;
       toggleModal();
-      refs.libraryHidden.classList.replace('visually-hidden', 'nav_link');
+      refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
     })
     .catch(err => {
       Notify.failure(err.message);
@@ -102,7 +97,7 @@ logout.addEventListener('click', e => {
       Notify.info(`The user logged out`);
       logBtnContainer.hidden = false;
       exitBtnContainer.hidden = true;
-      refs.libraryHidden.classList.replace('nav_link', 'visually-hidden');
+      refs.libraryHidden.classList.replace('nav__item', 'visually-hidden');
     })
     .catch(err => {
       Notify.failure(err.message);
@@ -111,16 +106,15 @@ logout.addEventListener('click', e => {
 
 export async function checkUserStatus() {
 const userStatus =  await onAuthStateChanged(auth, user => {
-    console.log(user);
     if (!user) {
       
       logBtnContainer.hidden = false;
       exitBtnContainer.hidden = true;
-      refs.libraryHidden.classList.replace('nav_link', 'visually-hidden');
+      refs.libraryHidden.classList.replace('nav__item', 'visually-hidden');
     } else{
       logBtnContainer.hidden = true;
       exitBtnContainer.hidden = false;
-      refs.libraryHidden.classList.replace('visually-hidden', 'nav_link');
+      refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
     }
   })
   
@@ -128,7 +122,6 @@ const userStatus =  await onAuthStateChanged(auth, user => {
 
 checkUserStatus();
 
-console.log(auth);
 
 
 refs.loginFormBtn.addEventListener('click', e => {
