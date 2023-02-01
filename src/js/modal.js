@@ -1,6 +1,6 @@
 import { findId } from './view-Trailer';
 import addLocalStoradge from './q-local-storadge';
-import {refs} from './refs'
+import { refs } from './refs';
 
 // import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 // import './main-markup';
@@ -56,9 +56,11 @@ async function openCard(e) {
 
       const genreList = [];
 
-      film.genre_ids.map(genre => {
-        genreList.push(localStorage.getItem(genre));
-      });
+      if (film.genre_ids) {
+        film.genre_ids.map(genre => {
+          genreList.push(localStorage.getItem(genre));
+        });
+      }
 
       refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
       refs.title.textContent = film.title;

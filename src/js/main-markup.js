@@ -1,5 +1,6 @@
 import { getPopularMoviesFetch } from './fetch-films';
 import pagination from './pagination';
+import { refs } from './refs';
 
 const galleryEl = document.querySelector('.gallery');
 const API_URL = 'https://api.themoviedb.org/3/';
@@ -19,8 +20,24 @@ function createCardMarkup(res) {
 
   const markup = res
     .map(
-      ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
-        // getMovieGenres(genre_ids);
+      ({
+        poster_path,
+        title,
+        release_date,
+        genre_ids,
+        vote_average,
+        id,
+        genres,
+      }) => {
+        if (genre_ids) {
+          genresMovie = getMovieGenres(genre_ids);
+        } else {
+          const genresArr = [];
+          for (const genre of genres) {
+            genresArr.push(genre.id);
+          }
+          genresMovie = getMovieGenres(genresArr);
+        }
 
         return `<li class="movie" data-movie-id=${id}>
         <img src="${IMAGE_BASE_URL}${poster_path}" onerror="this.src='${imageUrl}'" alt="movie poster" class="movie__poster" data-movie-id=${id} loading="lazy"/>
@@ -42,21 +59,35 @@ function createCardMarkup(res) {
   smoothScrolling();
   return markup;
 }
-function getMovieGenres(param) {
-  let genreList = [];
+function getMovieGenres(arr) {
+  const genreList = [];
 
-  param.map(key => {
-    genreList.push(localStorage.getItem(key));
-  });
+  try {
+    const data = localStorage.getItem('genres');
+    const genresArray = JSON.parse(data);
+    const filteredGenres = genresArray.filter(genre => {
+      for (const genres of arr) {
+        if (genre.id === genres) {
+          return genre.name;
+        }
+      }
+    });
 
-  if (!genreList) {
-    genresMovie = 'Other';
-  } else if (genreList.length < 4) {
-    genresMovie = genreList.join(', ');
-  } else {
-    genresMovie = genreList.slice(0, 2).join(', ').concat(', Other');
+    for (const genre of filteredGenres) {
+      genreList.push(genre.name);
+    }
+
+    if (!genreList) {
+      genresMovie = 'Other';
+    } else if (genreList.length < 4) {
+      genresMovie = genreList.join(', ');
+    } else {
+      genresMovie = genreList.slice(0, 2).join(', ').concat(', Other');
+    }
+    return genresMovie;
+  } catch (error) {
+    console.log(error);
   }
-  return genresMovie;
 }
 
 async function createPopularMoviesMarkup() {
@@ -73,17 +104,14 @@ async function createPopularMoviesMarkup() {
 async function getMoviesGenres() {
   try {
     const response = await fetch(
-      `${API_URL}/genre/movie/list?api_key=${API_KEY}`
+      `${refs.API_URL}/genre/movie/list?api_key=${refs.API_KEY}`
     );
     if (!response.ok) {
       throw new Error(response.statusText);
     }
     const resp = await response.json();
-    // console.log(resp);
-    await resp.genres.forEach(item => {
-      localStorage.setItem(item.id, item.name);
-    });
-    return resp;
+    localStorage.setItem('genres', JSON.stringify(resp.genres));
+    return resp.genres;
   } catch (err) {
     console.log(err);
   }
@@ -100,5 +128,10 @@ function smoothScrolling() {
   });
 }
 
-export { createPopularMoviesMarkup, createCardMarkup, getMoviesGenres };
+export {
+  createPopularMoviesMarkup,
+  createCardMarkup,
+  getMovieGenres,
+  getMoviesGenres,
+};
 export { IMAGE_BASE_URL, API_KEY, API_URL };
