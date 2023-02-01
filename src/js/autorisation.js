@@ -36,8 +36,11 @@ refs.signupForm.addEventListener('submit', e => {
   const email = refs.signupForm.mail.value;
   const password = refs.signupForm.password.value;
 
-  const ObjectDataName = {
-    name: `${name}`,
+   const ObjectDataQueue = {
+    queue: [],
+  };
+   const ObjectDataWatched = {
+    watched: [],
   };
 
   createUserWithEmailAndPassword(auth, email, password)
@@ -56,10 +59,16 @@ refs.signupForm.addEventListener('submit', e => {
     });
 
   // СТВОРИТИ в БД по НЕЙМ БАЗУ ДАННИх, яка буде слідкувати за списками
-  const newUserRef = doc(db, email, 'username');
-  setDoc(newUserRef, ObjectDataName, { merge: true }).catch(err =>
+  const newQueueRef = doc(db, email, 'queue');
+  setDoc(newQueueRef, ObjectDataQueue, { merge: true }).catch(err =>
     Notify.failure(err.message)
   );
+
+  const newWatchedRef = doc(db, email, 'watched');
+  setDoc(newWatchedRef, ObjectDataWatched, { merge: true }).catch(err =>
+    Notify.failure(err.message)
+  );
+ 
   // addDoc(colRef, {
   //   Or u can create Ur specific object
   // })
