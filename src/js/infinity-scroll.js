@@ -1,27 +1,28 @@
 import { createCardMarkup, createCardMarkupLibrary } from './main-markup';
 
 let from = 0;
-let to = 10;
+let to = 3;
 
 const data = localStorage.getItem('watched');
 const parsed = JSON.parse(data);
+// console.log(parsed);
 
 const options = {
   root: null,
-  rootMargin: '300px',
+  rootMargin: '200px',
   threshold: 1.0,
 };
 
 export const observer = new IntersectionObserver(onInfinityLoad, options);
 
 export function onInfinityLoad(entries, observer) {
-  console.log(entries);
+  // console.log(entries);
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      from += 4;
-      to += 4;
-      console.log(parsed.slice(from, to));
+      // console.log(parsed.slice(from, to));
       createCardMarkupLibrary(parsed.slice(from, to));
+      from += 3;
+      to += 3;
     }
   });
 }
