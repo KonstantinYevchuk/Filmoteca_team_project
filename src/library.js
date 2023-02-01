@@ -1,6 +1,7 @@
 // import './js/firebase';
 import './js/theme-btn';
 import './js/loader';
+import './js/my-data-base';
 // import './js/modal';
 // import './js/pagination';
 

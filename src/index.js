@@ -3,7 +3,7 @@ createPopularMoviesMarkup();
 import './js/theme-btn';
 import './js/loader';
 import './js/input';
-// import './js/modal-markup';
+import './js/my-data-base';
 
 import './js/fetch-trailer';
 import './js/view-Trailer';
