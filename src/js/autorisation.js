@@ -1,4 +1,5 @@
 import { refs } from './refs';
+import { toggleModal } from './modal-registration';
 import { initializeApp } from 'firebase/app';
 import { Notify } from 'notiflix';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
@@ -43,7 +44,6 @@ const exitBtnContainer = document.querySelector('.js-btn-exit');
 
 signupForm.addEventListener('submit', e => {
   e.preventDefault();
-
   name = signupForm.user_name.value;
   const email = signupForm.mail.value;
   const password = signupForm.password.value;
@@ -59,6 +59,7 @@ signupForm.addEventListener('submit', e => {
       logBtnContainer.hidden = true;
       exitBtnContainer.hidden = false;
       signupForm.reset();
+      toggleModal();
     })
     .catch(err => {
       // netlify wrongs
@@ -86,6 +87,7 @@ loginForm.addEventListener('submit', e => {
       Notify.success(`user: ${name} logged in`);
       logBtnContainer.hidden = true;
       exitBtnContainer.hidden = false;
+      toggleModal();
     })
     .catch(err => {
       Notify.failure(err.message);
