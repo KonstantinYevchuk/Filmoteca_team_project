@@ -27,6 +27,7 @@ export const refs = {
   regFormBtn: document.querySelector('#data-formBtn-reg'),
   logForm: document.querySelector('#data-login-box'),
   regForm: document.querySelector('#data-reg-box'),
+  libraryHidden: document.querySelector('.library_hidden'),
   //====--input.js--======//
   searchForm: document.querySelector('.search-form'),
   searchInput: document.querySelector('.inputsearch'),
