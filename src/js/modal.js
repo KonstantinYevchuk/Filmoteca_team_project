@@ -1,41 +1,15 @@
-import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
-
 import { findId } from './view-Trailer';
-
 import addLocalStoradge from './q-local-storadge';
+import {refs} from './refs'
 
+// import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 // import './main-markup';
-import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
-
+// import { createPopularMoviesMarkup, createCardMarkup } from './main-markup';
 // createPopularMoviesMarkup();
 
-const API_URL = 'https://api.themoviedb.org/3/';
-const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
-
-const refs = {
-  closeModalBtn: document.querySelector('[data-modal-close]'),
-  modal: document.querySelector('[data-modal]'),
-  body: document.querySelector('body'),
-  title: document.querySelector('.table__title'),
-  voteAverage: document.querySelector('.table__value--orange'),
-  voteCount: document.querySelector('.table__value--grey'),
-  popularity: document.querySelector('.js-film-popularity'),
-  originalTitle: document.querySelector('.js-film-original-title'),
-  genre: document.querySelector('.js-film-genre'),
-  about: document.querySelector('.js-film-about'),
-  modalImg: document.querySelector('.modal__img'),
-  galleryUl: document.querySelector('.js-gallery'),
-};
-
-let res = null;
+let dataFilms = null;
 
 refs.galleryUl.addEventListener('click', openCard);
-
-async function request() {
-  const data = await getPopularMoviesFetch();
-  res = data.results;
-}
-
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal() {
@@ -66,45 +40,44 @@ async function openCard(e) {
     return;
   }
 
-  try {
-    const response = await fetch(
-      `${API_URL}movie/${+e.target.dataset.movieId}?api_key=${API_KEY}`
-    );
-    if (!response.ok) {
-      throw new Error(response.statusText);
+  if (refs.getWatchedBtn) {
+    if (refs.getWatchedBtn.classList.contains('library_btn--current')) {
+      dataFilms = JSON.parse(localStorage.getItem('watched'));
+    } else if (refs.getQueueBtn.classList.contains('library_btn--current')) {
+      dataFilms = JSON.parse(localStorage.getItem('queue'));
     }
+  } else {
+    dataFilms = JSON.parse(localStorage.getItem('currentData')).results;
+  }
 
-    const film = await response.json();
-    console.log(film);
+  for (const film of dataFilms) {
+    if (film.id === +e.target.dataset.movieId) {
+      findId(film.id);
 
-    findId(film.id);
+      const genreList = [];
 
-    const genreList = [];
+      film.genre_ids.map(genre => {
+        genreList.push(localStorage.getItem(genre));
+      });
 
-    console.log(film.genres);
+      refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
+      refs.title.textContent = film.title;
+      refs.voteAverage.textContent = film.vote_average.toFixed(1);
+      refs.voteCount.textContent = film.vote_count;
+      refs.popularity.textContent = film.popularity.toFixed(1);
+      refs.originalTitle.textContent = film.original_title;
+      refs.genre.textContent = genreList.join(', ');
+      refs.about.textContent = film.overview;
 
-    film.genres.map(({ id }) => {
-      genreList.push(localStorage.getItem(id));
-    });
-
-    refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
-    refs.title.textContent = film.title;
-    refs.voteAverage.textContent = film.vote_average.toFixed(1);
-    refs.voteCount.textContent = film.vote_count;
-    refs.popularity.textContent = film.popularity.toFixed(1);
-    refs.originalTitle.textContent = film.original_title;
-    refs.genre.textContent = genreList.join(', ');
-    refs.about.textContent = film.overview;
-
-    openModal();
-    addLocalStoradge(film);
-  } catch (error) {
-    console.log(error);
+      openModal();
+      addLocalStoradge(film);
+      break;
+    }
   }
 }
 
 // Обрезание длинного текста и добавление "читать далее"
-function cutLongText() {
+export function cutLongText() {
   const refs = {
     modalText: document.querySelector('.modal__text'),
     modalBtnClose: document.querySelector('.modal__btn-close'),
@@ -141,4 +114,3 @@ function cutLongText() {
     }
   }
 }
-export {request, openCard, cutLongText};
