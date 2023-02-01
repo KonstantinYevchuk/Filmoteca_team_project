@@ -1,10 +1,9 @@
 import { createCardMarkup, createCardMarkupLibrary } from './main-markup';
+import {galleryUl} from './watch-local-storadge'
+const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 
 let from = 0;
 let to = 3;
-
-const data = localStorage.getItem('watched');
-const parsed = JSON.parse(data);
 
 const options = {
   root: null,
@@ -15,11 +14,24 @@ const options = {
 export const observer = new IntersectionObserver(onInfinityLoad, options);
 
 export function onInfinityLoad(entries, observer) {
-  entries.forEach(entry => {
+  try {
+    const data = localStorage.getItem('watched');
+    const parsed = JSON.parse(data);
+    if (parsed.length) {
+       entries.forEach(entry => {
     if (entry.isIntersecting) {
+      console.log(parsed.slice(from, to))
       createCardMarkupLibrary(parsed.slice(from, to));
       from += 3;
       to += 3;
     }
   });
+    } else {
+      galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  console.log(entries)
+ 
 }

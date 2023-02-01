@@ -9,7 +9,7 @@ import { infinityScroll, observer } from './infinity-scroll';
 // import pagination from './pagination';
 // import { getUpcomingMovies } from './fetch-films';
 const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
-const galleryUl = document.querySelector('.js-gallery');
+export const galleryUl = document.querySelector('.js-gallery');
 
 if (refs.getWatchedBtn || refs.getQueueBtn) {
   refs.getWatchedBtn.addEventListener('click', onGetWatched);
