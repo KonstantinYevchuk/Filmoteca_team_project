@@ -37,11 +37,11 @@ const exitBtnContainer = document.querySelector('.js-btn-exit');
 
 
 
-signupForm.addEventListener('submit', e => {
+refs.signupForm.addEventListener('submit', e => {
   e.preventDefault();
-  name = signupForm.user_name.value;
-  const email = signupForm.mail.value;
-  const password = signupForm.password.value;
+  name = refs.signupForm.user_name.value;
+  const email = refs.signupForm.mail.value;
+  const password = refs.signupForm.password.value;
 
   const ObjectDataName = {
     name: `${name}`,
@@ -51,9 +51,9 @@ signupForm.addEventListener('submit', e => {
     .then(cred => {
       // Бажано сюди впихнути НЕТЛІФАЙ
       Notify.success(`The user: ${name} has been created`);
-      logBtnContainer.hidden = true;
-      exitBtnContainer.hidden = false;
-      signupForm.reset();
+      refs.logBtnContainer.hidden = true;
+      refs.exitBtnContainer.hidden = false;
+      refs.signupForm.reset();
       toggleModal();
       refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
     })
@@ -72,17 +72,17 @@ signupForm.addEventListener('submit', e => {
   // })
 });
 
-loginForm.addEventListener('submit', e => {
+refs.loginForm.addEventListener('submit', e => {
   e.preventDefault();
-  name = loginForm.login.value;
-  const email = loginForm.mail.value;
-  const password = loginForm.password.value;
+  name = refs.loginForm.login.value;
+  const email = refs.loginForm.mail.value;
+  const password = refs.loginForm.password.value;
 
   signInWithEmailAndPassword(auth, email, password)
     .then(cred => {
       Notify.success(`user: ${name} logged in`);
-      logBtnContainer.hidden = true;
-      exitBtnContainer.hidden = false;
+      refs.logBtnContainer.hidden = true;
+      refs.exitBtnContainer.hidden = false;
       toggleModal();
       refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
     })
@@ -91,12 +91,12 @@ loginForm.addEventListener('submit', e => {
     });
 });
 
-logout.addEventListener('click', e => {
+refs.logout.addEventListener('click', e => {
   signOut(auth)
     .then(() => {
       Notify.info(`The user logged out`);
-      logBtnContainer.hidden = false;
-      exitBtnContainer.hidden = true;
+      refs.logBtnContainer.hidden = false;
+      refs.exitBtnContainer.hidden = true;
       refs.libraryHidden.classList.replace('nav__item', 'visually-hidden');
     })
     .catch(err => {
@@ -108,12 +108,12 @@ export async function checkUserStatus() {
 const userStatus =  await onAuthStateChanged(auth, user => {
     if (!user) {
       
-      logBtnContainer.hidden = false;
-      exitBtnContainer.hidden = true;
+      refs.logBtnContainer.hidden = false;
+      refs.exitBtnContainer.hidden = true;
       refs.libraryHidden.classList.replace('nav__item', 'visually-hidden');
     } else{
-      logBtnContainer.hidden = true;
-      exitBtnContainer.hidden = false;
+      refs.logBtnContainer.hidden = true;
+      refs.exitBtnContainer.hidden = false;
       refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
     }
   })
