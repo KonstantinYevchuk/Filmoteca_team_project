@@ -16,8 +16,9 @@
 .theme-dark,
 .theme-dark .modal__item,
 .theme-dark .table__value--grey,
-.theme-dark .modal-window {
+.theme-dark .modal-window .modal__icon {
     background-color: var(--dark-bgr-color);
+    transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .theme-dark .footer,
