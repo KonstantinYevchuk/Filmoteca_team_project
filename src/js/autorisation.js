@@ -60,6 +60,7 @@ signupForm.addEventListener('submit', e => {
       exitBtnContainer.hidden = false;
       signupForm.reset();
       toggleModal();
+      refs.libraryHidden.classList.replace('visually-hidden', 'nav_link');
     })
     .catch(err => {
       // netlify wrongs
@@ -88,6 +89,7 @@ loginForm.addEventListener('submit', e => {
       logBtnContainer.hidden = true;
       exitBtnContainer.hidden = false;
       toggleModal();
+      refs.libraryHidden.classList.replace('visually-hidden', 'nav_link');
     })
     .catch(err => {
       Notify.failure(err.message);
@@ -100,6 +102,7 @@ logout.addEventListener('click', e => {
       Notify.info(`The user logged out`);
       logBtnContainer.hidden = false;
       exitBtnContainer.hidden = true;
+      refs.libraryHidden.classList.replace('nav_link', 'visually-hidden');
     })
     .catch(err => {
       Notify.failure(err.message);
@@ -113,9 +116,11 @@ const userStatus =  await onAuthStateChanged(auth, user => {
       
       logBtnContainer.hidden = false;
       exitBtnContainer.hidden = true;
+      refs.libraryHidden.classList.replace('nav_link', 'visually-hidden');
     } else{
       logBtnContainer.hidden = true;
       exitBtnContainer.hidden = false;
+      refs.libraryHidden.classList.replace('visually-hidden', 'nav_link');
     }
   })
   
