@@ -35,14 +35,10 @@ function createLibraryMarkup(key) {
   try {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
-    // console.log(parsed);
-
-    infinityScroll(parsed);
 
     if (!parsed.length) {
       galleryUl.innerHTML = `<li><h1>EMPTY LIBRARY</h1></li>`;
     } else {
-      // createCardMarkup(parsed.slice(0, 4));
       observer.observe(refs.guard);
       // localStorage.setItem('currentData', parsed);
       // galleryUl.innerHTML = `<li><h1>FULL</h1></li>`;

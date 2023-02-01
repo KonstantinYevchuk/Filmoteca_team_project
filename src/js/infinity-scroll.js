@@ -1,16 +1,10 @@
 import { createCardMarkup, createCardMarkupLibrary } from './main-markup';
 
-export function infinityScroll(key) {
-  let from = 0;
-  let to = 4;
-  // console.log(key.slice(from, to));
-}
 let from = 0;
 let to = 10;
 
 const data = localStorage.getItem('watched');
 const parsed = JSON.parse(data);
-// console.log(parsed);
 
 const options = {
   root: null,
@@ -19,8 +13,6 @@ const options = {
 };
 
 export const observer = new IntersectionObserver(onInfinityLoad, options);
-
-// createCardMarkup(parsed.slice(0, 4));
 
 export function onInfinityLoad(entries, observer) {
   console.log(entries);
