@@ -5,7 +5,6 @@ let to = 3;
 
 const data = localStorage.getItem('watched');
 const parsed = JSON.parse(data);
-// console.log(parsed);
 
 const options = {
   root: null,
