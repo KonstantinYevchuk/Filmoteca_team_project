@@ -24,12 +24,12 @@ const refs = {
   genre: document.querySelector('.js-film-genre'),
   about: document.querySelector('.js-film-about'),
   modalImg: document.querySelector('.modal__img'),
-  galleryUl: document.querySelector('.js-gallery'),
+  galleryEl: document.querySelector('.js-gallery'),
 };
 
 let res = null;
 
-refs.galleryUl.addEventListener('click', openCard);
+refs.galleryEl.addEventListener('click', openCard);
 
 async function request() {
   const data = await getPopularMoviesFetch();
@@ -75,14 +75,13 @@ async function openCard(e) {
     }
 
     const film = await response.json();
-    console.log(film);
 
     findId(film.id);
-
-    const genreList = [];
-
-    console.log(film.genres);
-
+    let genreList = [];
+    let genresModalList = '';
+    for (const iterator of film.genres) {
+      genresModalList += ' | ' + iterator.name + ' | ';
+    }
     film.genres.map(({ id }) => {
       genreList.push(localStorage.getItem(id));
     });
@@ -93,7 +92,7 @@ async function openCard(e) {
     refs.voteCount.textContent = film.vote_count;
     refs.popularity.textContent = film.popularity.toFixed(1);
     refs.originalTitle.textContent = film.original_title;
-    refs.genre.textContent = genreList.join(', ');
+    refs.genre.textContent = genresModalList;
     refs.about.textContent = film.overview;
 
     openModal();
@@ -141,4 +140,4 @@ function cutLongText() {
     }
   }
 }
-export {request, openCard, cutLongText};
+export { request, openCard, cutLongText };
