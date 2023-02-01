@@ -44,6 +44,37 @@ function createCardMarkup(res) {
   smoothScrolling();
   return markup;
 }
+
+function createCardMarkupLibrary(res) {
+  // console.log(res)
+
+  const markup = res
+    .map(
+      ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
+        getMovieGenres(genre_ids);
+        const releaseDate =
+          release_date === undefined ? 'no date' : release_date.slice(0, 4);
+
+        return `<li class="movie" data-movie-id=${id}>
+        <img src="${IMAGE_BASE_URL}${poster_path}" onerror="this.src='${imageUrl}'" alt="movie poster" class="movie__poster" data-movie-id=${id} loading="lazy"/>
+        <div class="movie__description">
+        <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
+        <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${
+          ' | ' + releaseDate
+        }</p>
+        <p class="movie__rate" data-movie-id="${id}">${vote_average.toFixed(
+          1
+        )}</p>
+        </div>
+        </li>`;
+      }
+    )
+    .join('');
+
+  galleryEl.insertAdjacentHTML('beforeend', markup);
+  return markup;
+}
+
 function getMovieGenres(param) {
   let genreList = [];
 
@@ -103,5 +134,10 @@ function smoothScrolling() {
   });
 }
 
-export { createPopularMoviesMarkup, createCardMarkup, getMoviesGenres };
+export {
+  createPopularMoviesMarkup,
+  createCardMarkup,
+  getMoviesGenres,
+  createCardMarkupLibrary,
+};
 export { IMAGE_BASE_URL, API_KEY, API_URL };

@@ -1,4 +1,4 @@
-import { createCardMarkup } from './main-markup';
+import { createCardMarkup, createCardMarkupLibrary } from './main-markup';
 
 export function infinityScroll(key) {
   let from = 0;
@@ -14,7 +14,7 @@ const parsed = JSON.parse(data);
 
 const options = {
   root: null,
-  rootMargin: '150px',
+  rootMargin: '300px',
   threshold: 1.0,
 };
 
@@ -29,7 +29,7 @@ export function onInfinityLoad(entries, observer) {
       from += 4;
       to += 4;
       console.log(parsed.slice(from, to));
-      createCardMarkup(parsed.slice(from, to));
+      createCardMarkupLibrary(parsed.slice(from, to));
     }
   });
 }
