@@ -1,6 +1,6 @@
 import { findId } from './view-Trailer';
 import addLocalStoradge from './q-local-storadge';
-import {refs} from './refs'
+import { refs } from './refs';
 
 // import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 // import './main-markup';
@@ -8,23 +8,31 @@ import {refs} from './refs'
 // createPopularMoviesMarkup();
 
 let dataFilms = null;
+const scrollController = {
+  disablesScroll() {
+    document.body.style.overflow = 'hidden';
+  },
+  enabledScroll() {
+    document.body.style.overflow = 'scroll';
+  },
+};
 
 refs.galleryUl.addEventListener('click', openCard);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal() {
   refs.modal.classList.remove('is-hidden');
-
   refs.body.addEventListener('keydown', closeModalOnEsc);
   refs.modal.addEventListener('click', closeModalOnBackdrop);
+  scrollController.disablesScroll();
 }
 
 function closeModal() {
   refs.modal.classList.add('is-hidden');
-
   refs.body.removeEventListener('keydown', closeModalOnEsc);
   refs.modal.removeEventListener('click', closeModalOnBackdrop);
   refs.modalImg.src = '';
+  scrollController.enabledScroll();
 }
 
 function closeModalOnEsc(e) {
@@ -35,7 +43,7 @@ function closeModalOnBackdrop(e) {
   if (e.target.classList.value === 'backdrop') closeModal();
 }
 
-async function openCard(e) {
+function openCard(e) {
   if (!e.target.dataset.movieId) {
     return;
   }

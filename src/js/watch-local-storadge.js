@@ -8,7 +8,7 @@ import { infinityScroll, observer } from './infinity-scroll';
 // import { getCards } from './modal';
 // import pagination from './pagination';
 // import { getUpcomingMovies } from './fetch-films';
-
+const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 const galleryUl = document.querySelector('.js-gallery');
 
 if (refs.getWatchedBtn || refs.getQueueBtn) {
@@ -37,7 +37,7 @@ function createLibraryMarkup(key) {
     const parsed = JSON.parse(data);
 
     if (!parsed.length) {
-      galleryUl.innerHTML = `<li><h1>EMPTY LIBRARY</h1></li>`;
+      galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
     } else {
       observer.observe(refs.guard);
       // localStorage.setItem('currentData', parsed);

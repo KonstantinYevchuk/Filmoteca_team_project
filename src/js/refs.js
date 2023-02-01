@@ -41,7 +41,7 @@ export const refs = {
   changeThemeBtn: document.querySelector('.switch-checkbox'),
   bodyTheme: document.querySelector('body'),
   //===---to-the-top.js--===//
-  mybutton: document.getElementById('myBtn'),
+  buttonTop: document.getElementById('btnTop'),
   //===---registration.js--===//
   openBtnRegistration: document.querySelector('[data-modal-reg-open]'),
   closeBtnRegistration: document.querySelector('[data-modal-reg-close]'),
