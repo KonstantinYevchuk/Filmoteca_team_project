@@ -16,10 +16,8 @@ const options = {
 export const observer = new IntersectionObserver(onInfinityLoad, options);
 
 export function onInfinityLoad(entries, observer) {
-  // console.log(entries);
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      // console.log(parsed.slice(from, to));
       createCardMarkupLibrary(parsed.slice(from, to));
       from += 3;
       to += 3;
