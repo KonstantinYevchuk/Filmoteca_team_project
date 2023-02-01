@@ -21,13 +21,15 @@ function createCardMarkup(res) {
     .map(
       ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
         getMovieGenres(genre_ids);
+        const releaseDate =
+          release_date === undefined ? 'no date' : release_date.slice(0, 4);
 
         return `<li class="movie" data-movie-id=${id}>
         <img src="${IMAGE_BASE_URL}${poster_path}" onerror="this.src='${imageUrl}'" alt="movie poster" class="movie__poster" data-movie-id=${id} loading="lazy"/>
         <div class="movie__description">
         <h2 class="movie__title" data-movie-id=${id}>${title}</h2>
         <p class="movie__subtitle" data-movie-id=${id}>${genresMovie}${
-          ' | ' + release_date.slice(0, 4)
+          ' | ' + releaseDate
         }</p>
         <p class="movie__rate" data-movie-id="${id}">${vote_average.toFixed(
           1
@@ -91,8 +93,9 @@ async function getMoviesGenres() {
 getMoviesGenres();
 
 function smoothScrolling() {
-  const { height: cardHeight } =
-    galleryEl.firstElementChild.getBoundingClientRect();
+  const {
+    height: cardHeight,
+  } = galleryEl.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
     top: cardHeight * -200,

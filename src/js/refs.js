@@ -1,7 +1,8 @@
 export const refs = {
-   API_URL: 'https://api.themoviedb.org/3/',
-   API_KEY: '158819e65eb0fbf8513ba7b934c25216',
-    //=====--modal.js--======//
+  API_URL: 'https://api.themoviedb.org/3/',
+  API_KEY: '158819e65eb0fbf8513ba7b934c25216',
+  //=====--modal.js--======//
+  guard: document.querySelector('.js-guard'),
   closeModalBtn: document.querySelector('[data-modal-close]'),
   modal: document.querySelector('[data-modal]'),
   body: document.querySelector('body'),
@@ -40,7 +41,7 @@ export const refs = {
   changeThemeBtn: document.querySelector('.switch-checkbox'),
   bodyTheme: document.querySelector('body'),
   //===---to-the-top.js--===//
-  mybutton: document.getElementById("myBtn"),
+  mybutton: document.getElementById('myBtn'),
   //===---registration.js--===//
   openBtnRegistration: document.querySelector('[data-modal-reg-open]'),
   closeBtnRegistration: document.querySelector('[data-modal-reg-close]'),

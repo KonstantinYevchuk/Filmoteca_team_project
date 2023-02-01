@@ -3,6 +3,7 @@ import { refs } from './refs';
 import addLocalStorage from './q-local-storadge';
 import { createCardMarkup } from './main-markup';
 import { openCard } from './modal';
+import { infinityScroll, observer } from './infinity-scroll';
 
 // import { getCards } from './modal';
 // import pagination from './pagination';
@@ -17,28 +18,32 @@ if (refs.getWatchedBtn || refs.getQueueBtn) {
 
 createLibraryMarkup('watched');
 
-console.log('hello');
+// console.log('hello');
 function onGetWatched() {
   createLibraryMarkup('watched');
   btnActive(refs.getWatchedBtn);
-  btnRemoveClass(refs.getQueueBtn)
+  btnRemoveClass(refs.getQueueBtn);
 }
 
 function onGetQueue() {
   createLibraryMarkup('queue');
   btnActive(refs.getQueueBtn);
-  btnRemoveClass(refs.getWatchedBtn)
+  btnRemoveClass(refs.getWatchedBtn);
 }
 
 function createLibraryMarkup(key) {
   try {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
-    console.log(parsed);
+    // console.log(parsed);
+
+    infinityScroll(parsed);
+
     if (!parsed.length) {
       galleryUl.innerHTML = `<li><h1>EMPTY LIBRARY</h1></li>`;
     } else {
-      createCardMarkup(parsed);
+      // createCardMarkup(parsed.slice(0, 4));
+      observer.observe(refs.guard);
       // localStorage.setItem('currentData', parsed);
       // galleryUl.innerHTML = `<li><h1>FULL</h1></li>`;
     }
@@ -68,12 +73,12 @@ function createLibraryMarkup(key) {
 // }
 
 function btnActive(btn) {
-  if(btn.classList.contains("library_btn--current")) {
-    return
+  if (btn.classList.contains('library_btn--current')) {
+    return;
   } else {
-    btn.classList.add("library_btn--current");
+    btn.classList.add('library_btn--current');
   }
 }
 function btnRemoveClass(btn) {
-  btn.classList.remove("library_btn--current");
+  btn.classList.remove('library_btn--current');
 }
