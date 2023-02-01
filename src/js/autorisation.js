@@ -29,13 +29,6 @@ const db = getFirestore();
 const auth = getAuth();
 let name;
 
-const loginForm = document.querySelector('.login-form');
-const signupForm = document.querySelector('.registration-form');
-const logout = document.querySelector('.js-btn-exit');
-const logBtnContainer = document.querySelector('.js-btn-in');
-const exitBtnContainer = document.querySelector('.js-btn-exit');
-
-
 
 refs.signupForm.addEventListener('submit', e => {
   e.preventDefault();
