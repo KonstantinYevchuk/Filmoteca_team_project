@@ -54,7 +54,7 @@ export async function createNewQueueDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getItemsFromList(userMail, 'queue')
+      const queueList = getItemsFromQueueList(userMail, 'queue')
         .then(async dataList => {
           console.log(dataList);
 
@@ -73,8 +73,13 @@ export async function createNewQueueDataItem(idObj, addObj) {
           return dataList;
         })
         .then(async newDataList => {
+          console.log(newDataList);
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList,'queue');
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'queue'
+          );
         });
     } else {
       Notify.info('You need to log in');
@@ -82,10 +87,11 @@ export async function createNewQueueDataItem(idObj, addObj) {
   });
 }
 
-async function OnAddObj(userMail, data,list) {
+async function OnAddObj(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
-
-  const result = await setDoc(newQueueRef, data, { merge: true })
+  const data2 = data;
+  console.log(data2);
+  const result = await setDoc(newQueueRef, data2, { merge: true })
     .then(() => {
       Notify.success('Video added to your "watched" list');
     })
@@ -93,21 +99,21 @@ async function OnAddObj(userMail, data,list) {
   return result;
 }
 
-async function getItemsFromList(userMail, list) {
-  const docRef = doc(db, userMail, list);
-  const docSnap = await getDoc(docRef);
-  const objectsArray = { queue: [] };
-  if (docSnap.exists()) {
-    docSnap.data().queue.map(obj => {
-      objectsArray.queue.push(obj);
-    });
-    // console.log(docSnap.data());
+// async function getItemsFromList(userMail, list) {
+//   const docRef = doc(db, userMail, list);
+//   const docSnap = await getDoc(docRef);
+//   const objectsArray = { queue: [] };
+//   if (docSnap.exists()) {
+//     docSnap.data().queue.map(obj => {
+//       objectsArray.queue.push(obj);
+//     });
+//     // console.log(docSnap.data());
 
-    // console.log(objectsArray);
-    return objectsArray;
-  }
-  return objectsArray;
-}
+//     // console.log(objectsArray);
+//     return objectsArray;
+//   }
+//   return objectsArray;
+// }
 
 // ДОДАЄ ФІЛЬМ В ПЕРЕГЛЯНУТИх
 
@@ -123,10 +129,10 @@ export async function createNewWatchedDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getWatchedItemsFromList(userMail, 'watched')
+      const queueList = getItemsFromWatchedList(userMail, 'watched')
         .then(async dataList => {
           console.log(dataList);
-          console.log(dataList.watched[0]);
+
           // Перевірка масиву чи він пустий
           if (dataList.watched[0] == undefined) {
             // якщо пустий відразу додає об'єкт фільма
@@ -142,8 +148,13 @@ export async function createNewWatchedDataItem(idObj, addObj) {
           return dataList;
         })
         .then(async newDataList => {
+          console.log(newDataList);
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList,'watched');
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'watched'
+          );
         });
     } else {
       Notify.info('You need to log in');
@@ -151,18 +162,38 @@ export async function createNewWatchedDataItem(idObj, addObj) {
   });
 }
 
-async function getWatchedItemsFromList(userMail, list) {
+async function getItemsFromQueueList(userMail, list) {
+  const docRef = doc(db, userMail, list);
+  const docSnap = await getDoc(docRef);
+  const objectsArray = { queue: [] };
+  if (docSnap.exists()) {
+    // console.log(docSnap.data());
+    if (docSnap.data().queue === undefined) {
+      return objectsArray;
+    } else {
+      docSnap.data().queue.map(obj => {
+        objectsArray.queue.push(obj);
+      });
+      return objectsArray;
+    }
+  }
+  return objectsArray;
+}
+
+async function getItemsFromWatchedList(userMail, list) {
   const docRef = doc(db, userMail, list);
   const docSnap = await getDoc(docRef);
   const objectsArray = { watched: [] };
   if (docSnap.exists()) {
-    docSnap.data().watched.map(obj => {
-      objectsArray.watched.push(obj);
-    });
-    console.log(docSnap.data());
-
-    console.log(objectsArray);
-    return objectsArray;
+    // console.log(docSnap.data());
+    if (docSnap.data().watched === undefined) {
+      return objectsArray;
+    } else {
+      docSnap.data().watched.map(obj => {
+        objectsArray.watched.push(obj);
+      });
+      return objectsArray;
+    }
   }
   return objectsArray;
 }
@@ -181,25 +212,32 @@ export async function deleteWatchedDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getWatchedItemsFromList(userMail, 'watched')
+      const queueList = getItemsFromWatchedList(userMail, 'watched')
         .then(async dataList => {
+          // console.log(dataList);
           // Перевірка масиву чи він пустий
           if (dataList.watched[0] == undefined) {
             // якщо знаходить, то потрібно видалити об'єкт фільма з масива даних
             // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
             return dataList;
           } else {
-             for (let i = 0; i < dataList.watched.length; i += 1) {
+            for (let i = 0; i < dataList.watched.length; i += 1) {
               if (dataList.watched[i].id === id) {
                 dataList.watched.splice(i, 1);
+                // console.log(dataList);
                 return dataList;
               }
             }
           }
         })
         .then(async newDataList => {
+          // console.log(newDataList);
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList,'watched');
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'watched'
+          );
         });
     } else {
       Notify.info('You need to log in');
@@ -209,7 +247,7 @@ export async function deleteWatchedDataItem(idObj, addObj) {
 
 export async function deleteQueueDataItem(idObj, addObj) {
   // id фільма, якого видаляєте в БД
- const id = idObj;
+  const id = idObj;
   // newObjectForExample { ОБ'ЄКТ } фільма який видаляєте в БД
   const newObjectForExample = addObj;
 
@@ -219,7 +257,7 @@ export async function deleteQueueDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getWatchedItemsFromList(userMail, 'queue')
+      const queueList = getItemsFromQueueList(userMail, 'queue')
         .then(async dataList => {
           // Перевірка масиву чи він пустий
           if (dataList.queue[0] == undefined) {
@@ -227,7 +265,7 @@ export async function deleteQueueDataItem(idObj, addObj) {
             // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
             return dataList;
           } else {
-             for (let i = 0; i < dataList.queue.length; i += 1) {
+            for (let i = 0; i < dataList.queue.length; i += 1) {
               if (dataList.queue[i].id === id) {
                 dataList.queue.splice(i, 1);
                 return dataList;
@@ -237,7 +275,11 @@ export async function deleteQueueDataItem(idObj, addObj) {
         })
         .then(async newDataList => {
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList,'queue');
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'queue'
+          );
         });
     } else {
       Notify.info('You need to log in');
@@ -247,24 +289,24 @@ export async function deleteQueueDataItem(idObj, addObj) {
 
 // Живу сторінку потрібно доробити, без допомоги ніяк не обійтись. Не я ж малюю)
 
-async function realDBQueueItems() {
-  const userData = getAuth().onAuthStateChanged(user => {
-    if (user) {
-      // тут вже пишемо методи, які беруть або створюють дату з фаєрбейса
+// async function realDBQueueItems() {
+//   const userData = getAuth().onAuthStateChanged(user => {
+//     if (user) {
+//       // тут вже пишемо методи, які беруть або створюють дату з фаєрбейса
 
-      const userMail = user.email;
-      const colRealRef = collection(db, userMail);
+//       const userMail = user.email;
+//       const colRealRef = collection(db, userMail);
 
-      onSnapshot(colRealRef, snapshot => {
-        let user = [];
-        snapshot.docs.forEach(doc => {
-          user.push({ ...doc.data() });
-        });
-        console.log(user);
-      });
-    }
-  });
-}
+//       onSnapshot(colRealRef, snapshot => {
+//         let user = [];
+//         snapshot.docs.forEach(doc => {
+//           user.push({ ...doc.data() });
+//         });
+//         console.log(user);
+//       });
+//     }
+//   });
+// }
 
 // realDBQueueItems();
 
@@ -280,42 +322,37 @@ async function realDBQueueItems() {
 //   console.log(user);
 // });
 
-// export async function checkItemInWatchedList(id) {
-//   const docRef = doc(db, userMail, 'watched');
-//   const docSnap = await getDoc(docRef);
- 
-//   if (docSnap.exists()) {
-//       if (docSnap.data().watched.find(film => film.id === id)) {
-//       return true;
-//       } else {
-//         return false;
-//       }
-//   }
-// };
+export async function checker(idItem, watchBtn, queueBtn) {
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
 
-// let checker = false;
-// export async function checkItemInQueueList(id) {
+      const docRealRef = collection(db, userMail);
 
-//   const userData = getAuth().onAuthStateChanged(user => {
-//     if (user) {
-//       const userMail = user.email;
+      onSnapshot(docRealRef, snapshot => {
+        let user = [];
 
-//       //getItemsFromList дістає всі дані, що записані у користувача
-//       const queueList = getWatchedItemsFromList(userMail, 'queue')
-//         .then(async dataList => {
-//           if (dataList.watched.find(film => film.id === id)) {
-//             checker = true;
-//             return checker;
-//           }
-//         })
-//         .then(check => { return check });
-//       console.log('queueList', queueList);
-//       console.log('checker',checker);
+        snapshot.docs.forEach(doc => {
+          user.push({ ...doc.data() });
+        });
 
-//     }
-//   })
+        let [queue, watched] = user;
+        if (queue.queue.find(film => film.id === idItem)) {
+          queueBtn.classList.add('button__accent');
+          queueBtn.textContent = 'Remove from queue';
+        } else {
+          queueBtn.textContent = 'Add to queue';
+          queueBtn.classList.remove('button__accent');
+        }
 
-// };
-
-
-
+        if (watched.watched.find(film => film.id === idItem)) {
+          watchBtn.classList.add('button__accent');
+          watchBtn.textContent = 'Remove from watched';
+        } else {
+          watchBtn.textContent = 'Add to watched';
+          watchBtn.classList.remove('button__accent');
+        }
+      });
+    }
+  });
+}
