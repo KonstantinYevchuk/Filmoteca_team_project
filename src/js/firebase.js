@@ -158,7 +158,7 @@ async function getItemsFromQueueList(userMail, list) {
 async function getItemsFromWatchedList(userMail, list) {
   const docRef = doc(db, userMail, list);
   const docSnap = await getDoc(docRef);
-  const objectsArray = { watched: [] };
+  const objectsArray = { "watched": [] };
   if (docSnap.exists()) {
     // console.log(docSnap.data());
     if (docSnap.data().watched === undefined) {
