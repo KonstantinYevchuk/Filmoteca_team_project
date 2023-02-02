@@ -26,7 +26,7 @@ async function onGetWatched() {
   btnRemoveClass(refs.getQueueBtn);
 }
 
-function onGetQueue() {
+async function onGetQueue() {
   // createLibraryMarkup('queue'); //local
   markUpQueue(); //dataBase
   btnActive(refs.getQueueBtn);
