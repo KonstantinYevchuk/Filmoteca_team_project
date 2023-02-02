@@ -140,7 +140,7 @@ export async function createNewWatchedDataItem(idObj, addObj) {
 async function getItemsFromQueueList(userMail, list) {
   const docRef = doc(db, userMail, list);
   const docSnap = await getDoc(docRef);
-  const objectsArray = { queue: [] };
+  const objectsArray = { "queue": [] };
   if (docSnap.exists()) {
     // console.log(docSnap.data());
     if (docSnap.data().queue === undefined) {
