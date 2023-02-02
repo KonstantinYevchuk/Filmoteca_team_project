@@ -16,6 +16,9 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { Notify } from 'notiflix';
+import { createCardMarkup } from './main-markup';
+import { refs } from './refs';
+const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -56,8 +59,6 @@ export async function createNewQueueDataItem(idObj, addObj) {
       //getItemsFromList дістає всі дані, що записані у користувача
       const queueList = getItemsFromQueueList(userMail, 'queue')
         .then(async dataList => {
-          console.log(dataList);
-
           // Перевірка масиву чи він пустий
           if (dataList.queue[0] == undefined) {
             // якщо пустий відразу додає об'єкт фільма
@@ -73,7 +74,6 @@ export async function createNewQueueDataItem(idObj, addObj) {
           return dataList;
         })
         .then(async newDataList => {
-          console.log(newDataList);
           // newDataList це новий масив, який буде перезаписуватися на БД
           const mergeNewQueueData = await OnAddObj(
             userMail,
@@ -83,6 +83,7 @@ export async function createNewQueueDataItem(idObj, addObj) {
         });
     } else {
       Notify.info('You need to log in');
+      s;
     }
   });
 }
@@ -90,7 +91,6 @@ export async function createNewQueueDataItem(idObj, addObj) {
 async function OnAddObj(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
   const data2 = data;
-  console.log(data2);
   const result = await setDoc(newQueueRef, data2, { merge: true })
     .then(() => {
       Notify.success('Video added to your "watched" list');
@@ -356,8 +356,7 @@ export async function checker(idItem, watchBtn, queueBtn) {
     }
   });
 }
-
-async function markUpWatched(idItem, watchBtn, queueBtn) {
+export async function markUpWatched() {
   const userData = getAuth().onAuthStateChanged(user => {
     if (user) {
       const userMail = user.email;
@@ -372,12 +371,24 @@ async function markUpWatched(idItem, watchBtn, queueBtn) {
         });
 
         let [queue, watched] = user;
+        // console.log(watched.watched);
+
+        try {
+          if (!watched.watched.length) {
+            refs.galleryEl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
+          } else {
+            createCardMarkup(watched.watched);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        localStorage.setItem('watched', JSON.stringify(watched.watched));
       });
     }
   });
 }
 
-async function markUpQueue(idItem, watchBtn, queueBtn) {
+export async function markUpQueue() {
   const userData = getAuth().onAuthStateChanged(user => {
     if (user) {
       const userMail = user.email;
@@ -392,6 +403,19 @@ async function markUpQueue(idItem, watchBtn, queueBtn) {
         });
 
         let [queue, watched] = user;
+        // console.log('queue', queue.queue);
+        createCardMarkup(queue.queue);
+
+        try {
+          if (!queue.queue.length) {
+            refs.galleryEl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
+          } else {
+            createCardMarkup(queue.queue);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        localStorage.setItem('queue', JSON.stringify(queue.queue));
       });
     }
   });

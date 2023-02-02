@@ -18,7 +18,7 @@ const scrollController = {
   },
 };
 
-refs.galleryUl.addEventListener('click', openCard);
+refs.galleryEl.addEventListener('click', openCard);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal() {

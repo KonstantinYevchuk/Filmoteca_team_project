@@ -88,7 +88,6 @@ export default function addDataBase(movieData) {
   function addQueue() {
     if (movieData) {
       const checkBtn = queueBtn.textContent;
-      console.log(checkBtn);
       if (checkBtn == 'Add to queue') {
         createNewQueueDataItem(movieData.id, movieData);
       }
