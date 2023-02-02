@@ -88,7 +88,7 @@ export async function createNewQueueDataItem(idObj, addObj) {
 async function OnAddObjQueue(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
   if (data.queue === undefined) {
-    const objectsArray = { 'queue': [] };
+    const objectsArray = { queue: [] };
     await setDoc(newQueueRef, objectsArray, { merge: true })
       .then(() => {})
       .catch(err => Notify.failure(err.message));
@@ -101,7 +101,7 @@ async function OnAddObjQueue(userMail, data, list) {
 async function OnAddObjWatched(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
   if (data.watched === undefined) {
-    const objectsArray = { 'watched': [] };
+    const objectsArray = { watched: [] };
     await setDoc(newQueueRef, objectsArray, { merge: true })
       .then(() => {})
       .catch(err => Notify.failure(err.message));
