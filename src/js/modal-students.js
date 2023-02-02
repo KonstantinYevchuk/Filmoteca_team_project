@@ -28,7 +28,7 @@ function onClick() {
 
   backdrop.addEventListener('click', modalClick);
   function modalClick(evt) {
-    console.log(evt.target);
+    // console.log(evt.target);
     if (evt.target !== backdrop) {
       return;
     } else {

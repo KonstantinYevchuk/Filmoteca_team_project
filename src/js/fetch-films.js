@@ -43,7 +43,7 @@ async function getSearchMoviesFetch(query, page) {
       throw new Error(response.statusText);
     }
     const searchMovies = await response.json();
-    console.log(searchMovies);
+    // console.log(searchMovies);
     localStorage.setItem('currentData', JSON.stringify(searchMovies));
     return searchMovies;
   } catch (error) {
