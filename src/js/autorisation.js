@@ -29,17 +29,16 @@ const db = getFirestore();
 const auth = getAuth();
 let name;
 
-
 refs.signupForm.addEventListener('submit', e => {
   e.preventDefault();
   name = refs.signupForm.user_name.value;
   const email = refs.signupForm.mail.value;
   const password = refs.signupForm.password.value;
 
-   const ObjectDataQueue = {
+  const ObjectDataQueue = {
     queue: [],
   };
-   const ObjectDataWatched = {
+  const ObjectDataWatched = {
     watched: [],
   };
 
@@ -68,7 +67,7 @@ refs.signupForm.addEventListener('submit', e => {
   setDoc(newWatchedRef, ObjectDataWatched, { merge: true }).catch(err =>
     Notify.failure(err.message)
   );
- 
+
   // addDoc(colRef, {
   //   Or u can create Ur specific object
   // })
@@ -107,24 +106,24 @@ refs.logout.addEventListener('click', e => {
 });
 
 export async function checkUserStatus() {
-const userStatus =  await onAuthStateChanged(auth, user => {
+  const userStatus = await onAuthStateChanged(auth, user => {
     if (!user) {
-      
       refs.logBtnContainer.hidden = false;
       refs.exitBtnContainer.hidden = true;
       refs.libraryHidden.classList.replace('nav__item', 'visually-hidden');
-    } else{
+      refs.watchBtn.hidden = true;
+      refs.queueBtn.hidden = true;
+    } else {
       refs.logBtnContainer.hidden = true;
       refs.exitBtnContainer.hidden = false;
       refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
+      refs.watchBtn.hidden = false;
+      refs.queueBtn.hidden = false;
     }
-  })
-  
+  });
 }
 
 checkUserStatus();
-
-
 
 refs.loginFormBtn.addEventListener('click', e => {
   refs.logForm.classList.add('current');

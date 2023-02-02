@@ -3,11 +3,11 @@ import { refs } from './refs';
 import addLocalStorage from './q-local-storadge';
 import { createCardMarkup } from './main-markup';
 import { openCard } from './modal';
-import { markUpWatched, markUpQueue, markupData } from './firebase';
+import { markUpWatched, markUpQueue } from './firebase';
 
 // import { getCards } from './modal';
 // import pagination from './pagination';
-const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
+// const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 // const galleryEl = document.querySelector('.js-gallery');
 
 if (refs.getWatchedBtn || refs.getQueueBtn) {
