@@ -81,18 +81,16 @@ export async function createNewQueueDataItem(idObj, addObj) {
         });
     } else {
       Notify.info('You need to log in');
-      s;
     }
   });
 }
 
 async function OnAddObj(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
-  const data2 = data;
-  const result = await setDoc(newQueueRef, data2, { merge: true })
+
+  await setDoc(newQueueRef, data, { merge: true })
     .then(() => {})
     .catch(err => Notify.failure(err.message));
-  return result;
 }
 
 // ДОДАЄ ФІЛЬМ В ПЕРЕГЛЯНУТИх
