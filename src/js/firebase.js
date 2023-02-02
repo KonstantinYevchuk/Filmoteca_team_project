@@ -8,11 +8,9 @@ import {
 import {
   getFirestore,
   collection,
-  getDocs,
   doc,
   setDoc,
   getDoc,
-  addDoc,
   onSnapshot,
 } from 'firebase/firestore';
 import { Notify } from 'notiflix';
@@ -92,28 +90,10 @@ async function OnAddObj(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
   const data2 = data;
   const result = await setDoc(newQueueRef, data2, { merge: true })
-    .then(() => {
-      Notify.success('Video added to your "watched" list');
-    })
+    .then(() => {})
     .catch(err => Notify.failure(err.message));
   return result;
 }
-
-// async function getItemsFromList(userMail, list) {
-//   const docRef = doc(db, userMail, list);
-//   const docSnap = await getDoc(docRef);
-//   const objectsArray = { queue: [] };
-//   if (docSnap.exists()) {
-//     docSnap.data().queue.map(obj => {
-//       objectsArray.queue.push(obj);
-//     });
-//     // console.log(docSnap.data());
-
-//     // console.log(objectsArray);
-//     return objectsArray;
-//   }
-//   return objectsArray;
-// }
 
 // ДОДАЄ ФІЛЬМ В ПЕРЕГЛЯНУТИх
 
@@ -131,8 +111,6 @@ export async function createNewWatchedDataItem(idObj, addObj) {
       //getItemsFromList дістає всі дані, що записані у користувача
       const queueList = getItemsFromWatchedList(userMail, 'watched')
         .then(async dataList => {
-          console.log(dataList);
-
           // Перевірка масиву чи він пустий
           if (dataList.watched[0] == undefined) {
             // якщо пустий відразу додає об'єкт фільма
@@ -148,7 +126,6 @@ export async function createNewWatchedDataItem(idObj, addObj) {
           return dataList;
         })
         .then(async newDataList => {
-          console.log(newDataList);
           // newDataList це новий масив, який буде перезаписуватися на БД
           const mergeNewQueueData = await OnAddObj(
             userMail,
@@ -286,41 +263,6 @@ export async function deleteQueueDataItem(idObj, addObj) {
     }
   });
 }
-
-// Живу сторінку потрібно доробити, без допомоги ніяк не обійтись. Не я ж малюю)
-
-// async function realDBQueueItems() {
-//   const userData = getAuth().onAuthStateChanged(user => {
-//     if (user) {
-//       // тут вже пишемо методи, які беруть або створюють дату з фаєрбейса
-
-//       const userMail = user.email;
-//       const colRealRef = collection(db, userMail);
-
-//       onSnapshot(colRealRef, snapshot => {
-//         let user = [];
-//         snapshot.docs.forEach(doc => {
-//           user.push({ ...doc.data() });
-//         });
-//         console.log(user);
-//       });
-//     }
-//   });
-// }
-
-// realDBQueueItems();
-
-// Real time collection data
-
-// const colRealRef = collection(db, userMail);
-
-// onSnapshot(colRealRef, snapshot => {
-//   let user = [];
-//   snapshot.docs.forEach(doc => {
-//     user.push({ ...doc.data() });
-//   });
-//   console.log(user);
-// });
 
 export async function checker(idItem, watchBtn, queueBtn) {
   const userData = getAuth().onAuthStateChanged(user => {
