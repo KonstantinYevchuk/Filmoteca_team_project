@@ -35,7 +35,7 @@ function createLibraryMarkup(key) {
   try {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
-
+    // console.log(parsed.length);
     if (!parsed.length) {
       galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
     } else {
