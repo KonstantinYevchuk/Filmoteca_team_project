@@ -7,34 +7,33 @@ import { markUpWatched, markUpQueue, markupData } from './firebase';
 
 // import { getCards } from './modal';
 // import pagination from './pagination';
-// import { getUpcomingMovies } from './fetch-films';
 const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
-const galleryEl = document.querySelector('.js-gallery');
+// const galleryEl = document.querySelector('.js-gallery');
 
 if (refs.getWatchedBtn || refs.getQueueBtn) {
   refs.getWatchedBtn.addEventListener('click', onGetWatched);
   refs.getQueueBtn.addEventListener('click', onGetQueue);
 }
 
-// createLibraryMarkup('watched');
-markUpWatched();
+// createLibraryMarkup('watched'); // local
+markUpWatched(); // dataBase
 
-console.log('hello');
 async function onGetWatched() {
-  // createLibraryMarkup('watched');
+  // createLibraryMarkup('watched'); // local
 
-  markUpWatched();
+  markUpWatched(); //dataBase
   btnActive(refs.getWatchedBtn);
   btnRemoveClass(refs.getQueueBtn);
 }
 
 function onGetQueue() {
-  // createLibraryMarkup('queue');
-  markUpQueue();
+  // createLibraryMarkup('queue'); //local
+  markUpQueue(); //dataBase
   btnActive(refs.getQueueBtn);
   btnRemoveClass(refs.getWatchedBtn);
 }
 
+//================== data from localStorage===========
 // function createLibraryMarkup(key) {
 //   try {
 //     const data = localStorage.getItem(key);
@@ -44,47 +43,10 @@ function onGetQueue() {
 //       galleryEl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
 //     } else {
 //       createCardMarkup(parsed);
-//       // galleryEl.innerHTML = `<li><h1>FULL</h1></li>`;
 //     }
 //   } catch (error) {
 //     console.log(error);
 //   }
-// }
-
-// function createLibraryMarkup(key) {
-//   try {
-//     const data = localStorage.getItem(key);
-//     const parsed = JSON.parse(data);
-//     console.log(parsed);
-//     if (!parsed.length) {
-//       galleryEl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
-//     } else {
-//       createCardMarkup(parsed);
-//       // galleryEl.innerHTML = `<li><h1>FULL</h1></li>`;
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// function getCollectionMoviesLocal(key) {
-//   try {
-//     const localJson = localStorage.getItem(key);
-//     const data = JSON.parse(localJson);
-//     console.log(data);
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-// function createCollectionMoviesMarkup(key) {
-//   const data = getCollectionMoviesLocal(key);
-//   // console.log(data);
-//   // const movies = data.results;
-//   // console.log(movies);
-//   createCardMarkup(data);
-//   // galleryEl.innerHTML = markup;
-//   localStorage.setItem('currentData', data);
 // }
 
 function btnActive(btn) {
