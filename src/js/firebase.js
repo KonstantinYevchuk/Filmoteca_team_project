@@ -8,14 +8,15 @@ import {
 import {
   getFirestore,
   collection,
-  getDocs,
   doc,
   setDoc,
   getDoc,
-  addDoc,
   onSnapshot,
 } from 'firebase/firestore';
 import { Notify } from 'notiflix';
+import { createCardMarkup } from './main-markup';
+import { refs } from './refs';
+const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -54,12 +55,10 @@ export async function createNewQueueDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getItemsFromList(userMail, 'list')
+      const queueList = getItemsFromQueueList(userMail, 'queue')
         .then(async dataList => {
-          console.log(dataList);
-
           // Перевірка масиву чи він пустий
-          if (dataList.queue[0].id == undefined) {
+          if (dataList.queue[0] == undefined) {
             // якщо пустий відразу додає об'єкт фільма
             dataList.queue[0] = newObjectForExample;
           } else {
@@ -74,37 +73,24 @@ export async function createNewQueueDataItem(idObj, addObj) {
         })
         .then(async newDataList => {
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'queue'
+          );
         });
+    } else {
+      Notify.info('You need to log in');
     }
   });
 }
 
-async function OnAddObj(userMail, data) {
-  const newQueueRef = doc(db, userMail, 'list');
+async function OnAddObj(userMail, data, list) {
+  const newQueueRef = doc(db, userMail, list);
 
-  const result = await setDoc(newQueueRef, data, { merge: true })
-    .then(() => {
-      Notify.success('Video added to your "watched" list');
-    })
+  await setDoc(newQueueRef, data, { merge: true })
+    .then(() => {})
     .catch(err => Notify.failure(err.message));
-  return result;
-}
-
-async function getItemsFromList(userMail, list) {
-  const docRef = doc(db, userMail, list);
-  const docSnap = await getDoc(docRef);
-  const objectsArray = { queue: [] };
-  if (docSnap.exists()) {
-    docSnap.data().queue.map(obj => {
-      objectsArray.queue.push(obj);
-    });
-    console.log(docSnap.data());
-
-    console.log(objectsArray);
-    return objectsArray;
-  }
-  return objectsArray;
 }
 
 // ДОДАЄ ФІЛЬМ В ПЕРЕГЛЯНУТИх
@@ -121,12 +107,10 @@ export async function createNewWatchedDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getWatchedItemsFromList(userMail, 'list')
+      const queueList = getItemsFromWatchedList(userMail, 'watched')
         .then(async dataList => {
-          console.log(dataList);
-
           // Перевірка масиву чи він пустий
-          if (dataList.watched[0].id == undefined) {
+          if (dataList.watched[0] == undefined) {
             // якщо пустий відразу додає об'єкт фільма
             dataList.watched[0] = newObjectForExample;
           } else {
@@ -141,24 +125,50 @@ export async function createNewWatchedDataItem(idObj, addObj) {
         })
         .then(async newDataList => {
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'watched'
+          );
         });
+    } else {
+      Notify.info('You need to log in');
     }
   });
 }
 
-async function getWatchedItemsFromList(userMail, list) {
+async function getItemsFromQueueList(userMail, list) {
+  const docRef = doc(db, userMail, list);
+  const docSnap = await getDoc(docRef);
+  const objectsArray = { queue: [] };
+  if (docSnap.exists()) {
+    // console.log(docSnap.data());
+    if (docSnap.data().queue === undefined) {
+      return objectsArray;
+    } else {
+      docSnap.data().queue.map(obj => {
+        objectsArray.queue.push(obj);
+      });
+      return objectsArray;
+    }
+  }
+  return objectsArray;
+}
+
+async function getItemsFromWatchedList(userMail, list) {
   const docRef = doc(db, userMail, list);
   const docSnap = await getDoc(docRef);
   const objectsArray = { watched: [] };
   if (docSnap.exists()) {
-    docSnap.data().watched.map(obj => {
-      objectsArray.watched.push(obj);
-    });
-    console.log(docSnap.data());
-
-    console.log(objectsArray);
-    return objectsArray;
+    // console.log(docSnap.data());
+    if (docSnap.data().watched === undefined) {
+      return objectsArray;
+    } else {
+      docSnap.data().watched.map(obj => {
+        objectsArray.watched.push(obj);
+      });
+      return objectsArray;
+    }
   }
   return objectsArray;
 }
@@ -177,30 +187,40 @@ export async function deleteWatchedDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getWatchedItemsFromList(userMail, 'list')
+      const queueList = getItemsFromWatchedList(userMail, 'watched')
         .then(async dataList => {
-          console.log(dataList);
+          // console.log(dataList);
           // Перевірка масиву чи він пустий
-          if (!dataList.watched[0].id == undefined) {
+          if (dataList.watched[0] == undefined) {
             // якщо знаходить, то потрібно видалити об'єкт фільма з масива даних
+            // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
+            return dataList;
+          } else {
             for (let i = 0; i < dataList.watched.length; i += 1) {
               if (dataList.watched[i].id === id) {
                 dataList.watched.splice(i, 1);
+                // console.log(dataList);
+                return dataList;
               }
             }
-            // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
-            return dataList;
           }
         })
         .then(async newDataList => {
+          // console.log(newDataList);
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'watched'
+          );
         });
+    } else {
+      Notify.info('You need to log in');
     }
   });
 }
 
-export async function deleteWatchedDataItem(idObj, addObj) {
+export async function deleteQueueDataItem(idObj, addObj) {
   // id фільма, якого видаляєте в БД
   const id = idObj;
   // newObjectForExample { ОБ'ЄКТ } фільма який видаляєте в БД
@@ -212,60 +232,131 @@ export async function deleteWatchedDataItem(idObj, addObj) {
       const userMail = user.email;
 
       //getItemsFromList дістає всі дані, що записані у користувача
-      const queueList = getWatchedItemsFromList(userMail, 'list')
+      const queueList = getItemsFromQueueList(userMail, 'queue')
         .then(async dataList => {
-          console.log(dataList);
           // Перевірка масиву чи він пустий
-          if (!dataList.queue[0].id == undefined) {
+          if (dataList.queue[0] == undefined) {
             // якщо знаходить, то потрібно видалити об'єкт фільма з масива даних
+            // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
+            return dataList;
+          } else {
             for (let i = 0; i < dataList.queue.length; i += 1) {
               if (dataList.queue[i].id === id) {
                 dataList.queue.splice(i, 1);
+                return dataList;
               }
             }
-            // Це проміс, тому потрібно повернути щось конкретне для слідуючого зена
-            return dataList;
           }
         })
         .then(async newDataList => {
           // newDataList це новий масив, який буде перезаписуватися на БД
-          const mergeNewQueueData = await OnAddObj(userMail, newDataList);
+          const mergeNewQueueData = await OnAddObj(
+            userMail,
+            newDataList,
+            'queue'
+          );
         });
+    } else {
+      Notify.info('You need to log in');
     }
   });
 }
 
-// Живу сторінку потрібно доробити, без допомоги ніяк не обійтись. Не я ж малюю)
-
-async function realDBQueueItems() {
+export async function checker(idItem, watchBtn, queueBtn) {
   const userData = getAuth().onAuthStateChanged(user => {
     if (user) {
-      // тут вже пишемо методи, які беруть або створюють дату з фаєрбейса
-
       const userMail = user.email;
-      const colRealRef = collection(db, userMail);
 
-      onSnapshot(colRealRef, snapshot => {
+      const docRealRef = collection(db, userMail);
+
+      onSnapshot(docRealRef, snapshot => {
         let user = [];
+
         snapshot.docs.forEach(doc => {
           user.push({ ...doc.data() });
         });
-        console.log(user);
+
+        let [queue, watched] = user;
+        if (queue.queue.find(film => film.id === idItem)) {
+          queueBtn.classList.add('button__accent');
+          queueBtn.textContent = 'Remove from queue';
+        } else {
+          queueBtn.textContent = 'Add to queue';
+          queueBtn.classList.remove('button__accent');
+        }
+
+        if (watched.watched.find(film => film.id === idItem)) {
+          watchBtn.classList.add('button__accent');
+          watchBtn.textContent = 'Remove from watched';
+        } else {
+          watchBtn.textContent = 'Add to watched';
+          watchBtn.classList.remove('button__accent');
+        }
+      });
+    }
+  });
+}
+export async function markUpWatched() {
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
+
+      const docRealRef = collection(db, userMail);
+
+      onSnapshot(docRealRef, snapshot => {
+        let user = [];
+
+        snapshot.docs.forEach(doc => {
+          user.push({ ...doc.data() });
+        });
+
+        let [queue, watched] = user;
+        // console.log(watched.watched);
+
+        try {
+          if (!watched.watched.length) {
+            refs.galleryEl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
+          } else {
+            createCardMarkup(watched.watched);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        localStorage.setItem('watched', JSON.stringify(watched.watched));
       });
     }
   });
 }
 
-// realDBQueueItems();
+export async function markUpQueue() {
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
 
-// Real time collection data
+      const docRealRef = collection(db, userMail);
 
-// const colRealRef = collection(db, userMail);
+      onSnapshot(docRealRef, snapshot => {
+        let user = [];
 
-// onSnapshot(colRealRef, snapshot => {
-//   let user = [];
-//   snapshot.docs.forEach(doc => {
-//     user.push({ ...doc.data() });
-//   });
-//   console.log(user);
-// });
+        snapshot.docs.forEach(doc => {
+          user.push({ ...doc.data() });
+        });
+
+        let [queue, watched] = user;
+        // console.log('queue', queue.queue);
+        createCardMarkup(queue.queue);
+
+        try {
+          if (!queue.queue.length) {
+            refs.galleryEl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
+          } else {
+            createCardMarkup(queue.queue);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        localStorage.setItem('queue', JSON.stringify(queue.queue));
+      });
+    }
+  });
+}

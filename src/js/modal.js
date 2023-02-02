@@ -1,6 +1,7 @@
 import { findId } from './view-Trailer';
 import addLocalStoradge from './q-local-storadge';
 import { refs } from './refs';
+import addDataBase from './my-data-base';
 
 // import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 // import './main-markup';
@@ -17,7 +18,7 @@ const scrollController = {
   },
 };
 
-refs.galleryUl.addEventListener('click', openCard);
+refs.galleryEl.addEventListener('click', openCard);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal() {
@@ -78,7 +79,8 @@ function openCard(e) {
       refs.about.textContent = film.overview;
 
       openModal();
-      addLocalStoradge(film);
+      addDataBase(film);
+      // addLocalStoradge(film);
       break;
     }
   }

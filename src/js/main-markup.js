@@ -41,7 +41,9 @@ function createCardMarkup(res) {
     .join('');
 
   galleryEl.innerHTML = markup;
-  smoothScrolling();
+  if (res.length) {
+    smoothScrolling();
+  }
   return markup;
 }
 function getMovieGenres(param) {
@@ -93,9 +95,8 @@ async function getMoviesGenres() {
 getMoviesGenres();
 
 function smoothScrolling() {
-  const {
-    height: cardHeight,
-  } = galleryEl.firstElementChild.getBoundingClientRect();
+  const { height: cardHeight } =
+    galleryEl.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
     top: cardHeight * -200,

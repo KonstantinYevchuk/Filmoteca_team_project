@@ -1,7 +1,7 @@
 export const refs = {
-   API_URL: 'https://api.themoviedb.org/3/',
-   API_KEY: '158819e65eb0fbf8513ba7b934c25216',
-    //=====--modal.js--======//
+  API_URL: 'https://api.themoviedb.org/3/',
+  API_KEY: '158819e65eb0fbf8513ba7b934c25216',
+  //=====--modal.js--======//
   closeModalBtn: document.querySelector('[data-modal-close]'),
   modal: document.querySelector('[data-modal]'),
   body: document.querySelector('body'),
@@ -13,7 +13,7 @@ export const refs = {
   genre: document.querySelector('.js-film-genre'),
   about: document.querySelector('.js-film-about'),
   modalImg: document.querySelector('.modal__img'),
-  galleryUl: document.querySelector('.js-gallery'),
+  galleryEl: document.querySelector('.js-gallery'),
   //=====--textCut---======//
   modalText: document.querySelector('.modal__text'),
   modalBtnClose: document.querySelector('.modal__btn-close'),

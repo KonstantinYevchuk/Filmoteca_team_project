@@ -29,15 +29,17 @@ const db = getFirestore();
 const auth = getAuth();
 let name;
 
-
 refs.signupForm.addEventListener('submit', e => {
   e.preventDefault();
   name = refs.signupForm.user_name.value;
   const email = refs.signupForm.mail.value;
   const password = refs.signupForm.password.value;
 
-  const ObjectDataName = {
-    name: `${name}`,
+  const ObjectDataQueue = {
+    queue: [],
+  };
+  const ObjectDataWatched = {
+    watched: [],
   };
 
   createUserWithEmailAndPassword(auth, email, password)
@@ -56,10 +58,16 @@ refs.signupForm.addEventListener('submit', e => {
     });
 
   // СТВОРИТИ в БД по НЕЙМ БАЗУ ДАННИх, яка буде слідкувати за списками
-  const newUserRef = doc(db, email, 'username');
-  setDoc(newUserRef, ObjectDataName, { merge: true }).catch(err =>
+  const newQueueRef = doc(db, email, 'queue');
+  setDoc(newQueueRef, ObjectDataQueue, { merge: true }).catch(err =>
     Notify.failure(err.message)
   );
+
+  const newWatchedRef = doc(db, email, 'watched');
+  setDoc(newWatchedRef, ObjectDataWatched, { merge: true }).catch(err =>
+    Notify.failure(err.message)
+  );
+
   // addDoc(colRef, {
   //   Or u can create Ur specific object
   // })
@@ -98,24 +106,24 @@ refs.logout.addEventListener('click', e => {
 });
 
 export async function checkUserStatus() {
-const userStatus =  await onAuthStateChanged(auth, user => {
+  const userStatus = await onAuthStateChanged(auth, user => {
     if (!user) {
-      
       refs.logBtnContainer.hidden = false;
       refs.exitBtnContainer.hidden = true;
       refs.libraryHidden.classList.replace('nav__item', 'visually-hidden');
-    } else{
+      refs.watchBtn.hidden = true;
+      refs.queueBtn.hidden = true;
+    } else {
       refs.logBtnContainer.hidden = true;
       refs.exitBtnContainer.hidden = false;
       refs.libraryHidden.classList.replace('visually-hidden', 'nav__item');
+      refs.watchBtn.hidden = false;
+      refs.queueBtn.hidden = false;
     }
-  })
-  
+  });
 }
 
 checkUserStatus();
-
-
 
 refs.loginFormBtn.addEventListener('click', e => {
   refs.logForm.classList.add('current');
