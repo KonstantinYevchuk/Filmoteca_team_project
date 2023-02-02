@@ -75,7 +75,7 @@ function handlrePagination(evt) {
           Notiflix.Notify.failure('Data error1');
         });
       return;
-    } else if (!localStorage.getItem('watched') === null) {
+    } else if (!!localStorage.getItem('watched') || !!localStorage.getItem('queue')) {
       getUpcomingMovies((globalCurrentPage -= 1))
         .then(data => {
           createCardMarkup(data.results);
@@ -108,7 +108,7 @@ function handlrePagination(evt) {
           Notiflix.Notify.failure('Data error1');
         });
       return;
-    } else if (!localStorage.getItem('watched') === null) {
+    } else if (!!localStorage.getItem('watched') || !!localStorage.getItem('queue')) {
       getUpcomingMovies((globalCurrentPage += 1))
         .then(data => {
           createCardMarkup(data.results);
@@ -142,7 +142,7 @@ function handlrePagination(evt) {
         Notiflix.Notify.failure('Data error1');
       });
     return;
-  } else if (!localStorage.getItem('watched') === null) {
+  } else if (!!localStorage.getItem('watched') || !!localStorage.getItem('queue')) {
     getUpcomingMovies(page)
       .then(data => {
         createCardMarkup(data.results);
