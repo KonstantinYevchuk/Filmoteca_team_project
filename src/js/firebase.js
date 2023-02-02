@@ -356,3 +356,43 @@ export async function checker(idItem, watchBtn, queueBtn) {
     }
   });
 }
+
+async function markUpWatched(idItem, watchBtn, queueBtn) {
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
+
+      const docRealRef = collection(db, userMail);
+
+      onSnapshot(docRealRef, snapshot => {
+        let user = [];
+
+        snapshot.docs.forEach(doc => {
+          user.push({ ...doc.data() });
+        });
+
+        let [queue, watched] = user;
+      });
+    }
+  });
+}
+
+async function markUpQueue(idItem, watchBtn, queueBtn) {
+  const userData = getAuth().onAuthStateChanged(user => {
+    if (user) {
+      const userMail = user.email;
+
+      const docRealRef = collection(db, userMail);
+
+      onSnapshot(docRealRef, snapshot => {
+        let user = [];
+
+        snapshot.docs.forEach(doc => {
+          user.push({ ...doc.data() });
+        });
+
+        let [queue, watched] = user;
+      });
+    }
+  });
+}
