@@ -72,6 +72,7 @@ function createCardMarkupLibrary(res) {
     .join('');
 
   galleryEl.insertAdjacentHTML('beforeend', markup);
+  // galleryEl.innerHTML = markup;
   return markup;
 }
 

@@ -3,7 +3,7 @@ import { refs } from './refs';
 import addLocalStorage from './q-local-storadge';
 import { createCardMarkup } from './main-markup';
 import { openCard } from './modal';
-import { infinityScroll, observer } from './infinity-scroll';
+import { observer, observer1, boo } from './infinity-scroll';
 
 // import { getCards } from './modal';
 // import pagination from './pagination';
@@ -31,11 +31,12 @@ function onGetQueue() {
   btnRemoveClass(refs.getWatchedBtn);
 }
 
-function createLibraryMarkup(key) {
+export function createLibraryMarkup(key) {
   try {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
-    // console.log(parsed.length);
+    console.log(parsed);
+    boo(parsed);
     if (!parsed.length) {
       galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
     } else {
