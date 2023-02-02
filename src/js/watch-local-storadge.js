@@ -1,9 +1,9 @@
 import { Notify } from 'notiflix';
 import { refs } from './refs';
 import addLocalStorage from './q-local-storadge';
-import { createCardMarkup } from './main-markup';
+import { createCardMarkup, createCardMarkupLibrary } from './main-markup';
 import { openCard } from './modal';
-import { observer, observer1, boo } from './infinity-scroll';
+import { observer, observer1 } from './infinity-scroll';
 
 // import { getCards } from './modal';
 // import pagination from './pagination';
@@ -36,11 +36,11 @@ export function createLibraryMarkup(key) {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
     console.log(parsed);
-    boo(parsed);
-    if (!parsed.length) {
+    if (parsed === null) {
       galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
     } else {
       observer.observe(refs.guard);
+      createCardMarkupLibrary(parsed.slice(0, 3));
       // localStorage.setItem('currentData', parsed);
       // galleryUl.innerHTML = `<li><h1>FULL</h1></li>`;
     }
