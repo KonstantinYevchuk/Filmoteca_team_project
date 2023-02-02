@@ -87,11 +87,11 @@ export async function createNewQueueDataItem(idObj, addObj) {
 
 async function OnAddObjQueue(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
-  if(!data.queue.length) {
-    const objectsArray = { queue: [] };
+  if (data.queue === undefined) {
+    const objectsArray = { 'queue': [] };
     await setDoc(newQueueRef, objectsArray, { merge: true })
-    .then(() => {})
-    .catch(err => Notify.failure(err.message));
+      .then(() => {})
+      .catch(err => Notify.failure(err.message));
   }
   await setDoc(newQueueRef, data, { merge: true })
     .then(() => {})
@@ -100,18 +100,16 @@ async function OnAddObjQueue(userMail, data, list) {
 
 async function OnAddObjWatched(userMail, data, list) {
   const newQueueRef = doc(db, userMail, list);
-  if(!data.watched.length) {
-    const objectsArray = { watched: [] };
+  if (data.watched === undefined) {
+    const objectsArray = { 'watched': [] };
     await setDoc(newQueueRef, objectsArray, { merge: true })
-    .then(() => {})
-    .catch(err => Notify.failure(err.message));
+      .then(() => {})
+      .catch(err => Notify.failure(err.message));
   }
   await setDoc(newQueueRef, data, { merge: true })
     .then(() => {})
     .catch(err => Notify.failure(err.message));
 }
-
-
 
 // ДОДАЄ ФІЛЬМ В ПЕРЕГЛЯНУТИх
 
@@ -160,7 +158,7 @@ export async function createNewWatchedDataItem(idObj, addObj) {
 async function getItemsFromQueueList(userMail, list) {
   const docRef = doc(db, userMail, list);
   const docSnap = await getDoc(docRef);
-  const objectsArray = { 'queue': [] };
+  const objectsArray = { queue: [] };
   if (docSnap.exists()) {
     // console.log(docSnap.data());
     if (docSnap.data().queue === undefined) {
@@ -178,7 +176,7 @@ async function getItemsFromQueueList(userMail, list) {
 async function getItemsFromWatchedList(userMail, list) {
   const docRef = doc(db, userMail, list);
   const docSnap = await getDoc(docRef);
-  const objectsArray = { 'watched': [] };
+  const objectsArray = { watched: [] };
   if (docSnap.exists()) {
     // console.log(docSnap.data());
     if (docSnap.data().watched === undefined) {
