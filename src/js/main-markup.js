@@ -95,19 +95,13 @@ async function getMoviesGenres() {
 getMoviesGenres();
 
 function smoothScrolling() {
+  const { height: cardHeight } =
+    galleryEl.firstElementChild.getBoundingClientRect();
 
-  const {
-    height: cardHeight,
-  } = galleryEl.firstElementChild.getBoundingClientRect();
-
-
-    window.scrollBy({
-      top: cardHeight * -200,
-      behavior: 'smooth',
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  window.scrollBy({
+    top: cardHeight * -200,
+    behavior: 'smooth',
+  });
 }
 
 export { createPopularMoviesMarkup, createCardMarkup, getMoviesGenres };
