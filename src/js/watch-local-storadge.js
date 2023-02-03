@@ -39,9 +39,10 @@ export function createLibraryMarkup(key) {
     if (parsed === null) {
       galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
     } else {
-      observer.observe(refs.guard);
-      // createCardMarkupLibrary(parsed.slice(0, 3));
       createCardMarkup(parsed.slice(0, 3));
+      observer.observe(refs.guard);
+      // createCardMarkup(parsed);
+      // createCardMarkupLibrary(parsed.slice(0, 3));
       // localStorage.setItem('currentData', parsed);
       // galleryUl.innerHTML = `<li><h1>FULL</h1></li>`;
     }

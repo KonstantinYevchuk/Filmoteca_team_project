@@ -4,34 +4,31 @@ import { refs } from './refs';
 
 const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 
-let from = 3;
-let to = 6;
+let from = 4;
+let to = 7;
 
 const options = {
   root: null,
-  rootMargin: '100px',
+  rootMargin: '300px',
   threshold: 1.0,
 };
 
 export const observer = new IntersectionObserver(onInfinityLoad, options);
 
 function onInfinityLoad(entries, observer) {
-  // console.log(entries);
+  console.log(entries);
 
   try {
     const data = localStorage.getItem('watched');
-    // const data1 = localStorage.getItem('queue');
     const parsed = JSON.parse(data);
-    // const parsed1 = JSON.parse(data1);
     // console.log(parsed);
-    // console.log(parsed1);
 
     if (parsed) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           createCardMarkupLibrary(parsed.slice(from, to));
-          from += 3;
-          to += 3;
+          from += 4;
+          to += 4;
         }
       });
     } else {
