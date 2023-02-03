@@ -4,11 +4,6 @@ import { refs } from './refs';
 
 const imageUrl = new URL('../images/empty-lib.jpg', import.meta.url);
 
-// if (refs.getWatchedBtn || refs.getQueueBtn) {
-//   refs.getWatchedBtn.addEventListener('click', onGetWatched);
-//   refs.getQueueBtn.addEventListener('click', onGetQueue);
-// }
-
 let from = 3;
 let to = 6;
 
@@ -28,15 +23,13 @@ function onInfinityLoad(entries, observer) {
     // const data1 = localStorage.getItem('queue');
     const parsed = JSON.parse(data);
     // const parsed1 = JSON.parse(data1);
-    console.log(parsed);
+    // console.log(parsed);
     // console.log(parsed1);
 
     if (parsed) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // console.log(parsed.slice(from, to));
           createCardMarkupLibrary(parsed.slice(from, to));
-          // createCardMarkupLibrary(parsed1.slice(from, to));
           from += 3;
           to += 3;
         }
@@ -47,7 +40,5 @@ function onInfinityLoad(entries, observer) {
   } catch (error) {
     console.log(error);
   }
-  // console.log(entries)
+  console.log(entries);
 }
-
-export { boo };

@@ -35,12 +35,13 @@ export function createLibraryMarkup(key) {
   try {
     const data = localStorage.getItem(key);
     const parsed = JSON.parse(data);
-    console.log(parsed);
+    // console.log(parsed);
     if (parsed === null) {
       galleryUl.innerHTML = `<img src="${imageUrl}" alt="empty library" />`;
     } else {
       observer.observe(refs.guard);
-      createCardMarkupLibrary(parsed.slice(0, 3));
+      // createCardMarkupLibrary(parsed.slice(0, 3));
+      createCardMarkup(parsed.slice(0, 3));
       // localStorage.setItem('currentData', parsed);
       // galleryUl.innerHTML = `<li><h1>FULL</h1></li>`;
     }
