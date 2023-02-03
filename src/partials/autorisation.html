@@ -5,23 +5,23 @@
   </div>
   <div class="auth-reg-forms">
     <div class="login-box">
-      <form action="" class="login-form">
-        <label for="login" class="login-from__label-login"
+      <form class="login-form">
+        <label for="label-login__input" class="login-from__label-login"
           >Login<input
+            id="label-login__input"
             type="text"
             name="login"
             class="label-login__input input" /></label
-        ><label for="mail" class="login-from__label-mail"
+        ><label for="label-mail__input" class="login-from__label-mail"
           >Email<input
-            type="mail"
+            id="label-mail__input"
+            type="email"
             name="mail"
             class="label-mail__input input" /></label
-        ><label
-          for="password"
-          type="password"
-          class="login-from__label-password"
+        ><label for="label-password__input" class="login-from__label-password"
           >Password<input
-            type="text"
+            id="label-password__input"
+            type="password"
             name="password"
             class="label-password__input input"
         /></label>
@@ -29,19 +29,24 @@
       </form>
     </div>
     <div class="registration-box current">
-      <form action="" class="registration-form">
-        <label for="user_name" class="registration-form__label-username"
+      <form class="registration-form">
+        <label
+          for="label-username__input"
+          class="registration-form__label-username"
           >User name<input
+            id="label-username__input"
             type="text"
             name="user_name"
             class="label-username__input input" /></label
-        ><label for="mail" class="registration-form__label-mail"
+        ><label for="reg-mail" class="registration-form__label-mail"
           >Mail<input
+            id="reg-mail"
             type="text"
-            name="mail"
+            name="email"
             class="label-mail__input input" /></label
-        ><label for="password" class="registration-form__label-pswd"
+        ><label for="reg-pswd__input" class="registration-form__label-pswd"
           >Password<input
+            id="reg-pswd__input"
             type="password"
             name="password"
             class="label-pswd__input input"
