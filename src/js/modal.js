@@ -2,6 +2,7 @@ import { findId } from './view-Trailer';
 import addLocalStoradge from './q-local-storadge';
 import { refs } from './refs';
 import addDataBase from './my-data-base';
+import { getMovieGenres } from './genres';
 
 // import { getPopularMoviesFetch, getSearchMoviesFetch } from './fetch-films';
 // import './main-markup';
@@ -9,6 +10,7 @@ import addDataBase from './my-data-base';
 // createPopularMoviesMarkup();
 
 let dataFilms = null;
+let genresMovieModal = '';
 const scrollController = {
   disablesScroll() {
     document.body.style.overflow = 'hidden';
@@ -62,12 +64,19 @@ function openCard(e) {
   for (const film of dataFilms) {
     if (film.id === +e.target.dataset.movieId) {
       findId(film.id);
-
       const genreList = [];
 
-      film.genre_ids.map(genre => {
-        genreList.push(localStorage.getItem(genre));
-      });
+      try {
+        const data = localStorage.getItem('genres');
+        const genresArray = JSON.parse(data);
+        for (const genre of genresArray) {
+          if (film.genre_ids.includes(genre.id)) {
+            genreList.push(genre.name);
+          }
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
 
       refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
       refs.title.textContent = film.title;
