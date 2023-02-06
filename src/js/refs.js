@@ -14,6 +14,7 @@ export const refs = {
   about: document.querySelector('.js-film-about'),
   modalImg: document.querySelector('.modal__img'),
   galleryEl: document.querySelector('.js-gallery'),
+  backdropImg: document.querySelector('[data-modal]'),
   //=====--textCut---======//
   modalText: document.querySelector('.modal__text'),
   modalBtnClose: document.querySelector('.modal__btn-close'),
