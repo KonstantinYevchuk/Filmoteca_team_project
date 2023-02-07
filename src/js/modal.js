@@ -28,6 +28,7 @@ function openModal() {
   refs.body.addEventListener('keydown', closeModalOnEsc);
   refs.modal.addEventListener('click', closeModalOnBackdrop);
   scrollController.disablesScroll();
+  refs.buttonTop.classList.add('is-hidden');
 }
 
 function closeModal() {
@@ -35,7 +36,11 @@ function closeModal() {
   refs.body.removeEventListener('keydown', closeModalOnEsc);
   refs.modal.removeEventListener('click', closeModalOnBackdrop);
   refs.modalImg.src = '';
+  refs.backdropImg.style.backgroundImage = '';
   scrollController.enabledScroll();
+  if (scrollY > 20) {
+    refs.buttonTop.classList.remove('is-hidden');
+  }
 }
 
 function closeModalOnEsc(e) {
@@ -79,6 +84,7 @@ function openCard(e) {
       }
 
       refs.modalImg.src = `https://image.tmdb.org/t/p/original/${film.poster_path}`;
+      refs.backdropImg.style.backgroundImage = `url(https://image.tmdb.org/t/p/original/${film.backdrop_path})`;
       refs.title.textContent = film.title;
       refs.voteAverage.textContent = film.vote_average.toFixed(1);
       refs.voteCount.textContent = film.vote_count;
