@@ -6,6 +6,7 @@
 // query = query from input // String
 // ====================== THE END ===========================
 import onPageLoadingSpinner from './loader';
+import { lang } from './select-language';
 
 const API_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
@@ -13,8 +14,9 @@ const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 async function getPopularMoviesFetch(page) {
   try {
     onPageLoadingSpinner();
+    lang.current = localStorage.getItem('choosenLang');
     const response = await fetch(
-      `${API_URL}/trending/movie/day?api_key=${API_KEY}&page=${page || 1}`
+      `${API_URL}trending/movie/day?api_key=${API_KEY}&language=${lang.current}&page=${page || 1}`
     );
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -35,7 +37,7 @@ async function getSearchMoviesFetch(query, page) {
   try {
     onPageLoadingSpinner();
     const response = await fetch(
-      `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=${
+      `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}&language=${lang.current}&page=${
         page || 1
       }`
     );

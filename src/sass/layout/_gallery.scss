@@ -83,5 +83,29 @@
 }
 .back-img-text {
     text-align: center;
-    color: tomato;
+    color: #ff6347;
+}
+// ----------- styles select languages
+.select {
+    top: -40px;
+    width: 70px;
+    margin-left: auto;
+    position: relative;
+    z-index: 100;
+}
+.is-active .select__body {
+    display: block;
+}
+.select__header {
+    display: flex;
+    cursor: pointer;
+    width: 40px;
+}
+.select__body {
+    position: absolute;
+    display: none;
+    width: 40px;
+    left: 0px;
+    right: 0px;
+    top: 100%;
 }
