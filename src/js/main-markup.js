@@ -1,6 +1,7 @@
 import { lang } from './select-language';
 import { getPopularMoviesFetch } from './fetch-films';
 import pagination from './pagination';
+import { getMovieGenres, getMoviesGenres } from './genres';
 
 const galleryEl = document.querySelector('.gallery');
 const API_URL = 'https://api.themoviedb.org/3/';
@@ -8,19 +9,19 @@ const API_KEY = '158819e65eb0fbf8513ba7b934c25216';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
 let genresMovie = '';
 
-// console.log(genresMovie);
-
 const imageUrl = new URL(
   '../images/modal-Default-Img.jpg?width=250',
   import.meta.url
 );
+getMoviesGenres();
 
 function createCardMarkup(res) {
 
   const markup = res
     .map(
       ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
-        getMovieGenres(genre_ids);
+        genresMovie = getMovieGenres(genre_ids);
+
         const releaseDate =
           release_date === undefined ? 'no date' : release_date.slice(0, 4);
 
@@ -45,22 +46,6 @@ function createCardMarkup(res) {
     smoothScrolling();
   }
   return markup;
-}
-function getMovieGenres(param) {
-  let genreList = [];
-
-  param.map(key => {
-    genreList.push(localStorage.getItem(key));
-  });
-
-  if (!genreList) {
-    genresMovie = 'Other';
-  } else if (genreList.length < 4) {
-    genresMovie = genreList.join(', ');
-  } else {
-    genresMovie = genreList.slice(0, 2).join(', ').concat(', Other');
-  }
-  return genresMovie;
 }
 
 async function createPopularMoviesMarkup() {

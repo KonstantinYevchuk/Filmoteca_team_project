@@ -7,6 +7,7 @@ import './js/loader';
 import './js/input';
 import './js/my-data-base';
 
+import './js/genres';
 import './js/fetch-trailer';
 import './js/view-Trailer';
 import './js/fetch-films';
