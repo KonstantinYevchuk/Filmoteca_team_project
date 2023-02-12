@@ -30,6 +30,7 @@
   z-index: 3;
   background-color: var(--main-light-font-color);
   opacity: 0.9;
+  border-radius: 5px;
   // transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
   @media screen and (min-width: 768px) {
@@ -84,6 +85,7 @@
 .modal__img {
   width: 240px;
   height: 357px;
+  border-radius: 5px;
   object-fit: cover;
 
   @media screen and (min-width: 768px) {
