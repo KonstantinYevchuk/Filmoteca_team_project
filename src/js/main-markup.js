@@ -1,3 +1,4 @@
+import { lang } from './select-language';
 import { getPopularMoviesFetch } from './fetch-films';
 import pagination from './pagination';
 import { getMovieGenres, getMoviesGenres } from './genres';
@@ -15,6 +16,7 @@ const imageUrl = new URL(
 getMoviesGenres();
 
 function createCardMarkup(res) {
+
   const markup = res
     .map(
       ({ poster_path, title, release_date, genre_ids, vote_average, id }) => {
@@ -47,6 +49,7 @@ function createCardMarkup(res) {
 }
 
 async function createPopularMoviesMarkup() {
+ 
   await getPopularMoviesFetch()
     .then(data => {
       createCardMarkup(data.results);
@@ -54,6 +57,31 @@ async function createPopularMoviesMarkup() {
     })
     .catch(err => console.log(err));
 }
+
+// createPopularMoviesMarkup();
+
+async function getMoviesGenres() {
+  try {
+    
+    lang.current = localStorage.getItem('choosenLang');
+    
+    const response = await fetch(
+      `${API_URL}/genre/movie/list?api_key=${API_KEY}&language=${lang.current}`
+    );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const resp = await response.json();
+    // console.log(resp);
+    await resp.genres.forEach(item => {
+      localStorage.setItem(item.id, item.name);
+    });
+    return resp;
+  } catch (err) {
+    console.log(err);
+  }
+}
+//getMoviesGenres();
 
 function smoothScrolling() {
   const { height: cardHeight } =
